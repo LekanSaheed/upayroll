@@ -2,6 +2,7 @@ import classes from "./Dashboard.module.css";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { HiOutlineCash } from "react-icons/hi";
 import Wallet from "./Wallet";
+import Cards from "./Cards";
 const Dashboard = () => {
   return (
     <div className={classes.container}>
@@ -34,6 +35,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <Cards />
     </div>
   );
 };
