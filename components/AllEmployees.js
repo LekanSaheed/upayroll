@@ -120,6 +120,7 @@ const AllEmployees = () => {
           {employees.map((e, id) => {
             return (
               <TableRow
+                key={id}
                 style={{
                   wordBreak: "break-word",
                   whiteSpace: "normal",
