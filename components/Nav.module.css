@@ -1,0 +1,84 @@
+.nav {
+  background-color: rosybrown;
+  overflow: hidden;
+}
+.nav:hover {
+  overflow: auto;
+}
+.navSections {
+}
+.drops {
+}
+.link {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  transition: 0.3s ease-in-out;
+}
+.icon {
+  color: rgba(0, 0, 0, 0.445);
+}
+.link div {
+  display: flex;
+  align-items: center;
+}
+.link:hover {
+  background-color: #4bc2bc28;
+  transition: 0.3s ease-in-out;
+}
+
+@media (min-width: 801px) {
+  .lgNav {
+    height: 100vh;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    bottom: 0;
+    left: 0;
+    margin-top: 0;
+    position: fixed;
+    top: 60px;
+    transition: all 0.2s ease-in-out 0s;
+    z-index: 1001;
+    border-top: 1px solid #ededed;
+    padding-top: 10px;
+    transition: 0.3s;
+  }
+  .navSections {
+    padding: 10px;
+    transition: 0.3s;
+  }
+  .section_text {
+    white-space: nowrap;
+    transition: 0.3s;
+    margin-left: 10px;
+    text-transform: capitalize;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .drops {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    margin: 12px;
+    margin-left: 5px;
+
+    font-weight: 400;
+    white-space: nowrap;
+    color: rgba(0, 0, 0, 0.938);
+    transition: 0.9s;
+  }
+  .removeMargin {
+    margin: 0;
+    margin-left: 0px;
+    transition: 0.3s;
+  }
+  .showNav {
+    width: 230px;
+  }
+  .shrink {
+    width: 70px;
+  }
+  .icon {
+    font-size: 24px;
+  }
+}

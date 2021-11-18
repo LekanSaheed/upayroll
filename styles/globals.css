@@ -1,9 +1,84 @@
+@font-face {
+  font-family: circularStd;
+  src: url("./font/CircularStd-Book.woff2") format("woff2"),
+    url("./font/CircularStd-Book.woff") format("woff"),
+    url("./font/CircularStd-Book.ttf") format("truetype"),
+    url("./font/CircularStd-Book.eot");
+  font-weight: normal;
+}
+@font-face {
+  font-family: circularStd;
+  src: url("./font/CircularStd-Medium.woff2") format("woff2"),
+    url("./font/CircularStd-Medium.woff") format("woff"),
+    url("./font/CircularStd-Medium.ttf") format("truetype"),
+    url("./font/CircularStd-Medium.eot");
+  font-weight: normal;
+}
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: circularStd, sans-serif;
+  height: 100%;
+  width: 100%;
+}
+.flex-row {
+  display: flex;
+  align-items: center;
+}
+.justify-space {
+  justify-content: space-between;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.colored-icon {
+  color: #4bc2bc;
+  background-color: #4bc2bc2d;
+}
+.btn-theme {
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 3px rgba(128, 128, 128, 0.164);
+  background-color: #4bc2bc;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.btn-theme:hover {
+  background-color: #4bc2bc6c;
+  transition: 0.3s ease-in-out;
+}
+.dash-icon {
+  font-size: 19px;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+.input_container {
+  width: 100%;
+  flex: 1 1 100%;
+  margin-bottom: 20px;
+}
+.gap {
+  gap: 10px;
+}
+.input_container label {
+  display: block;
+  font-size: 14px;
+}
+.input_container input {
+  border: none;
+  width: 100%;
+  box-shadow: 0 0px 3px 0px rgba(0 0 0 /20%);
+  padding: 15px;
 }
 
 a {

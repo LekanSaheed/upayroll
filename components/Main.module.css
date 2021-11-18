@@ -1,0 +1,15 @@
+.main {
+  background-color: #f7f7f7;
+  width: 100%;
+  min-height: 100vh;
+  transition: 0.2s ease-in-out;
+  margin-top: 60px;
+  padding: 20px;
+}
+.expandMain {
+  margin-left: 70px;
+}
+
+.shrinkMain {
+  margin-left: 230px;
+}

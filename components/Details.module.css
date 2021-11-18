@@ -1,0 +1,24 @@
+.form {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+}
+
+.input_container {
+  width: 50%;
+  flex: 1 1 50%;
+  margin: 10px;
+  margin-bottom: 20px;
+}
+
+.input_container label {
+  display: block;
+  font-size: 14px;
+}
+.input_container input {
+  border: none;
+  width: 100%;
+  box-shadow: 0 0px 3px 0px rgba(0 0 0 /20%);
+  padding: 15px;
+}

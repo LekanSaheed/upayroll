@@ -1,0 +1,27 @@
+.header {
+  padding: 15px;
+  box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
+  border-bottom: 1px solid #ededed;
+  display: flex;
+  align-items: center;
+}
+.logo {
+  padding: 10px;
+}
+@media (min-width: 767px) {
+  .header {
+    padding: 0px;
+    background: #fff;
+    border-bottom: 1px solid #ededed;
+    box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
+    height: 60px;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1002;
+  }
+  .logo {
+    padding-left: 17px;
+  }
+}
