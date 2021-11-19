@@ -9,24 +9,42 @@
   display: flex;
   flex-direction: column;
   font-weight: lighter;
+  overflow-x: scroll;
 }
 .account_container {
-  margin-top: 10px;
+  display: flex;
+  justify-content: space-evenly;
 }
 .figure {
-  font-size: 20px;
+  font-size: 16px;
 }
 .title {
-  color: rgba(0, 0, 0, 0.418);
-  font-size: 14px;
+  color: rgba(15, 14, 14, 0.418);
+  font-size: 10px;
 }
 .details {
-  font-size: 11px;
+  font-size: 8px;
 }
 .wallet_group {
   gap: 10px;
+  width: 33.3%;
 }
 .wallet_header {
   border-bottom: solid 1px #ededed;
   padding-bottom: 10px;
+}
+@media (min-width: 767px) {
+  .wallet_container {
+    overflow: hidden;
+  }
+  .figure {
+    font-size: 20px;
+  }
+  .title {
+    color: rgba(0, 0, 0, 0.418);
+    font-size: 14px;
+  }
+  .details {
+    font-size: 11px;
+  }
 }

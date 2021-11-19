@@ -1,9 +1,5 @@
-.nav {
-  background-color: rosybrown;
-  overflow: scroll;
-}
-.nav:hover {
-  overflow: scroll;
+.lgNav {
+  display: none;
 }
 .navSections {
 }
@@ -30,6 +26,7 @@
 
 @media (min-width: 801px) {
   .lgNav {
+    display: block;
     height: 100vh;
     background-color: #fff;
     border-right: 1px solid #ddd;

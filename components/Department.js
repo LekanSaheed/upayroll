@@ -65,7 +65,7 @@ const Department = () => {
     return (
       <Slide
         direction="up"
-        style={{ transitionDelay: 200 }}
+        style={{ transitionDelay: 300 }}
         ref={ref}
         {...props}
       />

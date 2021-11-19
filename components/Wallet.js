@@ -10,7 +10,7 @@ const Wallet = () => {
         </div>
         <div
           style={{ alignItems: "flex-start" }}
-          className={`flex-row justify-space ${classes.account_container}`}
+          className={`flex-row ${classes.account_container}`}
         >
           <div className={`flex-column ${classes.wallet_group}`}>
             <span className={classes.title}>LEDGER BALANCE</span>
@@ -28,7 +28,7 @@ const Wallet = () => {
           </div>
           <div className={`flex-column ${classes.wallet_group}`}>
             <span className={classes.title}>BANK ACCOUNT</span>
-            <div>XMAP BANK (012345678)</div>
+            <div className={classes.figure}>XMAP BANK (012345678)</div>
           </div>
         </div>
       </div>
