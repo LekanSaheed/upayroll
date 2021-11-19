@@ -10,6 +10,7 @@ import {
   AppBar,
   Box,
   Paper,
+  Slide,
 } from "@mui/material";
 import StyledHead from "./StyledHead";
 import { makeStyles } from "@mui/styles";
@@ -117,75 +118,77 @@ const AllEmployees = () => {
     setPage(0);
   };
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer hover sx={{ width: 900, height: "auto" }}>
-        <Table>
-          <StyledHead>
-            <TableRow
-              style={{
-                wordBreak: "break-word",
-                whiteSpace: "normal",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-                width: "auto",
-              }}
-              width="100%"
-            >
-              <TableCell>Employee Id</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Gender</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>Date Of Join</TableCell>
-              <TableCell>Nationality</TableCell>
-              <TableCell>Marital Status</TableCell>
-              <TableCell>Designation</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Address</TableCell>
-            </TableRow>
-          </StyledHead>
-          <TableBody stripedRows>
-            {employees
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((e, id) => {
-                return (
-                  <TableRow
-                    className={classes.root}
-                    key={id}
-                    style={{
-                      wordBreak: "break-word",
-                      whiteSpace: "normal",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                      width: "auto",
-                    }}
-                  >
-                    <TableCell>{e.id}</TableCell>
-                    <TableCell>{e.name}</TableCell>
-                    <TableCell>{e.gender}</TableCell>
-                    <TableCell>{e.role}</TableCell>
-                    <TableCell>{e.date_of_join}</TableCell>
-                    <TableCell>{e.nationality}</TableCell>
-                    <TableCell>{e.marital_status}</TableCell>
-                    <TableCell>{e.designation}</TableCell>
-                    <TableCell>{e.phone}</TableCell>
-                    <TableCell>{e.email}</TableCell>
-                    <TableCell>{e.address}</TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        component="div"
-        count={employees.length}
-        page={page}
-        onRowsPerPageChange={handleRowsPerPageChange}
-        rowsPerPage={rowsPerPage}
-        onPageChange={handlePageChange}
-      />
-    </Paper>
+    <Slide direction="right" in={true} mountOnEnter unmountOnExit>
+      <Paper sx={{ width: 950, overflow: "hidden" }}>
+        <TableContainer hover sx={{ width: "auto", height: "auto" }}>
+          <Table>
+            <StyledHead>
+              <TableRow
+                style={{
+                  wordBreak: "break-word",
+                  whiteSpace: "normal",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  width: "auto",
+                }}
+                width="100%"
+              >
+                <TableCell>Employee Id</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Gender</TableCell>
+                <TableCell>Role</TableCell>
+                <TableCell>Date Of Join</TableCell>
+                <TableCell>Nationality</TableCell>
+                <TableCell>Marital Status</TableCell>
+                <TableCell>Designation</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Address</TableCell>
+              </TableRow>
+            </StyledHead>
+            <TableBody stripedRows>
+              {employees
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((e, id) => {
+                  return (
+                    <TableRow
+                      className={classes.root}
+                      key={id}
+                      style={{
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        width: "auto",
+                      }}
+                    >
+                      <TableCell>{e.id}</TableCell>
+                      <TableCell>{e.name}</TableCell>
+                      <TableCell>{e.gender}</TableCell>
+                      <TableCell>{e.role}</TableCell>
+                      <TableCell>{e.date_of_join}</TableCell>
+                      <TableCell>{e.nationality}</TableCell>
+                      <TableCell>{e.marital_status}</TableCell>
+                      <TableCell>{e.designation}</TableCell>
+                      <TableCell>{e.phone}</TableCell>
+                      <TableCell>{e.email}</TableCell>
+                      <TableCell>{e.address}</TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          component="div"
+          count={employees.length}
+          page={page}
+          onRowsPerPageChange={handleRowsPerPageChange}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handlePageChange}
+        />
+      </Paper>
+    </Slide>
   );
 };
 
