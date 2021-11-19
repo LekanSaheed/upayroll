@@ -69,31 +69,33 @@ const Nav = () => {
         classes.lgNav
       }`}
     >
-      {navlinks.map((nav, id) => {
-        return (
-          <div className={classes.navSections} key={id}>
-            {!isToggled && (
-              <div className={classes.section_text}>{nav.text}</div>
-            )}
-            <div
-              className={`${classes.drops} ${
-                isToggled ? classes.removeMargin : ""
-              }`}
-            >
-              {nav.drops.map((aNav, id) => {
-                return (
-                  <Link key={id} href={"/payroll/" + aNav.link}>
-                    <a className={classes.link}>
-                      <div className={classes.icon}>{aNav.icon}</div>
-                      {!isToggled && aNav.text}
-                    </a>
-                  </Link>
-                );
-              })}
+      <div className={classes.nav_container}>
+        {navlinks.map((nav, id) => {
+          return (
+            <div className={classes.navSections} key={id}>
+              {!isToggled && (
+                <div className={classes.section_text}>{nav.text}</div>
+              )}
+              <div
+                className={`${classes.drops} ${
+                  isToggled ? classes.removeMargin : ""
+                }`}
+              >
+                {nav.drops.map((aNav, id) => {
+                  return (
+                    <Link key={id} href={"/payroll/" + aNav.link}>
+                      <a className={classes.link}>
+                        <div className={classes.icon}>{aNav.icon}</div>
+                        {!isToggled && aNav.text}
+                      </a>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -30,7 +30,7 @@
 
 @media (min-width: 801px) {
   .lgNav {
-    height: 100%;
+    height: 100vh;
     background-color: #fff;
     border-right: 1px solid #ddd;
     bottom: 0;
@@ -44,12 +44,11 @@
     padding-top: 10px;
     transition: 0.3s;
     overflow: hidden;
+    padding-bottom: 15px;
   }
-  .lgNav:hover {
-    overflow: scroll;
-  }
+
   .navSections {
-    padding: 8px;
+    padding: 5px 8px;
     transition: 0.3s;
   }
   .section_text {
@@ -59,11 +58,17 @@
     text-transform: capitalize;
     color: rgba(0, 0, 0, 0.5);
   }
+  .nav_container {
+    overflow: hidden;
+  }
+  .nav_container:hover {
+    overflow-y: auto;
+  }
   .drops {
     display: flex;
     flex-direction: column;
-    font-size: 15px;
-    margin: 10px;
+    font-size: 14px;
+    margin: 8px;
     margin-left: 5px;
 
     font-weight: 400;
