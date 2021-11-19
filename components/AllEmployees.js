@@ -7,6 +7,7 @@ import {
   TableHead,
   AppBar,
 } from "@mui/material";
+import StyledHead from "./StyledHead";
 
 const employees = [
   {
@@ -92,7 +93,7 @@ const AllEmployees = () => {
   return (
     <TableContainer component={Card}>
       <TableContainer>
-        <TableHead>
+        <StyledHead>
           <TableRow
             style={{
               wordBreak: "break-word",
@@ -115,7 +116,7 @@ const AllEmployees = () => {
             <TableCell>Email</TableCell>
             <TableCell>Address</TableCell>
           </TableRow>
-        </TableHead>
+        </StyledHead>
         <TableBody>
           {employees.map((e, id) => {
             return (

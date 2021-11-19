@@ -7,6 +7,7 @@ import {
   TableHead,
   AppBar,
 } from "@mui/material";
+import StyledHead from "./StyledHead";
 
 const Cards = () => {
   const tranx = [
@@ -50,14 +51,14 @@ const Cards = () => {
         </AppBar>
         <TableContainer component={Card}>
           <TableContainer>
-            <TableHead>
+            <StyledHead>
               <TableRow width="50%">
                 <TableCell>Tranx Id</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Total</TableCell>
                 <TableCell>Status</TableCell>
               </TableRow>
-            </TableHead>
+            </StyledHead>
             <TableBody>
               {tranx.map((row, id) => {
                 return (
@@ -83,14 +84,14 @@ const Cards = () => {
         </AppBar>
         <TableContainer component={Card}>
           <TableContainer>
-            <TableHead>
+            <StyledHead>
               <TableRow width="50%">
                 <TableCell>Name</TableCell>
                 <TableCell>Role</TableCell>
                 <TableCell>Designation</TableCell>
                 <TableCell>Salary</TableCell>
               </TableRow>
-            </TableHead>
+            </StyledHead>
             <TableBody>
               {employee.map((e, id) => {
                 return (
