@@ -5,11 +5,15 @@ import {
   TableCell,
   TableBody,
   TableHead,
+  Table,
+  TablePagination,
   AppBar,
+  Box,
+  Paper,
 } from "@mui/material";
 import StyledHead from "./StyledHead";
 import { makeStyles } from "@mui/styles";
-
+import { useState } from "react";
 const employees = [
   {
     id: "UP234",
@@ -102,64 +106,86 @@ const AllEmployees = () => {
     },
   });
   const classes = useStyles();
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handlePageChange = (e, newPage) => {
+    setPage(newPage);
+  };
+  const handleRowsPerPageChange = (e) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
   return (
-    <TableContainer component={Card}>
-      <TableContainer>
-        <StyledHead>
-          <TableRow
-            style={{
-              wordBreak: "break-word",
-              whiteSpace: "normal",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-              width: "auto",
-            }}
-            width="100%"
-          >
-            <TableCell>Employee Id</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Gender</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Date Of Join</TableCell>
-            <TableCell>Nationality</TableCell>
-            <TableCell>Marital Status</TableCell>
-            <TableCell>Designation</TableCell>
-            <TableCell>Phone</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Address</TableCell>
-          </TableRow>
-        </StyledHead>
-        <TableBody stripedRows>
-          {employees.map((e, id) => {
-            return (
-              <TableRow
-                className={classes.root}
-                key={id}
-                style={{
-                  wordBreak: "break-word",
-                  whiteSpace: "normal",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  width: "auto",
-                }}
-              >
-                <TableCell>{e.id}</TableCell>
-                <TableCell>{e.name}</TableCell>
-                <TableCell>{e.gender}</TableCell>
-                <TableCell>{e.role}</TableCell>
-                <TableCell>{e.date_of_join}</TableCell>
-                <TableCell>{e.nationality}</TableCell>
-                <TableCell>{e.marital_status}</TableCell>
-                <TableCell>{e.designation}</TableCell>
-                <TableCell>{e.phone}</TableCell>
-                <TableCell>{e.email}</TableCell>
-                <TableCell>{e.address}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <TableContainer hover sx={{ width: 900, height: "auto" }}>
+        <Table>
+          <StyledHead>
+            <TableRow
+              style={{
+                wordBreak: "break-word",
+                whiteSpace: "normal",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                width: "auto",
+              }}
+              width="100%"
+            >
+              <TableCell>Employee Id</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Gender</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Date Of Join</TableCell>
+              <TableCell>Nationality</TableCell>
+              <TableCell>Marital Status</TableCell>
+              <TableCell>Designation</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Address</TableCell>
+            </TableRow>
+          </StyledHead>
+          <TableBody stripedRows>
+            {employees
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((e, id) => {
+                return (
+                  <TableRow
+                    className={classes.root}
+                    key={id}
+                    style={{
+                      wordBreak: "break-word",
+                      whiteSpace: "normal",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                      width: "auto",
+                    }}
+                  >
+                    <TableCell>{e.id}</TableCell>
+                    <TableCell>{e.name}</TableCell>
+                    <TableCell>{e.gender}</TableCell>
+                    <TableCell>{e.role}</TableCell>
+                    <TableCell>{e.date_of_join}</TableCell>
+                    <TableCell>{e.nationality}</TableCell>
+                    <TableCell>{e.marital_status}</TableCell>
+                    <TableCell>{e.designation}</TableCell>
+                    <TableCell>{e.phone}</TableCell>
+                    <TableCell>{e.email}</TableCell>
+                    <TableCell>{e.address}</TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
       </TableContainer>
-    </TableContainer>
+      <TablePagination
+        component="div"
+        count={employees.length}
+        page={page}
+        onRowsPerPageChange={handleRowsPerPageChange}
+        rowsPerPage={rowsPerPage}
+        onPageChange={handlePageChange}
+      />
+    </Paper>
   );
 };
 

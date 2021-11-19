@@ -9,8 +9,12 @@ import {
   AppBar,
   Button,
   Box,
+  TableFooter,
+  TablePagination,
+  Table,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useState } from "react";
 const PayGroupComp = () => {
   const useStyle = makeStyles({
     tableRow: {
@@ -24,6 +28,11 @@ const PayGroupComp = () => {
     },
   });
   const classes = useStyle();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handlePageChange = (e, newPage) => {
+    setPage(newPage);
+  };
   return (
     <div>
       <Box marginBottom="20px" display="flex" justifyContent="space-between">
@@ -39,7 +48,7 @@ const PayGroupComp = () => {
         </Link>
       </Box>
       <TableContainer component={Card}>
-        <TableContainer>
+        <Table size="small">
           <TableHead>
             <TableRow className={classes.tableRow}>
               <TableCell className={classes.cell}>Company</TableCell>
@@ -63,7 +72,15 @@ const PayGroupComp = () => {
               <TableCell>02/12/2021</TableCell>
             </TableRow>
           </TableBody>
-        </TableContainer>
+        </Table>
+
+        <TablePagination
+          component="div"
+          count={10}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handlePageChange}
+        />
       </TableContainer>
     </div>
   );
