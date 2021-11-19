@@ -8,6 +8,7 @@ import {
   AppBar,
 } from "@mui/material";
 import StyledHead from "./StyledHead";
+import { makeStyles } from "@mui/styles";
 
 const employees = [
   {
@@ -90,6 +91,17 @@ const employees = [
   },
 ];
 const AllEmployees = () => {
+  const useStyles = makeStyles({
+    root: {
+      "&:nth-of-type(even)": {
+        backgroundColor: "white",
+      },
+      "&:nth-of-type(odd)": {
+        backgroundColor: "#fafafa",
+      },
+    },
+  });
+  const classes = useStyles();
   return (
     <TableContainer component={Card}>
       <TableContainer>
@@ -117,10 +129,11 @@ const AllEmployees = () => {
             <TableCell>Address</TableCell>
           </TableRow>
         </StyledHead>
-        <TableBody>
+        <TableBody stripedRows>
           {employees.map((e, id) => {
             return (
               <TableRow
+                className={classes.root}
                 key={id}
                 style={{
                   wordBreak: "break-word",

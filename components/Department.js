@@ -6,8 +6,21 @@ import {
   TableBody,
   TableHead,
   AppBar,
+  Modal,
+  DialogContent,
+  Box,
+  Button,
+  Dialog,
+  TextField,
+  IconButton,
 } from "@mui/material";
+import { Slide } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import StyledHead from "./StyledHead";
+import { useState } from "react";
+import { HiPlus } from "react-icons/hi";
+import { MdClose } from "react-icons/md";
+import React from "react";
 const departments = [
   {
     id: 1,
@@ -34,10 +47,93 @@ const departments = [
     numbers: 38,
   },
 ];
+
 const Department = () => {
+  const useStyles = makeStyles({
+    root: {
+      "&:nth-of-type(even)": {
+        backgroundColor: "white",
+      },
+      "&:nth-of-type(odd)": {
+        backgroundColor: "#fafafa",
+      },
+    },
+  });
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
   return (
     <div>
-      Department
+      <Modal open={open}>
+        <Dialog
+          paperProps={{ style: { borderRadius: "50px" } }}
+          fullWidth={true}
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          transitionProps={{
+            style: { transitionDelay: 2000 },
+          }}
+        >
+          <DialogContent fullWidth={true}>
+            <Box
+              gap="40px"
+              gridGap="40px"
+              display="flex"
+              flexDirection="column"
+            >
+              <Box display="flex" justifyContent="space-between">
+                Add New Designation
+                <IconButton onClick={() => setOpen(false)}>
+                  <MdClose />
+                </IconButton>
+              </Box>
+              <TextField
+                label="Department"
+                variant="outlined"
+                fullWidth={true}
+                size="small"
+                required
+              />
+              <TextField
+                label="Designation"
+                variant="outlined"
+                size="small"
+                fullWidth={true}
+                required
+              />
+              <Button
+                size="large"
+                style={{ borderRadius: "30px", backgroundColor: "#4bc2bc" }}
+                endIcon={<HiPlus />}
+                variant="contained"
+                color="primary"
+              >
+                Add Designation
+              </Button>
+            </Box>
+          </DialogContent>
+        </Dialog>
+      </Modal>
+      <Box display="flex" marginBottom="20px" justifyContent="space-between">
+        {" "}
+        <span> Department / Designation </span>
+        <Button
+          style={{
+            borderRadius: "20px",
+            fontWeight: "bold",
+            background: "#4bc2bc",
+          }}
+          onClick={() => setOpen(true)}
+          variant="contained"
+          color="primary"
+          endIcon={<HiPlus />}
+        >
+          Add Designation
+        </Button>
+      </Box>
       <TableContainer component={Card}>
         <TableContainer>
           <StyledHead>
@@ -60,6 +156,7 @@ const Department = () => {
             {departments.map((i, id) => {
               return (
                 <TableRow
+                  className={classes.root}
                   style={{
                     wordBreak: "break-word",
                     whiteSpace: "normal",
