@@ -62,7 +62,14 @@ const Department = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return (
+      <Slide
+        direction="up"
+        style={{ transitionDelay: 200 }}
+        ref={ref}
+        {...props}
+      />
+    );
   });
   return (
     <div>

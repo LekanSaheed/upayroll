@@ -8,7 +8,13 @@ const Dashboard = () => {
   return (
     <div className={classes.container}>
       <Wallet />
-      <Slide in={true} direction="down" mountOnEnter unmountOnExit>
+      <Slide
+        in={true}
+        style={{ transitionDelay: 200 }}
+        direction="right"
+        mountOnEnter
+        unmountOnExit
+      >
         <div className={classes.flex_container}>
           <div className={classes.flexItem}>
             <div className="flex-row justify-space">

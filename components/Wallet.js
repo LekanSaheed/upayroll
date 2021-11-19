@@ -2,13 +2,7 @@ import classes from "./Wallet.module.css";
 import { Slide } from "@mui/material";
 const Wallet = () => {
   return (
-    <Slide
-      style={{ transitionDelay: 200 }}
-      in={true}
-      direction="right"
-      mountOnEnter
-      unmountOnExit
-    >
+    <Slide in={true} direction="down" mountOnEnter unmountOnExit>
       <div className={`${classes.wallet_container} justify-space`}>
         <div className={`${classes.wallet_header} flex-row justify-space`}>
           <div>NGN Wallet</div>
