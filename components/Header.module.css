@@ -1,14 +1,27 @@
 .header {
-  padding: 15px;
+  padding: 10px;
   box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
   border-bottom: 1px solid #ededed;
   display: flex;
   align-items: center;
+  position: sticky;
+  background-color: #fff;
+  top: 0;
+  z-index: 999999999;
+  justify-content: space-between;
 }
 .logo {
-  padding: 10px;
+  display: none;
 }
+.lgbBar {
+  display: none;
+}
+
 @media (min-width: 767px) {
+  .mobileLogo {
+    display: none;
+  }
+
   .header {
     padding: 0px;
     background: #fff;
@@ -17,11 +30,20 @@
     height: 60px;
     left: 0;
     position: fixed;
+    justify-content: flex-start;
     right: 0;
     top: 0;
-    z-index: 1002;
+    z-index: 99999 * 9999;
+  }
+  .lgbBar {
+    display: block;
+  }
+  .mBar {
+    display: none;
   }
   .logo {
+    padding: 10px;
+    display: block;
     padding-left: 17px;
   }
 }

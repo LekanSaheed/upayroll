@@ -91,7 +91,17 @@ const PayGroupComp = () => {
       <TableContainer component={Card}>
         <Table size="small">
           <TableHead>
-            <TableRow className={classes.tableRow}>
+            <TableRow
+              style={{
+                wordBreak: "break-word",
+                whiteSpace: "normal",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                width: "auto",
+                padding: "15px",
+              }}
+              className={classes.tableRow}
+            >
               <TableCell className={classes.cell}>Company</TableCell>
               <TableCell className={classes.cell}>PayGroup</TableCell>
               <TableCell className={classes.cell}>Status</TableCell>
@@ -103,7 +113,17 @@ const PayGroupComp = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow style={{ padding: "15px" }}>
+            <TableRow
+              style={{
+                wordBreak: "break-word",
+                whiteSpace: "normal",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                width: "auto",
+                padding: "15px",
+                padding: "15px",
+              }}
+            >
               <TableCell>MAKESHIFT CO.</TableCell>
               <TableCell>Default Monthly Paygroup</TableCell>
               <TableCell>Active</TableCell>

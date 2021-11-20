@@ -5,9 +5,38 @@
 .mainFlex {
   display: flex;
 }
+.header {
+  position: sticky;
+  top: 0;
+}
+.link {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mNav {
+  padding: 10px;
 
+  background-color: #4bc2bc;
+}
+.showMobile {
+  height: auto;
+  color: white;
+  background-color: #4bc2bc;
+}
+.navSections {
+  margin: 10px;
+}
 @media (min-width: 767px) {
   .mainFlex {
     display: flex;
+  }
+  .showMobile {
+    display: none;
   }
 }

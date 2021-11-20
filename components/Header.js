@@ -1,12 +1,15 @@
 import classes from "./Header.module.css";
 import Image from "next/image";
 import { usePayContext } from "../payrollContext/context";
-import { AiOutlineAlignLeft } from "react-icons/ai";
+import { AiOutlineAlignLeft, AiOutlineBars } from "react-icons/ai";
 
 const Header = () => {
-  const { isToggled, toggleNav } = usePayContext();
+  const { isToggled, toggleNav, dispatch } = usePayContext();
   return (
     <div className={classes.header}>
+      <div className={classes.mobileLogo}>
+        <Image src="/favicon.ico" height={30} width={30} objectFit="contain" />
+      </div>
       <div className={classes.logo}>
         {" "}
         {isToggled ? (
@@ -25,8 +28,14 @@ const Header = () => {
           />
         )}
       </div>
-      <div onClick={() => toggleNav()}>
+      <div className={classes.lgbBar} onClick={() => toggleNav()}>
         <AiOutlineAlignLeft />
+      </div>
+      <div
+        className={classes.mBar}
+        onClick={() => dispatch({ type: "TOGGLE_MOBILE" })}
+      >
+        <AiOutlineBars />
       </div>
     </div>
   );

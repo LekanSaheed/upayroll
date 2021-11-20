@@ -19,8 +19,6 @@ body {
   padding: 0;
   margin: 0;
   font-family: circularStd, sans-serif;
-  height: 100%;
-  width: 100%;
 }
 .flex-row {
   display: flex;
@@ -34,8 +32,8 @@ body {
   flex-direction: column;
 }
 .colored-icon {
-  color: #4bc2bc;
-  background-color: #4bc2bc2d;
+  color: #bb4077;
+  background-color: #bb40772d;
 }
 .btn-theme {
   color: #fff;

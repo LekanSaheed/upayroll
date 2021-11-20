@@ -21,6 +21,7 @@ import { useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import React from "react";
+import { toast, ToastContainer } from "react-toastify";
 const departments = [
   {
     id: 1,
@@ -113,10 +114,15 @@ const Department = () => {
               />
               <Button
                 size="large"
-                style={{ borderRadius: "30px", backgroundColor: "#4bc2bc" }}
+                style={{
+                  borderRadius: "30px",
+                  backgroundColor: "#4bc2bc",
+                  fontWeight: "bold",
+                }}
                 endIcon={<HiPlus />}
                 variant="contained"
                 color="primary"
+                onClick={() => toast.success("Designation Added successfully")}
               >
                 Add Designation
               </Button>
