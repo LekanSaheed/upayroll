@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useState } from "react";
+import MySelect from "./MySelect";
 
 const PayGroupComp = () => {
   const useStyle = makeStyles({
@@ -61,10 +62,22 @@ const PayGroupComp = () => {
                   Close
                 </IconButton>
               </Box>
-              <TextField fullWidth={true} size="small" label="Name" required />
-              <TextField fullWidth={true} size="small" label="Name" required />
-              <TextField fullWidth={true} size="small" label="Name" required />
-              <TextField fullWidth={true} size="small" label="Name" required />
+              <div className="input_container">
+                <label>Company</label>
+                <MySelect />
+              </div>
+              <div>
+                <label>Pay Group</label>
+                <MySelect />
+              </div>
+              <div>
+                <label>Employee</label>
+                <MySelect />
+              </div>
+              <div>
+                <label>Undisclosed</label>
+                <MySelect />
+              </div>
               <Button
                 variant="contained"
                 color="primary"
