@@ -1,8 +1,8 @@
 import classes from "./Header.module.css";
 import Image from "next/image";
 import { usePayContext } from "../payrollContext/context";
-import { AiOutlineAlignLeft, AiOutlineBars } from "react-icons/ai";
-
+import { AiOutlineAlignLeft } from "react-icons/ai";
+import { HiOutlineMenu } from "react-icons/hi";
 const Header = () => {
   const { isToggled, toggleNav, dispatch } = usePayContext();
   return (
@@ -35,7 +35,7 @@ const Header = () => {
         className={classes.mBar}
         onClick={() => dispatch({ type: "TOGGLE_MOBILE" })}
       >
-        <AiOutlineBars />
+        <HiOutlineMenu />
       </div>
     </div>
   );

@@ -16,6 +16,9 @@
 .lgbBar {
   display: none;
 }
+.mBar {
+  font-size: 29px;
+}
 
 @media (min-width: 767px) {
   .mobileLogo {

@@ -2,6 +2,7 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import { countries } from "./countries";
 import { Card, AppBar, Button } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
 import { toast } from "react-toastify";
 import MySelect from "./MySelect";
 const AddEmployee = () => {
@@ -19,6 +20,15 @@ const AddEmployee = () => {
     setCountry(e);
     console.log(e);
   };
+  const useStyles = makeStyles((theme) => ({
+    root: {},
+    inputContainer: {
+      [theme.breakpoints.down(766)]: {
+        flexDirection: "column",
+      },
+    },
+  }));
+  const classes = useStyles();
   return (
     <div>
       Add New Employee
@@ -31,7 +41,12 @@ const AddEmployee = () => {
             Personal Information.
           </AppBar>
           <Box padding="14px">
-            <Box display="flex" gap="13px" justifyContent="space-between">
+            <Box
+              display="flex"
+              className={classes.inputContainer}
+              gap="13px"
+              justifyContent="space-between"
+            >
               <div className="input_container">
                 <label>First Name</label>
                 <input placeholder="First Name" required />
@@ -77,7 +92,12 @@ const AddEmployee = () => {
             Contact Information.
           </AppBar>
           <Box padding="14px">
-            <Box display="flex" gap="13px" justifyContent="space-between">
+            <Box
+              display="flex"
+              gap="13px"
+              className={classes.inputContainer}
+              justifyContent="space-between"
+            >
               <div className="input_container">
                 <label>Email</label>
                 <input type="email" placeholder="Email" required />
@@ -87,7 +107,12 @@ const AddEmployee = () => {
                 <input placeholder="Phone" type="number" required />
               </div>
             </Box>
-            <Box display="flex" gap="13px" justifyContent="space-between">
+            <Box
+              display="flex"
+              gap="13px"
+              className={classes.inputContainer}
+              justifyContent="space-between"
+            >
               <div className="input_container">
                 <label>Address Line 1</label>
                 <input type="text" placeholder="Address Line 1" required />
@@ -108,7 +133,12 @@ const AddEmployee = () => {
             Employment Details.
           </AppBar>
           <Box padding="14px">
-            <Box display="flex" gap="13px" justifyContent="space-between">
+            <Box
+              display="flex"
+              gap="13px"
+              className={classes.inputContainer}
+              justifyContent="space-between"
+            >
               <div className="input_container">
                 <label>Job Position</label>
                 <input type="text" placeholder="Job Position" required />

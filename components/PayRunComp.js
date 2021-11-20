@@ -33,6 +33,7 @@ const PayGroupComp = () => {
   const handlePageChange = (e, newPage) => {
     setPage(newPage);
   };
+
   return (
     <div>
       <Box marginBottom="20px" display="flex" justifyContent="space-between">
