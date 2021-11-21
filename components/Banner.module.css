@@ -1,0 +1,63 @@
+.banner_container {
+  margin: 30px 0px;
+  background-color: #4bc2bc;
+  color: rgba(255, 255, 255, 0.932);
+  padding: 15px 30px;
+  border-radius: 15px;
+  line-height: 40px;
+  display: flex;
+  justify-content: space-between;
+  clip-path: inset(0);
+}
+.banner_title {
+  font-size: 16px;
+  font-weight: 700;
+}
+.container {
+  filter: drop-shadow(0px 0px 4px #4bc2bca2);
+  position: relative;
+  z-index: 0;
+}
+.circleContainer {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: rgba(26, 20, 20, 0.116);
+  position: absolute;
+  right: 0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.circle {
+  border-radius: 50%;
+  background-color: #4bc2bc;
+  width: 100px;
+  height: 100px;
+}
+
+@media (min-width: 767px) {
+  .banner_title {
+    font-size: 22px;
+    font-weight: bolder;
+  }
+  .banner_container {
+    padding: 30px 50px;
+  }
+  .text {
+    font-weight: lighter;
+    font-size: 14px;
+  }
+  .circleContainer {
+    border-radius: 47%;
+    width: 400px;
+    height: 400px;
+    padding: 15px;
+    margin-top: -35px;
+  }
+  .circle {
+    width: 356px;
+    height: 360px;
+  }
+}

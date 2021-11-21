@@ -4,9 +4,11 @@ import { HiOutlineCash } from "react-icons/hi";
 import Wallet from "./Wallet";
 import Cards from "./Cards";
 import { Slide } from "@mui/material";
+import Banner from "./Banner";
 const Dashboard = () => {
   return (
     <div className={classes.container}>
+      <Banner />
       <Wallet />
       <Slide
         in={true}
