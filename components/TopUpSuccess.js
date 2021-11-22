@@ -2,8 +2,9 @@ import classes from "./TopUpSuccess.module.css";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { BsCheckCircle } from "react-icons/bs";
 import React from "react";
-
+import { useRouter } from "next/router";
 const TopUpSuccess = ({ id }) => {
+  const router = useRouter();
   const url = `${baseUrl}/transactions/success?id=${id}`;
   React.useEffect(() => {
     const fetchResponse = async () => {
@@ -19,6 +20,7 @@ const TopUpSuccess = ({ id }) => {
         .then((res) => console.log(res));
     };
     fetchResponse("3A2644903");
+    console.log(router, "router");
   }, []);
   return (
     <div className={classes.container}>
