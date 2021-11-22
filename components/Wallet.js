@@ -1,5 +1,6 @@
 import classes from "./Wallet.module.css";
 import { Slide } from "@mui/material";
+import Link from "next/link";
 const Wallet = () => {
   return (
     <Slide in={true} direction="down" mountOnEnter unmountOnExit>
@@ -7,7 +8,9 @@ const Wallet = () => {
         <div className={`${classes.wallet_container} justify-space`}>
           <div className={`${classes.wallet_header} flex-row justify-space`}>
             <div>NGN Wallet</div>
-            <button className="btn-theme">Top up</button>
+            <Link href="payroll/topup">
+              <button className="btn-theme">Top up</button>
+            </Link>
           </div>
           <div
             style={{ alignItems: "flex-start" }}
