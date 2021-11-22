@@ -19,7 +19,7 @@ const TopUpSuccess = ({ id }) => {
         .then((res) => res.json())
         .then((res) => console.log(res));
     };
-    fetchResponse("3A2644903");
+    fetchResponse(router.query.response.id && router.query.response.id);
     console.log(JSON.parse(router.query.response), "router");
   }, []);
   return (
