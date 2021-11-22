@@ -22,12 +22,37 @@ import {
   ListItemIcon,
   Checkbox,
   Grid,
+  TextField,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useState } from "react";
-import MySelect from "./MySelect";
+import React, { useState, useEffect } from "react";
+import { baseUrl } from "../payrollContext/baseUrl";
 
 const PayGroupComp = () => {
+  const [employees, setEmployees] = useState([]);
+  useEffect(() => {
+    const fetchStaffs = async () => {
+      const token =
+        typeof window !== "undefined" && localStorage.getItem("token");
+      await fetch(`${baseUrl}/staff/list`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setLeft(data.data);
+            console.log(data.data, "employee");
+          } else {
+            toast.error(data.error);
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchStaffs();
+  }, []);
   const useStyle = makeStyles({
     tableRow: {
       height: "40px",
@@ -41,7 +66,7 @@ const PayGroupComp = () => {
   });
   const classes = useStyle();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const handlePageChange = (e, newPage) => {
     setPage(newPage);
   };
@@ -64,8 +89,8 @@ const PayGroupComp = () => {
   };
 
   const [checked, setChecked] = useState([]);
-  const [left, setLeft] = useState([0, 1, 2, 3]);
-  const [right, setRight] = useState([4, 5, 6, 7]);
+  const [left, setLeft] = useState([]);
+  const [right, setRight] = useState([]);
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
@@ -97,21 +122,23 @@ const PayGroupComp = () => {
     setLeft(left.concat(right));
     setRight([]);
   };
+  console.log(left);
   const customList = (items) => (
     <Paper sx={{ width: 200, height: 230, overflow: "auto" }}>
       <List dense component="div" role="list">
-        {items.map((value) => {
-          const id = `transfer-list-item-${value}-label`;
+        {items.map((value, idx) => {
+          const id = `transfer-list-item-${idx}-label`;
+
           return (
             <ListItem
-              key={value}
+              key={id}
               role="listitem"
               button
-              onClick={handleToggle(value)}
+              onClick={handleToggle(id)}
             >
               <ListItemIcon>
                 <Checkbox
-                  checked={checked.indexOf(value) !== -1}
+                  checked={checked.indexOf(id) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{
@@ -119,7 +146,7 @@ const PayGroupComp = () => {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={id} primary={`Employee ${value + 1}`} />
+              <ListItemText id={id} primary={`Employee ${value.firstname}`} />
             </ListItem>
           );
         })}
@@ -140,10 +167,12 @@ const PayGroupComp = () => {
                 </IconButton>
               </Box>
 
-              <div>
-                <label>Pay Group</label>
-                <MySelect />
-              </div>
+              <TextField
+                fullWidth={true}
+                placeholder="Enter a pay group name"
+                label="Pay Group Name"
+                size="small"
+              />
               <Grid
                 container
                 spacing={2}

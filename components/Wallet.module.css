@@ -61,7 +61,7 @@
   transition: 0.9s;
 }
 .backdrop {
-  background-color: rgba(255, 99, 71, 0.432);
+  background-color: rgba(255, 99, 71, 0.192);
   padding: 80px 20px;
   transform: rotateZ(-6deg);
   grid-column: 1;
@@ -70,7 +70,7 @@
   box-shadow: 0px 0px 3px 3px rgba(255, 99, 71, 0.432);
 }
 .card {
-  background-color: #75254a;
+  background-color: #143b1eb4;
   padding: 20px;
   display: flex;
   flex-direction: column;

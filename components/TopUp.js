@@ -9,14 +9,16 @@ import {
   BsInfoCircleFill,
 } from "react-icons/bs";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import Link from "next/link";
 const TopUp = () => {
   const [card_number, setCardNumber] = useState("");
   const [cvv, setCvv] = useState("");
   const [expiry_date, setExpiryDate] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+
+  const router = useRouter();
   const topUp = async () => {
     const url = `${baseUrl}/transactions/fund`;
     const token =
@@ -48,22 +50,9 @@ const TopUp = () => {
       })
       .catch((err) => console.log(err));
   };
-  console.log(expiry_date.split("/")[0], "month");
-  console.log(year, "year");
+
   const key = "FLWSECK_TEST-008e9db6eae0baaf577a898fb8afb5d9-X";
   const flutterApi = "https://api.flutterwave.com";
-
-  const checkNumber = async () => {
-    await fetch(`${flutterApi}/v3/card-bins/553188`, {
-      method: "GET",
-      header: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${key}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  };
 
   return (
     <div className={classes.container}>
@@ -132,6 +121,14 @@ const TopUp = () => {
         >
           Top Up
         </button>
+        <Link
+          href={{
+            pathname: `${router.pathname}/success`,
+            query: { id: 23455 },
+          }}
+        >
+          Test Slug
+        </Link>
       </div>
     </div>
   );

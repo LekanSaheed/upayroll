@@ -1,5 +1,5 @@
-import TopUp from "../../components/TopUp";
-import Wrapper from "../../components/Wrapper";
+import TopUp from "../../../components/TopUp";
+import Wrapper from "../../../components/Wrapper";
 
 const FundAccount = () => {
   return (
