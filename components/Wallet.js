@@ -1,7 +1,30 @@
 import classes from "./Wallet.module.css";
 import { Slide } from "@mui/material";
 import Link from "next/link";
+import { baseUrl } from "../payrollContext/baseUrl";
+import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
 const Wallet = () => {
+  const [funds, setFunds] = useState(0);
+  useEffect(() => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    fetch(`${baseUrl}/company/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setFunds(parseInt(data.data.balance));
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <Slide in={true} direction="down" mountOnEnter unmountOnExit>
       <div className={classes.container}>
@@ -37,7 +60,12 @@ const Wallet = () => {
           <div className={classes.shadow}>
             <div className={classes.card}>
               <div>Total Balance</div>
-              <div className={classes.card_figure}>35,000,00.00</div>
+              <div className={classes.card_figure}>
+                {funds.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </div>
             </div>
             <div className={` ${classes.backdrop}`}></div>
           </div>

@@ -3,6 +3,7 @@ import { useAuthDispatch, useAuthState } from "../payrollContext/AuthContext";
 import { toast } from "react-toastify";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { useRouter } from "next/router";
+import classes from "./Login.module.css";
 const Login = () => {
   const router = useRouter();
   useEffect(() => {
@@ -58,21 +59,25 @@ const Login = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <div>
-      <form>
+    <div className={classes.container}>
+      <form className={classes.login_form}>
         <div>
           <label>Name</label>
-          <input
-            value={username}
-            onChange={(e) => setUserName(e.target.value)}
-          />
+          <div className={classes.input_group}>
+            <input
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </div>
         </div>
         <div>
           <label>Password</label>
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className={classes.input_group}>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
         </div>
         <button onClick={login}>Login</button>
       </form>

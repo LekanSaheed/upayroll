@@ -31,8 +31,8 @@ const TopUp = () => {
       body: JSON.stringify({
         card_number: card_number.replace(/ /g, ""),
         cvv: cvv,
-        expiry_year: expiry_date.slice(-2),
-        expiry_month: expiry_date.slice(0, 3),
+        expiry_year: expiry_date.split("/")[1].trim(),
+        expiry_month: expiry_date.split("/")[0].trim(),
         amount: amount,
         pin: pin,
       }),
@@ -48,7 +48,7 @@ const TopUp = () => {
       })
       .catch((err) => console.log(err));
   };
-  console.log(month, "month");
+  console.log(expiry_date.split("/")[0], "month");
   console.log(year, "year");
   const key = "FLWSECK_TEST-008e9db6eae0baaf577a898fb8afb5d9-X";
   const flutterApi = "https://api.flutterwave.com";
