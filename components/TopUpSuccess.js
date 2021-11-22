@@ -20,7 +20,7 @@ const TopUpSuccess = ({ id }) => {
         .then((res) => console.log(res));
     };
     fetchResponse("3A2644903");
-    console.log(router, "router");
+    console.log(JSON.parse(router.query.response), "router");
   }, []);
   return (
     <div className={classes.container}>
