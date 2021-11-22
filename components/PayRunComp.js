@@ -61,13 +61,14 @@ const PayGroupComp = () => {
               }}
               className={classes.tableRow}
             >
-              <TableCell className={classes.cell}>Company</TableCell>
-              <TableCell className={classes.cell}>PayGroup</TableCell>
+              <TableCell className={classes.cell}>Pay Group</TableCell>
+              <TableCell className={classes.cell}>Duration</TableCell>
               <TableCell className={classes.cell}>Status</TableCell>
-              <TableCell className={classes.cell}>Frequency</TableCell>
-              <TableCell className={classes.cell}>Employee</TableCell>
+              <TableCell className={classes.cell}>
+                Numbers of Employee
+              </TableCell>
               <TableCell className={classes.cell}>End Date</TableCell>
-              <TableCell className={classes.cell}>Payment Date</TableCell>
+              <TableCell className={classes.cell}>Creation Date</TableCell>
               <TableCell className={classes.cell} />
             </TableRow>
           </TableHead>
@@ -84,9 +85,7 @@ const PayGroupComp = () => {
             >
               <TableCell>MAKESHIFT CO.</TableCell>
               <TableCell>Default Monthly Paygroup</TableCell>
-              <TableCell>Active</TableCell>
-              <TableCell>Monthly</TableCell>
-              <TableCell>1 0f 1</TableCell>
+              <TableCell>Active</TableCell> <TableCell>1 0f 1</TableCell>
               <TableCell>30/11/2021</TableCell>
               <TableCell>02/12/2021</TableCell>
             </TableRow>

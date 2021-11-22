@@ -7,7 +7,7 @@ import {
   TableBody,
   TableHead,
   Button,
-  TextField,
+  Paper,
   TablePagination,
   Table,
   Modal,
@@ -16,6 +16,12 @@ import {
   Box,
   IconButton,
   Slide,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Checkbox,
+  Grid,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useState } from "react";
@@ -50,10 +56,81 @@ const PayGroupComp = () => {
       />
     );
   });
+  const not = (a, b) => {
+    return a.filter((value) => b.indexOf(value) === -1);
+  };
+  const intersection = (a, b) => {
+    return a.filter((value) => b.indexOf(value) !== -1);
+  };
+
+  const [checked, setChecked] = useState([]);
+  const [left, setLeft] = useState([0, 1, 2, 3]);
+  const [right, setRight] = useState([4, 5, 6, 7]);
+  const leftChecked = intersection(checked, left);
+  const rightChecked = intersection(checked, right);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+    setChecked(newChecked);
+  };
+  const handleAllRight = () => {
+    setRight(right.concat(left));
+    setLeft([]);
+  };
+  const handleCheckedRight = () => {
+    setRight(right.concat(leftChecked));
+    setLeft(not(left, leftChecked));
+    setChecked(not(checked, leftChecked));
+  };
+  const handleCheckedLeft = () => {
+    setLeft(left.concat(rightChecked));
+    setRight(not(right, rightChecked));
+    setChecked(not(checked, rightChecked));
+  };
+  const handleAllLeft = () => {
+    setLeft(left.concat(right));
+    setRight([]);
+  };
+  const customList = (items) => (
+    <Paper sx={{ width: 200, height: 230, overflow: "auto" }}>
+      <List dense component="div" role="list">
+        {items.map((value) => {
+          const id = `transfer-list-item-${value}-label`;
+          return (
+            <ListItem
+              key={value}
+              role="listitem"
+              button
+              onClick={handleToggle(value)}
+            >
+              <ListItemIcon>
+                <Checkbox
+                  checked={checked.indexOf(value) !== -1}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{
+                    "aria-labelledby": id,
+                  }}
+                />
+              </ListItemIcon>
+              <ListItemText id={id} primary={`Employee ${value + 1}`} />
+            </ListItem>
+          );
+        })}
+        <ListItem />
+      </List>
+    </Paper>
+  );
   return (
     <div>
       <Modal open={open}>
-        <Dialog fullWidth={true} TransitionComponent={Transition} open={open}>
+        <Dialog fullWidth={true} open={open}>
           <DialogContent>
             <Box display="flex" flexDirection="column" gap="40px">
               <Box display="flex" justifyContent="space-between">
@@ -62,22 +139,64 @@ const PayGroupComp = () => {
                   Close
                 </IconButton>
               </Box>
-              <div className="input_container">
-                <label>Company</label>
-                <MySelect />
-              </div>
+
               <div>
                 <label>Pay Group</label>
                 <MySelect />
               </div>
-              <div>
-                <label>Employee</label>
-                <MySelect />
-              </div>
-              <div>
-                <label>Undisclosed</label>
-                <MySelect />
-              </div>
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Grid item> {customList(left)}</Grid>
+                <Grid item>
+                  <Grid container direction="column" alignItems="center">
+                    <Button
+                      sx={{ my: 0.5 }}
+                      variant="outlined"
+                      size="small"
+                      onClick={handleAllRight}
+                      disabled={left.length === 0}
+                      aria-label="move all right"
+                    >
+                      &gt;&gt;
+                    </Button>
+                    <Button
+                      sx={{ my: 0.5 }}
+                      variant="outlined"
+                      size="small"
+                      onClick={handleCheckedRight}
+                      disabled={leftChecked.length === 0}
+                      aria-label="move selected right"
+                    >
+                      &gt;
+                    </Button>
+                    <Button
+                      sx={{ my: 0.5 }}
+                      variant="outlined"
+                      size="small"
+                      onClick={handleCheckedLeft}
+                      disabled={rightChecked.length === 0}
+                      aria-label="move selected left"
+                    >
+                      &lt;
+                    </Button>
+                    <Button
+                      sx={{ my: 0.5 }}
+                      variant="outlined"
+                      size="small"
+                      onClick={handleAllLeft}
+                      disabled={right.length === 0}
+                      aria-label="move all left"
+                    >
+                      &lt;&lt;
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Grid item>{customList(right)}</Grid>
+              </Grid>
               <Button
                 variant="contained"
                 color="primary"
@@ -115,13 +234,11 @@ const PayGroupComp = () => {
               }}
               className={classes.tableRow}
             >
-              <TableCell className={classes.cell}>Company</TableCell>
-              <TableCell className={classes.cell}>PayGroup</TableCell>
-              <TableCell className={classes.cell}>Status</TableCell>
-              <TableCell className={classes.cell}>Frequency</TableCell>
-              <TableCell className={classes.cell}>Employee</TableCell>
-              <TableCell className={classes.cell}>End Date</TableCell>
-              <TableCell className={classes.cell}>Payment Date</TableCell>
+              <TableCell className={classes.cell}>Pay Group</TableCell>
+
+              <TableCell className={classes.cell}>Employees</TableCell>
+              <TableCell className={classes.cell}> Date Created</TableCell>
+
               <TableCell className={classes.cell} />
             </TableRow>
           </TableHead>
@@ -137,12 +254,9 @@ const PayGroupComp = () => {
                 padding: "15px",
               }}
             >
-              <TableCell>MAKESHIFT CO.</TableCell>
               <TableCell>Default Monthly Paygroup</TableCell>
-              <TableCell>Active</TableCell>
-              <TableCell>Monthly</TableCell>
-              <TableCell>1 0f 1</TableCell>
-              <TableCell>30/11/2021</TableCell>
+
+              <TableCell>sally</TableCell>
               <TableCell>02/12/2021</TableCell>
             </TableRow>
           </TableBody>

@@ -113,10 +113,10 @@ const AddPayRun = () => {
             gap="40px"
             width="100%"
           >
-            <MySelect placeholder="Select Company" />
             <MySelect placeholder="Select Paygroup" />
           </Box>
           <Box gap="40px" className={classes.inputContainer} display="flex">
+            <label>Payment Period</label>
             <TextField
               size="small"
               fullWidth={true}

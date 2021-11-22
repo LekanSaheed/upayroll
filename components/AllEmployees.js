@@ -14,88 +14,36 @@ import {
 } from "@mui/material";
 import StyledHead from "./StyledHead";
 import { makeStyles } from "@mui/styles";
-import { useState } from "react";
-const employees = [
-  {
-    id: "UP234",
-    name: "Salam Adeniyi",
-    gender: "Male",
-    role: "Web Designer",
-    date_of_join: "11/04/2013",
-    nationality: "Nigerian",
-    marital_status: "Single",
-    designation: "Web development",
-    phone: 2349087654563,
-    email: "salamadeniyi@outlook.com",
-    address: "18,Cola Street, Lekki, Lagos",
-  },
-  {
-    id: "UP234",
-    name: "Salam Adeniyi",
-    gender: "Male",
-    role: "Web Designer",
-    date_of_join: "11/04/2013",
-    nationality: "Nigerian",
-    marital_status: "Single",
-    designation: "Web development",
-    phone: 2349087654563,
-    email: "salamadeniyi@outlook.com",
-    address: "18,Cola Street, Lekki, Lagos",
-  },
-  {
-    id: "UP234",
-    name: "Salam Adeniyi",
-    gender: "Male",
-    role: "Web Designer",
-    date_of_join: "11/04/2013",
-    nationality: "Nigerian",
-    marital_status: "Single",
-    designation: "Web development",
-    phone: 2349087654563,
-    email: "salamadeniyi@outlook.com",
-    address: "18,Cola Street, Lekki, Lagos",
-  },
-  {
-    id: "UP234",
-    name: "Salam Adeniyi",
-    gender: "Male",
-    role: "Web Designer",
-    date_of_join: "11/04/2013",
-    nationality: "Nigerian",
-    marital_status: "Single",
-    designation: "Web development",
-    phone: 2349087654563,
-    email: "salamadeniyi@outlook.com",
-    address: "18,Cola Street, Lekki, Lagos",
-  },
-  {
-    id: "UP234",
-    name: "Salam Adeniyi",
-    gender: "Male",
-    role: "Web Designer",
-    date_of_join: "11/04/2013",
-    nationality: "Nigerian",
-    marital_status: "Single",
-    designation: "Web development",
-    phone: 2349087654563,
-    email: "salamadeniyi@outlook.com",
-    address: "18,Cola Street, Lekki, Lagos",
-  },
-  {
-    id: "UP234",
-    name: "Salam Adeniyi",
-    gender: "Male",
-    role: "Web Designer",
-    date_of_join: "11/04/2013",
-    nationality: "Nigerian",
-    marital_status: "Single",
-    designation: "Web development",
-    phone: 2349087654563,
-    email: "salamadeniyi@outlook.com",
-    address: "18,Cola Street, Lekki, Lagos",
-  },
-];
+import { useState, useEffect } from "react";
+import { baseUrl } from "../payrollContext/baseUrl";
+import { toast } from "react-toastify";
+
 const AllEmployees = () => {
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    const fetchStaffs = async () => {
+      const token =
+        typeof window !== "undefined" && localStorage.getItem("token");
+      await fetch(`${baseUrl}/staff/list`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setEmployees(data.data);
+            console.log(data.data);
+          } else {
+            toast.error(data.error);
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchStaffs();
+  }, []);
   const useStyles = makeStyles({
     root: {
       "&:nth-of-type(even)": {
@@ -138,12 +86,13 @@ const AllEmployees = () => {
                 <TableCell>Gender</TableCell>
                 <TableCell>Role</TableCell>
                 <TableCell>Date Of Join</TableCell>
-                <TableCell>Nationality</TableCell>
-                <TableCell>Marital Status</TableCell>
-                <TableCell>Designation</TableCell>
+                <TableCell>Department</TableCell>
                 <TableCell>Phone</TableCell>
                 <TableCell>Email</TableCell>
+
                 <TableCell>Address</TableCell>
+                <TableCell>Date Created</TableCell>
+                <TableCell>Salary</TableCell>
               </TableRow>
             </StyledHead>
             <TableBody stripedRows>
@@ -162,17 +111,18 @@ const AllEmployees = () => {
                         width: "auto",
                       }}
                     >
-                      <TableCell>{e.id}</TableCell>
-                      <TableCell>{e.name}</TableCell>
+                      <TableCell>{e._id.slice(0, 6)}</TableCell>
+                      <TableCell>{e.firstname + " " + e.lastname}</TableCell>
                       <TableCell>{e.gender}</TableCell>
-                      <TableCell>{e.role}</TableCell>
-                      <TableCell>{e.date_of_join}</TableCell>
-                      <TableCell>{e.nationality}</TableCell>
-                      <TableCell>{e.marital_status}</TableCell>
-                      <TableCell>{e.designation}</TableCell>
+                      <TableCell>{e.post}</TableCell>
+                      <TableCell>{e.start_date}</TableCell>
+
+                      <TableCell>{e.department}</TableCell>
                       <TableCell>{e.phone}</TableCell>
                       <TableCell>{e.email}</TableCell>
-                      <TableCell>{e.address}</TableCell>
+                      <TableCell>{e.address_1}</TableCell>
+                      <TableCell>{e.created_At}</TableCell>
+                      <TableCell>{e.salary}</TableCell>
                     </TableRow>
                   );
                 })}
