@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 const TopUpSuccess = ({ id }) => {
   const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const router = useRouter();
 
   React.useEffect(() => {
@@ -49,7 +50,8 @@ const TopUpSuccess = ({ id }) => {
             success ? classes.success : classes.error
           }`}
         >
-          {success ? <BsCheckCircle /> : <AiFillCloseCircle />}
+          {success && <BsCheckCircle />}
+          {!success && <AiFillCloseCircle />}
         </div>
         <div className={classes.main}>{success ? message : error}</div>
       </div>
