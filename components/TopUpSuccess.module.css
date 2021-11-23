@@ -10,8 +10,14 @@
 .icon {
   display: flex;
   justify-content: center;
-  color: rgb(52, 139, 52);
+
   font-size: 39px;
+}
+.success {
+  color: rgb(52, 139, 52);
+}
+.error {
+  color: rgb(168, 17, 17);
 }
 .modal {
   margin-top: 150px;

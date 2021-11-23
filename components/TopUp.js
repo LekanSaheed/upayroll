@@ -44,7 +44,9 @@ const TopUp = () => {
         console.log(data);
         if (data.success) {
           toast.success(data.message);
-          window.open(data.url);
+          setTimeout(() => {
+            window.open(data.url, "_blank").focus();
+          }, 2000);
         } else {
           toast.error(data.error);
         }
