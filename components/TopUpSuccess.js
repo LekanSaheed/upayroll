@@ -9,8 +9,12 @@ const TopUpSuccess = ({ id }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
-  const url = `${baseUrl}/transactions/success?id=${id}`;
+
   React.useEffect(() => {
+    const params = JSON.parse(router.query.response);
+    const url = `${baseUrl}/transactions/success?id=${
+      params.id ? params.id : 2345778
+    }`;
     const fetchResponse = async () => {
       const token =
         typeof window !== "undefined" && localStorage.getItem("token");
@@ -33,8 +37,8 @@ const TopUpSuccess = ({ id }) => {
           }
         });
     };
-    const params = JSON.parse(router.query.response);
-    fetchResponse(params.id ? params.id : 2345778);
+
+    fetchResponse();
     console.log(params.id, "router");
   }, []);
   return (
