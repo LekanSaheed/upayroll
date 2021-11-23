@@ -5,6 +5,9 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import React from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import Link from "next/link";
+
 const TopUpSuccess = ({ id }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState("");
@@ -30,10 +33,12 @@ const TopUpSuccess = ({ id }) => {
           console.log(res);
           if (success) {
             setSuccess(true);
-            setMessage(res.message);
+            setMessage("Transaction Successful");
+            toast.success(res.message);
             setError("");
           } else {
             setSuccess(false);
+            toast.error("");
             setError(res.error);
           }
         });
@@ -46,15 +51,17 @@ const TopUpSuccess = ({ id }) => {
     <div className={classes.container}>
       <div className={classes.modal}>
         <div
-          className={`${classes.icon} ${
-            success ? classes.success : classes.error
+          className={`${classes.icon} ${success ? classes.success : ""} ${
+            error ? classes.error : ""
           }`}
         >
           {success && <BsCheckCircle />}
-          {!success && <AiFillCloseCircle />}
+          {error && <AiFillCloseCircle />}
         </div>
         <div className={classes.main}>{success ? message : error}</div>
       </div>
+      {error && <Link href="/payroll/topup">Go Back</Link>}
+      {success && <Link href="/payroll">Done</Link>}
     </div>
   );
 };
