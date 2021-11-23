@@ -1,9 +1,10 @@
 import classes from "./TopUpSuccess.module.css";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { BsCheckCircle } from "react-icons/bs";
-import { AiFillClose } from "react-icons/ai";
+import { AiFillCloseCircle } from "react-icons/ai";
 import React from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 const TopUpSuccess = ({ id }) => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -28,7 +29,7 @@ const TopUpSuccess = ({ id }) => {
             setError("");
           } else {
             setSuccess(false);
-            setError(data.error);
+            setError(res.error);
           }
         });
     };
@@ -45,7 +46,7 @@ const TopUpSuccess = ({ id }) => {
             success ? classes.success : classes.error
           }`}
         >
-          {success ? <BsCheckCircle /> : <AiFillClose />}
+          {success ? <BsCheckCircle /> : <AiFillCloseCircle />}
         </div>
         <div className={classes.main}>{success ? message : error}</div>
       </div>
