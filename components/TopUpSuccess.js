@@ -37,7 +37,7 @@ const TopUpSuccess = ({ id }) => {
       // router.query.response && JSON.parse(router.query.response.id)
       2345778
     );
-    console.log(JSON.parse(router.query.response.id), "router");
+    console.log(JSON.parse(router.query.response), "router");
   }, []);
   return (
     <div className={classes.container}>
