@@ -33,11 +33,9 @@ const TopUpSuccess = ({ id }) => {
           }
         });
     };
-    fetchResponse(
-      // router.query.response && JSON.parse(router.query.response.id)
-      2345778
-    );
-    console.log(JSON.parse(router.query.response), "router");
+    const params = JSON.parse(router.query.response);
+    fetchResponse(params.id ? params.id : 2345778);
+    console.log(params.id, "router");
   }, []);
   return (
     <div className={classes.container}>
