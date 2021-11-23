@@ -31,7 +31,7 @@ const TopUpSuccess = ({ id }) => {
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
-          if (success) {
+          if (res.success) {
             setSuccess(true);
             setMessage("Transaction Successful");
             toast.success(res.message);
