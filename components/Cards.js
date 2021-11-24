@@ -39,10 +39,14 @@ const Cards = () => {
   ];
   return (
     <div
-      style={{ marginTop: "20px", alignItems: "flex-start" }}
-      className="flex-row gap"
+      style={{
+        alignItems: "flex-start",
+        flex: "1 1 40%",
+        width: "40%",
+      }}
+      className="flex-column gap"
     >
-      <div style={{ width: "50%" }}>
+      <div>
         <AppBar
           position="static"
           style={{ background: "#4bc2bc", color: "#fff", padding: "15px" }}
@@ -52,7 +56,7 @@ const Cards = () => {
         <TableContainer component={Card}>
           <TableContainer>
             <StyledHead>
-              <TableRow width="50%">
+              <TableRow>
                 <TableCell>Tranx Id</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Total</TableCell>
@@ -74,8 +78,8 @@ const Cards = () => {
           </TableContainer>
         </TableContainer>
       </div>
-
-      <div style={{ width: "50%" }}>
+      {/* 
+      <div>
         <AppBar
           position="static"
           style={{ background: "#4bc2bc", color: "#fff", padding: "15px" }}
@@ -85,7 +89,7 @@ const Cards = () => {
         <TableContainer component={Card}>
           <TableContainer>
             <StyledHead>
-              <TableRow width="50%">
+              <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Role</TableCell>
                 <TableCell>Designation</TableCell>
@@ -146,7 +150,7 @@ const Cards = () => {
             </TableBody>
           </TableContainer>
         </TableContainer>
-      </div>
+      </div> */}
     </div>
   );
 };

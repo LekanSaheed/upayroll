@@ -38,9 +38,9 @@ body {
 .btn-theme {
   color: #fff;
   padding: 8px 16px;
-  font-size: 12px;
+  font-size: 11px;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0px 0px 3px 3px rgba(128, 128, 128, 0.164);
   background-color: #4bc2bc;
   cursor: pointer;
@@ -49,6 +49,10 @@ body {
 .btn-theme:hover {
   background-color: #4bc2bc6c;
   transition: 0.3s ease-in-out;
+}
+.btn {
+  color: #bb4079;
+  font-size: 11px;
 }
 .dash-icon {
   font-size: 19px;

@@ -10,12 +10,39 @@ import {
   Paper,
   Grid,
   Checkbox,
+  AppBar,
 } from "@mui/material";
 import Wrapper from "../../../components/Wrapper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MySelect from "../../../components/MySelect";
 import { makeStyles } from "@material-ui/core";
+import { toast } from "react-toastify";
+import { baseUrl } from "../../../payrollContext/baseUrl";
 const AddPayRun = () => {
+  const [employees, setEmployees] = useState([]);
+  useEffect(() => {
+    const fetchStaffs = async () => {
+      const token =
+        typeof window !== "undefined" && localStorage.getItem("token");
+      await fetch(`${baseUrl}/staff/list`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setLeft(data.data);
+            console.log(data.data, "employee");
+          } else {
+            toast.error(data.error);
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchStaffs();
+  }, []);
   const not = (a, b) => {
     return a.filter((value) => b.indexOf(value) === -1);
   };
@@ -24,8 +51,8 @@ const AddPayRun = () => {
   };
 
   const [checked, setChecked] = useState([]);
-  const [left, setLeft] = useState([0, 1, 2, 3]);
-  const [right, setRight] = useState([4, 5, 6, 7]);
+  const [left, setLeft] = useState(employees);
+  const [right, setRight] = useState([]);
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
@@ -57,8 +84,14 @@ const AddPayRun = () => {
     setLeft(left.concat(right));
     setRight([]);
   };
-  const customList = (items) => (
-    <Paper sx={{ width: 200, height: 230, overflow: "auto" }}>
+  const customList = (items, label) => (
+    <Paper lg={300} sx={{ width: 250, height: 300, overflow: "auto" }}>
+      <AppBar
+        style={{ padding: "10px", background: "#4bc2bc" }}
+        position="static"
+      >
+        {label}
+      </AppBar>
       <List dense component="div" role="list">
         {items.map((value) => {
           const id = `transfer-list-item-${value}-label`;
@@ -79,7 +112,10 @@ const AddPayRun = () => {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={id} primary={`Employee ${value + 1}`} />
+              <ListItemText
+                id={id}
+                primary={`Employee ${`${value.firstname} ${value.lastname}`}`}
+              />
             </ListItem>
           );
         })}
@@ -108,34 +144,37 @@ const AddPayRun = () => {
         New Additional Pay Run
         <Box display="flex" flexDirection="column" gap="20px" margin="20px 0">
           <Box
+            gap="40px"
+            justifyContent="space-between"
             className={classes.inputContainer}
             display="flex"
-            gap="40px"
-            width="100%"
+            flexDirection="column"
           >
-            <MySelect placeholder="Select Paygroup" />
-          </Box>
-          <Box gap="40px" className={classes.inputContainer} display="flex">
-            <label>Payment Period</label>
-            <TextField
-              size="small"
-              fullWidth={true}
-              variant="outlined"
-              type="date"
-            />
-            <TextField
-              size="small"
-              fullWidth={true}
-              variant="outlined"
-              type="date"
-            />
+            <Box display="flex" flexDirection="column">
+              <label>Payment Period</label>
+              <TextField
+                size="small"
+                fullWidth={true}
+                variant="outlined"
+                type="date"
+              />
+            </Box>
+            <Box display="flex" flexDirection="column">
+              <label>Payment Date</label>
+              <TextField
+                size="small"
+                fullWidth={true}
+                variant="outlined"
+                type="date"
+              />
+            </Box>
           </Box>
         </Box>
         <Button>Add PayRun</Button>
       </Box>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <Grid item> {customList(left)}</Grid>
+      <Grid container spacing={3} justifyContent="center" alignItems="center">
+        <Grid item> {customList(left, "Employee List")}</Grid>
         <Grid item>
           <Grid container direction="column" alignItems="center">
             <Button
@@ -146,7 +185,7 @@ const AddPayRun = () => {
               disabled={left.length === 0}
               aria-label="move all right"
             >
-              Move All left
+              &gt;&gt;
             </Button>
             <Button
               sx={{ my: 0.5 }}
@@ -176,11 +215,11 @@ const AddPayRun = () => {
               disabled={right.length === 0}
               aria-label="move all left"
             >
-              Move all right
+              &lt;&lt;
             </Button>
           </Grid>
         </Grid>
-        <Grid item>{customList(right)}</Grid>
+        <Grid item>{customList(right, "Selected Employees")}</Grid>
       </Grid>
     </Wrapper>
   );

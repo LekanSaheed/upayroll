@@ -2,8 +2,8 @@
   min-height: 200px;
   padding: 15px;
   border-radius: 15px;
-
-  background-color: #fff;
+  background-color: #4bc2bc;
+  color: white;
   border: 1px solid #ededed;
   box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
   display: flex;
@@ -38,6 +38,7 @@
   flex-direction: column;
   flex-basis: 100%;
   margin-bottom: 20px;
+  filter: drop-shadow(0 4px 11px rgba(0 0 0 /14%));
 }
 .card_container {
   padding: 10px 24px;
@@ -47,6 +48,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  align-self: stretch;
 }
 .card_header {
   border-radius: 10px;
@@ -61,7 +64,7 @@
   transition: 0.9s;
 }
 .backdrop {
-  background-color: rgba(255, 99, 71, 0.192);
+  background-color: rgba(255, 99, 71, 0.432);
   padding: 80px 20px;
   transform: rotateZ(-6deg);
   grid-column: 1;
@@ -70,7 +73,7 @@
   box-shadow: 0px 0px 3px 3px rgba(255, 99, 71, 0.432);
 }
 .card {
-  background-color: #143b1eb4;
+  background-color: #257539;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -97,13 +100,15 @@
 @media (min-width: 767px) {
   .wallet_container {
     overflow: hidden;
-    flex: 1 1 60%;
-    width: 60%;
-    min-height: 300px;
+    flex: 1 1 40%;
+    width: 40%;
+    height: 95%;
+    border-radius: 30px;
   }
   .card_container {
-    width: 40%;
-    flex: 1 1 40%;
+    width: 60%;
+    flex: 1 1 60%;
+    border-radius: 30px;
   }
   .card {
     display: flex;
@@ -122,6 +127,7 @@
     margin-bottom: 30px;
     display: flex;
     justify-content: center;
+    align-items: flex-end;
   }
   .figure {
     font-size: 20px;

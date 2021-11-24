@@ -36,7 +36,7 @@ export const navlinks = [
   {
     text: "Payroll",
     drops: [
-      { text: "Pay Group", icon: <MdMoney />, link: "pay-group" },
+      // { text: "Pay Group", icon: <MdMoney />, link: "pay-group" },
       { text: "Pay Run", icon: <HiOutlineCash />, link: "pay-run" },
     ],
   },

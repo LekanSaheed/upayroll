@@ -45,7 +45,7 @@ const TopUp = () => {
         if (data.success) {
           toast.success(data.message);
           setTimeout(() => {
-            window.open(data.url, "_blank").focus();
+            router.push(data.url);
           }, 2000);
         } else {
           toast.error(data.error);

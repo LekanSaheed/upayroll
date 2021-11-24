@@ -134,11 +134,11 @@ const PayGroupComp = () => {
               key={id}
               role="listitem"
               button
-              onClick={handleToggle(id)}
+              onClick={handleToggle(value)}
             >
               <ListItemIcon>
                 <Checkbox
-                  checked={checked.indexOf(id) !== -1}
+                  checked={checked.indexOf(value._id) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{

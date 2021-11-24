@@ -16,3 +16,15 @@
   justify-content: space-between;
   min-height: 200px;
 }
+
+@media (min-width: 1024px) {
+  .dash_flex {
+    display: flex;
+    flex-basis: 100%;
+    gap: 13px;
+  }
+  .dash_group {
+    width: 60%;
+    flex: 1 1 60%;
+  }
+}

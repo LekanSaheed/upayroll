@@ -4,7 +4,6 @@ import Dashboard from "../../components/Dashboard";
 const PayRollDashboard = () => {
   return (
     <Wrapper>
-      Main Dashboard
       <>
         <Dashboard />
       </>
