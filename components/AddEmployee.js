@@ -6,11 +6,12 @@ import { makeStyles } from "@material-ui/core";
 import { toast } from "react-toastify";
 import MySelect from "./MySelect";
 import { baseUrl } from "../payrollContext/baseUrl";
+import Loader from "./Loader";
 const AddEmployee = () => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastname, setLastname] = useState("");
-  const [country, setCountry] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
@@ -60,6 +61,7 @@ const AddEmployee = () => {
   ];
 
   const addEmployee = async () => {
+    setLoading(true);
     const url = `${baseUrl}/staff/add`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
@@ -90,18 +92,22 @@ const AddEmployee = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {
+          setLoading(false);
           toast.success("Employee Added Successfully");
         } else {
           toast.error(res.error);
+          setLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
   return (
     <div>
       Add New Employee
+      {loading && <Loader />}
       <form>
         <Card>
           <AppBar

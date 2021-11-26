@@ -4,6 +4,9 @@ import { toast } from "react-toastify";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { useRouter } from "next/router";
 import classes from "./Login.module.css";
+import Loader from "./Loader";
+import { RiUser2Line } from "react-icons/ri";
+import { AiOutlineLock, AiOutlineUser } from "react-icons/ai";
 const Login = () => {
   const router = useRouter();
   useEffect(() => {
@@ -13,10 +16,12 @@ const Login = () => {
   }, []);
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useAuthDispatch();
   const { user, authenticated } = useAuthState();
 
   const login = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const url = `${baseUrl}/company/login`;
     await fetch(url, {
@@ -33,6 +38,7 @@ const Login = () => {
       .then((data) => {
         if (data.success) {
           const token = data.token;
+          setLoading(false);
           //
           fetch(`${baseUrl}/company/me`, {
             method: "GET",
@@ -42,28 +48,46 @@ const Login = () => {
           })
             .then((res) => res.json())
             .then((data) => {
-              localStorage.setItem("token", token);
-              toast.success("Successfully logged in");
-              dispatch("LOGIN", data.data);
-              router.push("/payroll");
-              console.log(user);
+              if (data.success) {
+                setLoading(false);
+                localStorage.setItem("token", token);
+                toast.success("Successfully logged in");
+                dispatch("LOGIN", data.data);
+                router.push("/payroll");
+                console.log(user);
+              } else {
+                setLoading(false);
+                toast.error(data.error);
+              }
             })
             .catch((err) => {
+              setLoading(false);
               console.log(err);
               toast.error("Something went wrong");
             });
         } else {
+          setLoading(false);
           toast.error(data.error);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+        toast.error("Something went wrong");
+      });
+    setLoading(false);
   };
   return (
     <div className={classes.container}>
+      {loading && <Loader />}
       <form className={classes.login_form}>
+        <div className={classes.header}>LOGIN</div>
         <div>
-          <label>Name</label>
+          <label>Username</label>
           <div className={classes.input_group}>
+            <div className={classes.icon}>
+              <AiOutlineUser />
+            </div>
             <input
               value={username}
               onChange={(e) => setUserName(e.target.value)}
@@ -73,7 +97,11 @@ const Login = () => {
         <div>
           <label>Password</label>
           <div className={classes.input_group}>
+            <div className={classes.icon}>
+              <AiOutlineLock />
+            </div>
             <input
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -81,6 +109,7 @@ const Login = () => {
         </div>
         <button onClick={login}>Login</button>
       </form>
+      <div className={classes.pass}>Forgot Password? Reset.</div>
     </div>
   );
 };

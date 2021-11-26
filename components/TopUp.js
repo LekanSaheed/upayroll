@@ -2,12 +2,8 @@ import { baseUrl } from "../payrollContext/baseUrl";
 import classes from "./TopUp.module.css";
 import { useState, useEffect } from "react";
 import CreditCardInput from "react-credit-card-input";
-import {
-  BsCashStack,
-  BsCreditCardFill,
-  BsCalendarCheckFill,
-  BsInfoCircleFill,
-} from "react-icons/bs";
+import Loader from "./Loader";
+import { BsCashStack, BsCreditCardFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -17,9 +13,10 @@ const TopUp = () => {
   const [expiry_date, setExpiryDate] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const topUp = async () => {
+    setLoading(true);
     const url = `${baseUrl}/transactions/fund`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
@@ -41,17 +38,19 @@ const TopUp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
+          setLoading(false);
           toast.success(data.message);
           setTimeout(() => {
             router.push(data.url);
           }, 2000);
         } else {
           toast.error(data.error);
+          setLoading(false);
         }
       })
       .catch((err) => console.log(err));
+    setLoading(false);
   };
 
   const key = "FLWSECK_TEST-008e9db6eae0baaf577a898fb8afb5d9-X";
@@ -59,6 +58,7 @@ const TopUp = () => {
 
   return (
     <div className={classes.container}>
+      {loading && <Loader />}
       <div className={classes.header}>Top up</div>
       <div className={classes.main}>
         <CreditCardInput

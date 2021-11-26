@@ -1,5 +1,6 @@
 .main {
-  background-color: #f7f7f7;
+  background-color: #f4f8f9;
+  /* #f7f7f7; */
   width: 100%;
   min-height: 100vh;
   transition: 0.2s ease-in-out;
@@ -7,7 +8,7 @@
   padding: 10px;
 }
 
-@media (min-width: 801px) {
+@media (min-width: 767px) {
   .main {
     margin-top: 60px;
     padding: 30px;

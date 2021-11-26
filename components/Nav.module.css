@@ -3,8 +3,7 @@
 }
 .navSections {
 }
-.drops {
-}
+
 .link {
   display: flex;
   gap: 10px;
@@ -24,7 +23,7 @@
   transition: 0.3s ease-in-out;
 }
 
-@media (min-width: 801px) {
+@media (min-width: 767px) {
   .lgNav {
     display: block;
     height: 100vh;

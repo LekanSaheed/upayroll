@@ -2,13 +2,9 @@
   background-color: #fff;
   color: rgba(20, 30, 119, 0.932);
   padding: 10px;
-  border-radius: 30px;
+  border-radius: 6px;
   min-height: 240px;
   display: flex;
-
-  text-align: center;
-  align-items: center;
-
   flex-direction: column;
   justify-content: space-between;
 }
@@ -19,7 +15,7 @@
   display: flex;
 }
 .wallet_main {
-  padding: 15px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -27,11 +23,16 @@
 .banner_title {
   font-size: 15px;
   font-weight: 600;
+  display: flex;
+  justify-content: space-between;
 }
 .container {
   position: relative;
   z-index: 0;
-  filter: drop-shadow(0 4px 11px rgba(0 0 0 /14%));
+  display: flex;
+  flex-direction: column;
+  /* filter: drop-shadow(0 4px 11px rgba(0 0 0 /14%)); */
+  gap: 5px;
 }
 .list {
   display: flex;
@@ -64,7 +65,46 @@
   justify-content: center;
   box-shadow: inset 0 0 10px 0 rgba(0 0 0 /17%);
 }
+.grid_item {
+  background-color: white;
+  border-radius: 6px;
+  padding: 10px;
+  width: 100%;
+}
+.grid {
+  gap: 8px;
+}
+.grid_details {
+  color: #aab7c6;
+  font-size: 13px;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.banner_text {
+  display: flex;
 
+  text-align: center;
+  align-items: center;
+
+  flex-direction: column;
+  justify-content: space-between;
+}
+.grid_main {
+  padding: 2px 40px;
+  padding-bottom: 25px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.grid_icon {
+  font-size: 30px;
+  color: #4bc2bc;
+}
+.grid_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 @media (min-width: 767px) {
   .banner_title {
     font-size: 16px;
@@ -76,15 +116,26 @@
     margin-top: -15px;
     font-size: 17px;
   }
+  .grid {
+    display: grid;
+    width: 66.6%;
+    gap: 8px;
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  .grid_figure {
+    font-weight: 600;
+    font-size: 25px;
+  }
   .container {
-    display: flex;
+    flex-direction: row;
     width: 100%;
-    gap: 20px;
+    gap: 8px;
     flex-basis: 100%;
   }
   .banner_container {
     padding: 10px;
-    width: 40%;
+    width: 33.3%;
     flex: 1 1 40%;
   }
   .wallet_container {

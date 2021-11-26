@@ -12,36 +12,10 @@ const Dashboard = () => {
         <div className={classes.dash_group}>
           <Banner />
 
-          <Wallet />
+          {/* <Wallet /> */}
         </div>
-        <Cards />
       </div>
-      <Slide
-        in={true}
-        style={{ transitionDelay: 200 }}
-        direction="right"
-        mountOnEnter
-        unmountOnExit
-      >
-        <div className={classes.flex_container}>
-          <div className={classes.flexItem}>
-            <div className="flex-row justify-space">
-              <div className="flex-row">
-                <div className="colored-icon dash-icon">
-                  <AiOutlineUsergroupAdd />
-                </div>
-                New Employees
-              </div>
-              <div>13</div>
-            </div>
-            <div className="flex-column">
-              <div>Overall Employees</div>
-              <div>3456</div>
-            </div>
-          </div>
-          <div className={classes.flexItem}></div>
-        </div>
-      </Slide>
+      <Cards />
     </div>
   );
 };

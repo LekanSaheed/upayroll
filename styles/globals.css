@@ -1,5 +1,5 @@
 @font-face {
-  font-family: circularStd;
+  font-family: circularBold;
   src: url("./font/CircularStd-Book.woff2") format("woff2"),
     url("./font/CircularStd-Book.woff") format("woff"),
     url("./font/CircularStd-Book.ttf") format("truetype"),
@@ -12,7 +12,15 @@
     url("./font/CircularStd-Medium.woff") format("woff"),
     url("./font/CircularStd-Medium.ttf") format("truetype"),
     url("./font/CircularStd-Medium.eot");
-  font-weight: normal;
+  font-weight: bolder;
+}
+@font-face {
+  font-family: circularBlack;
+  src: url("./font/CircularStd-Black.woff2") format("woff2"),
+    url("./font/CircularStd-Black.woff") format("woff"),
+    url("./font/CircularStd-Black.ttf") format("truetype"),
+    url("./font/CircularStd-Black.eot");
+  font-weight: bolder;
 }
 html,
 body {

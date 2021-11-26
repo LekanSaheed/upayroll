@@ -1,0 +1,23 @@
+.container {
+  background-color: white;
+  box-shadow: 0 0 10px 0 rgb(0 0 0 /17%);
+  position: absolute;
+  height: inherit;
+  padding: 10px;
+  height: 140px;
+  width: 240px;
+  transform: scale(1);
+  transition: 0.4s;
+}
+.close {
+  transform: scale(0.5);
+  background-color: rgba(255, 255, 255, 0.493);
+  box-shadow: 0 0 10px 0 rgb(0 0 0 /17%);
+  position: absolute;
+  height: inherit;
+  padding: 10px;
+  height: 140px;
+  width: 240px;
+  transition: 0.4s;
+  opacity: 0;
+}
