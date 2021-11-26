@@ -103,7 +103,7 @@ const Banner = () => {
       <div className={classes.grid}>
         {details.map((i, id) => {
           return (
-            <div className={classes.grid_item}>
+            <div key={id} className={classes.grid_item}>
               <div className={classes.banner_title}>
                 <div></div>
                 <span style={{ cursor: "pointer" }}>
