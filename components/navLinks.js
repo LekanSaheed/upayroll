@@ -26,11 +26,11 @@ export const navlinks = [
         icon: <HiOutlineUsers />,
         link: "all-employee",
       },
-      {
-        text: "Department",
-        icon: <HiOutlineOfficeBuilding />,
-        link: "department",
-      },
+      // {
+      //   text: "Department",
+      //   icon: <HiOutlineOfficeBuilding />,
+      //   link: "department",
+      // },
     ],
   },
   {

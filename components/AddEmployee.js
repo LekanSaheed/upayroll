@@ -15,7 +15,7 @@ const AddEmployee = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
-  const [department, setDepartment] = useState(null);
+  const [department, setDepartment] = useState("");
   const [start_date, setStart_date] = useState(null);
   const [address_1, setAddress_1] = useState("");
   const [address_2, setAddress_2] = useState("");
@@ -84,7 +84,7 @@ const AddEmployee = () => {
         address_2: address_2,
         post: post,
         start_date: start_date,
-        department: department.value,
+        department: department,
         salary: salary,
       }),
     };
@@ -282,11 +282,18 @@ const AddEmployee = () => {
             >
               <div className="input_container">
                 <label>Department</label>
-                <MySelect
+                {/* <MySelect
                   placeholder="Select Department"
                   value={department}
                   onChange={handleDepartment}
                   options={departmentOptions}
+                /> */}
+                <input
+                  value={department}
+                  onChange={(e) => setDepartment(e.target.value)}
+                  type="text"
+                  placeholder="Department"
+                  required
                 />
               </div>
               <div className="input_container">
