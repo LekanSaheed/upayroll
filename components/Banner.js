@@ -104,7 +104,7 @@ const Banner = () => {
   const details = [
     {
       figure: "0",
-      details: `New Employees in ${currentMonth}`,
+      details: `Added Employees in ${currentMonth}`,
       icon: <HiUserAdd />,
       link: "payroll/add-employee",
       dropText: "Add employee",

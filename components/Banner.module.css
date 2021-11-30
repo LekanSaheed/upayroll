@@ -175,3 +175,9 @@
   .circle {
   }
 }
+
+@media (max-width: 600px) {
+  ._container {
+    width: 98%;
+  }
+}
