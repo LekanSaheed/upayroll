@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import classes from "./Login.module.css";
 import Loader from "./Loader";
 import { RiUser2Line } from "react-icons/ri";
+import Image from "next/image";
 import { AiOutlineLock, AiOutlineUser } from "react-icons/ai";
 const Login = () => {
   const router = useRouter();
@@ -80,36 +81,50 @@ const Login = () => {
   return (
     <div className={classes.container}>
       {loading && <Loader />}
-      <form className={classes.login_form}>
-        <div className={classes.header}>LOGIN</div>
-        <div>
-          <label>Username</label>
-          <div className={classes.input_group}>
-            <div className={classes.icon}>
-              <AiOutlineUser />
+      <div className={classes.flex_row}>
+        <form className={classes.login_form}>
+          <div className={classes.header}>Login to access your account</div>
+          <div className={classes.formChild}>
+            <div className={classes.input}>
+              <label>Username</label>
+              <div className={classes.input_group}>
+                <div className={classes.icon}>
+                  <AiOutlineUser />
+                </div>
+                <input
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </div>
             </div>
-            <input
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-          </div>
-        </div>
-        <div>
-          <label>Password</label>
-          <div className={classes.input_group}>
-            <div className={classes.icon}>
-              <AiOutlineLock />
+            <div className={classes.input}>
+              <label>Password</label>
+              <div className={classes.input_group}>
+                <div className={classes.icon}>
+                  <AiOutlineLock />
+                </div>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
             </div>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className={classes.pass}>Reset Password</div>
+            <button
+              onClick={login}
+              className={
+                !username || !password || loading ? classes.logBtn : ""
+              }
+              disabled={!username || !password || loading}
+            >
+              Login
+            </button>
           </div>
-        </div>
-        <button onClick={login}>Login</button>
-      </form>
-      <div className={classes.pass}>Forgot Password? Reset.</div>
+        </form>
+      </div>
     </div>
   );
 };

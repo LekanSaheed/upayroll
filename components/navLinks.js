@@ -52,7 +52,7 @@ export const navlinks = [
         icon: <RiHistoryLine />,
         link: "transaction-history",
       },
-      { text: "Staffs", icon: <HiOutlineUserGroup />, link: "staffs" },
+      // { text: "Staffs", icon: <HiOutlineUserGroup />, link: "staffs" },
     ],
   },
 ];

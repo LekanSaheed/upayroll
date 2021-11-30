@@ -13,13 +13,19 @@
 .pass {
   padding: 10px;
   font-size: 14px;
+  text-align: right;
+  cursor: pointer;
+}
+.flex_row {
+  display: flex;
+  flex-direction: column;
 }
 .login_form {
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0 0 0 /17%);
+  box-shadow: 0 0 10px rgba(0 0 0 /4%);
   min-width: 350px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -50,33 +56,56 @@
 .input_group:focus-within {
   outline: solid 1px #56e0d9dc;
 }
+.input_group::placeholder {
+  color: rgb(214, 214, 214);
+}
+.input_group::-webkit-placeholder {
+  color: rgb(214, 214, 214);
+}
+
 .icon {
   padding: 0 10px;
+  color: rgb(214, 214, 214);
 }
 .login_form button {
   padding: 15px;
   border: none;
   cursor: pointer;
-  background-color: #4bc2bc;
+  background: linear-gradient(#3c9b96ea, #4bc2bc, #4bc2bc, #4bc2bc, #3c9b96ea);
   color: white;
   font-weight: 600;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0 0 0 /17%);
   transition: 0.4s;
   margin-top: 5px;
+  width: 100%;
+}
+.logBtn {
+  background: #668b8a67 !important;
+}
+.input {
+  margin-bottom: 20px;
 }
 
 .login_form button:hover {
-  background-color: #4bc2bc4b;
+  background: #4bc2bc4b;
   transition: 0.4s;
+}
+.formChild {
+  margin-bottom: 40px;
+}
+.input:nth-child(2) {
+  margin-bottom: 5px;
 }
 .login_form label {
   display: block;
   font-size: 13px;
   margin-bottom: 5px;
 }
-
-@media (max-width: 300px) {
+.left_column {
+  display: none;
+}
+@media (max-width: 353px) {
   .login_form {
     min-width: 260px;
   }
@@ -98,5 +127,27 @@
 @media (min-width: 767px) {
   .login_form {
     min-width: 400px;
+  }
+}
+@media (min-width: 1024px) {
+  .flex_row {
+    display: flex;
+  }
+  .left_column {
+    background-color: #4bc2bc;
+    min-width: 400px;
+    height: 75vh;
+    border-bottom-left-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login_form {
+    min-width: 440px;
+    padding: 70px 40px;
+  }
+  .formChild {
+    justify-self: flex-end;
+    margin-top: 50px;
   }
 }

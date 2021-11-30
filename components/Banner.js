@@ -10,7 +10,27 @@ import { RiProfileLine } from "react-icons/ri";
 
 const Banner = () => {
   const [funds, setFunds] = useState(0);
-
+  const [stafflist, setStafflist] = useState([]);
+  const fetchStaffs = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    await fetch(`${baseUrl}/staff/list`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setStafflist(data.data);
+          console.log(data.data, "employee");
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
@@ -29,6 +49,7 @@ const Banner = () => {
         }
       })
       .catch((err) => console.log(err));
+    fetchStaffs();
   }, []);
 
   const digit = funds.toLocaleString(undefined, {
@@ -52,7 +73,7 @@ const Banner = () => {
         </div>
         <div className={classes.banner_text}>
           <div className={classes.circle}>
-            <div className={classes.text}> 590</div>
+            <div className={classes.text}> {stafflist.length}</div>
           </div>
         </div>
         <span>Lol</span>
@@ -106,9 +127,10 @@ const Banner = () => {
             <div key={id} className={classes.grid_item}>
               <div className={classes.banner_title}>
                 <div></div>
-                <span style={{ cursor: "pointer" }}>
+                <span className={classes.tridot} style={{ cursor: "pointer" }}>
                   <BsThreeDots />
                 </span>
+                <HoverDrop details={[{ link: "/fri", text: "Add New" }]} />
               </div>
               <div className={classes.grid_main}>
                 <div className={classes.grid_icon}>{i.icon}</div>
@@ -117,8 +139,6 @@ const Banner = () => {
                   <div className={classes.grid_details}>{i.details}</div>
                 </div>
               </div>
-
-              <HoverDrop />
             </div>
           );
         })}

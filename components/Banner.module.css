@@ -40,6 +40,29 @@
   gap: 10px;
   font-size: 12px;
 }
+
+._container {
+  background-color: white;
+  box-shadow: 0 0 10px 0 rgb(0 0 0 /17%);
+  position: absolute;
+  height: inherit;
+  padding: 10px;
+  height: 140px;
+  width: 300px;
+  transform: scale(0);
+  transition: 0.4s;
+  opacity: 0;
+}
+._container:hover {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.tridot:hover ~ ._container {
+  transform: scale(1);
+  opacity: 1;
+}
+
 .circleContainer {
   width: 150px;
   height: 150px;

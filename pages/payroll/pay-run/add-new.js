@@ -15,11 +15,17 @@ import {
 import Wrapper from "../../../components/Wrapper";
 import { useState, useEffect } from "react";
 import MySelect from "../../../components/MySelect";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, CircularProgress } from "@material-ui/core";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../../payrollContext/baseUrl";
+
 const AddPayRun = () => {
   const [employees, setEmployees] = useState([]);
+  const [start_date, setStartDate] = useState("");
+  const [end_date, setEndDate] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchStaffs = async () => {
       const token =
@@ -35,14 +41,31 @@ const AddPayRun = () => {
           if (data.success) {
             setLeft(data.data);
             console.log(data.data, "employee");
+            setLoading(false);
           } else {
             toast.error(data.error);
+            setLoading(false);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
     };
     fetchStaffs();
   }, []);
+
+  const options = [
+    { label: "Daily", value: 1 },
+    { label: "Weekly", value: 7 },
+    { label: "Bi-Weekly", value: 14 },
+    { label: "Monthly", value: 30 },
+    { label: "Yearly", value: 365 },
+  ];
+  const handleFrequency = (e, newVal) => {
+    setFrequency(e);
+  };
+
   const not = (a, b) => {
     return a.filter((value) => b.indexOf(value) === -1);
   };
@@ -51,11 +74,55 @@ const AddPayRun = () => {
   };
 
   const [checked, setChecked] = useState([]);
-  const [left, setLeft] = useState(employees);
+  const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
+  console.log(
+    right.map((emp) => {
+      return {
+        staff: emp._id,
+        amount: emp.salary,
+      };
+    })
+  );
 
+  const addPayRun = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    const url = `${baseUrl}/payrun/add`;
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        start_date: start_date,
+        end_date: end_date,
+        interval: frequency.value,
+        payments: right.map((emp) => {
+          return {
+            staff: emp._id,
+            amount: emp.salary,
+          };
+        }),
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success("Pay Run added successfully");
+          console.log(data.data);
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -93,11 +160,11 @@ const AddPayRun = () => {
         {label}
       </AppBar>
       <List dense component="div" role="list">
-        {items.map((value) => {
+        {items.map((value, idx) => {
           const id = `transfer-list-item-${value}-label`;
           return (
             <ListItem
-              key={value}
+              key={idx}
               role="listitem"
               button
               onClick={handleToggle(value)}
@@ -112,10 +179,24 @@ const AddPayRun = () => {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText
-                id={id}
-                primary={`Employee ${`${value.firstname} ${value.lastname}`}`}
-              />
+              {loading ? (
+                // <div
+                //   style={{
+                //     height: "100%",
+                //     width: "100%",
+                //     display: "flex",
+                //     alignItems: "center",
+                //     justifyContent: "center",
+                //   }}
+                // >
+                <CircularProgress />
+              ) : (
+                // </div>
+                <ListItemText
+                  id={id}
+                  primary={`${`${value.firstname} ${value.lastname}`}`}
+                />
+              )}
             </ListItem>
           );
         })}
@@ -151,26 +232,46 @@ const AddPayRun = () => {
             flexDirection="column"
           >
             <Box display="flex" flexDirection="column">
-              <label>Payment Period</label>
+              <label>Start Date</label>
               <TextField
                 size="small"
                 fullWidth={true}
                 variant="outlined"
                 type="date"
+                value={start_date}
+                onChange={(e) => setStartDate(e.target.value)}
               />
             </Box>
             <Box display="flex" flexDirection="column">
-              <label>Payment Date</label>
+              <label>End Date</label>
               <TextField
                 size="small"
                 fullWidth={true}
                 variant="outlined"
                 type="date"
+                value={end_date}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </Box>
+            <Box display="flex" flexDirection="column">
+              <label>Frequency</label>
+              <MySelect
+                placeholder="Select frequency"
+                options={options}
+                value={frequency}
+                onChange={handleFrequency}
               />
             </Box>
           </Box>
         </Box>
-        <Button>Add PayRun</Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={addPayRun}
+          style={{ background: "#4bc2bc" }}
+        >
+          Add PayRun
+        </Button>
       </Box>
 
       <Grid container spacing={3} justifyContent="center" alignItems="center">
