@@ -45,6 +45,7 @@ const PayGroupComp = () => {
       return "Yearly";
     }
   };
+
   const fetchRuns = async () => {
     const url = `${baseUrl}/payrun/list`;
     await fetch(url, {
@@ -101,6 +102,7 @@ const PayGroupComp = () => {
     },
   });
   const classes = useStyles();
+
   const columns = [
     {
       field: "sn",
@@ -167,7 +169,7 @@ const PayGroupComp = () => {
       cellClassName: "cell",
     },
   ];
-  console.log(row);
+
   const Transition = React.forwardRef(function Transition(props, ref) {
     return (
       <Slide
@@ -180,10 +182,33 @@ const PayGroupComp = () => {
   });
 
   const fetchRun = async (run) => {
-    const url = `${baseUrl}/payrun/${run}`;
+    const url = `${baseUrl}/payrun/${run[0]}`;
     fetch(url, {
       method: "GET",
-      Authorization: `Bearer ${token}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setRun(data.data);
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const pauseRun = async (run) => {
+    const url = `${baseUrl}/payrun/${run[0]}/pause`;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -193,6 +218,7 @@ const PayGroupComp = () => {
         console.log(err);
       });
   };
+
   return (
     <>
       <Box marginBottom="20px" display="flex" justifyContent="space-between">
@@ -231,8 +257,7 @@ const PayGroupComp = () => {
             headerHeight={70}
             loading={loading}
             onSelectionModelChange={async (itm) => {
-              await fetchRun(itm).then((run) => {
-                console.log(run);
+              await fetchRun(itm).then(() => {
                 setModal(true);
               });
               //  setSelected(option);
