@@ -11,26 +11,8 @@ import { RiProfileLine } from "react-icons/ri";
 const Banner = () => {
   const [funds, setFunds] = useState(0);
   const [stafflist, setStafflist] = useState([]);
-  const fetchStaffs = async () => {
-    const token =
-      typeof window !== "undefined" && localStorage.getItem("token");
-    await fetch(`${baseUrl}/staff/list`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setStafflist(data.data);
-          console.log(data.data, "employee");
-        } else {
-          toast.error(data.error);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+  const [payrun, setPayrun] = useState([]);
+
   useEffect(() => {
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
@@ -50,16 +32,79 @@ const Banner = () => {
       })
       .catch((err) => console.log(err));
     fetchStaffs();
+    fetchRun();
   }, []);
+
+  const fetchStaffs = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    await fetch(`${baseUrl}/staff/list`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setStafflist(data.data);
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const fetchRun = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    await fetch(`${baseUrl}/payrun/list`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const checkActive = data.data.filter((aRun) => {
+            return aRun.status === "active";
+          });
+          console.log(checkActive);
+          setPayrun(checkActive);
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const digit = funds.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  const month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const date = new Date();
+  const currentMonth = month[date.getMonth()];
+
   const details = [
     {
-      figure: "20",
-      details: "New Employees",
+      figure: "0",
+      details: `New Employees in ${currentMonth}`,
       icon: <HiUserAdd />,
       link: "payroll/add-employee",
       dropText: "Add employee",
@@ -72,8 +117,8 @@ const Banner = () => {
       dropText: "Top up",
     },
     {
-      figure: "13",
-      details: "Current Run",
+      figure: payrun.length,
+      details: "Active Run",
       link: "payroll/pay-run/add-new",
       dropText: "New payment run",
     },
@@ -85,21 +130,24 @@ const Banner = () => {
       dropText: "Edit profile",
     },
   ];
+
+  console.log(stafflist);
+
   return (
     <div className={classes.container}>
       <div className={classes.banner_container}>
         <div className={classes.banner_title}>
-          Employees{" "}
+          Total of Employees{" "}
           <span className={classes.tridot} style={{ cursor: "pointer" }}>
             <BsThreeDots />
           </span>
         </div>
         <div className={classes.banner_text}>
           <div className={classes.circle}>
-            <div className={classes.text}> {stafflist.length}</div>
+            <div className={classes.text}>{stafflist.length}</div>
           </div>
         </div>
-        <span>Lol</span>
+        <span></span>
         <HoverDrop
           details={[
             {
