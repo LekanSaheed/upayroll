@@ -7,11 +7,13 @@ import HoverDrop from "./HoverDrop";
 import { HiCash, HiUserAdd } from "react-icons/hi";
 import { MdContactMail } from "react-icons/md";
 import { RiProfileLine } from "react-icons/ri";
+import moment from "moment";
 
 const Banner = () => {
   const [funds, setFunds] = useState(0);
   const [stafflist, setStafflist] = useState([]);
   const [payrun, setPayrun] = useState([]);
+  const [mStaff, setMStaff] = useState([]);
 
   useEffect(() => {
     const token =
@@ -48,6 +50,7 @@ const Banner = () => {
       .then((data) => {
         if (data.success) {
           setStafflist(data.data);
+          addedEmployee(data.data);
         } else {
           toast.error(data.error);
         }
@@ -70,7 +73,6 @@ const Banner = () => {
           const checkActive = data.data.filter((aRun) => {
             return aRun.status === "active";
           });
-          console.log(checkActive);
           setPayrun(checkActive);
         } else {
           toast.error(data.error);
@@ -101,9 +103,21 @@ const Banner = () => {
   const date = new Date();
   const currentMonth = month[date.getMonth()];
 
+  const addedEmployee = async (data) => {
+    data.map((aStaff) => {
+      let checkDate = moment(aStaff.created_At, "YYYY/MM/DD");
+      let staffAddedDate = checkDate.format("M");
+      let getCurrentDate = date.getMonth() + 1;
+      if (getCurrentDate == staffAddedDate) {
+        // console.log(aStaff);
+        mStaff.push(aStaff);
+      }
+    });
+  };
+
   const details = [
     {
-      figure: "0",
+      figure: mStaff.length,
       details: `Added Employees in ${currentMonth}`,
       icon: <HiUserAdd />,
       link: "payroll/add-employee",
@@ -130,8 +144,6 @@ const Banner = () => {
       dropText: "Edit profile",
     },
   ];
-
-  console.log(stafflist);
 
   return (
     <div className={classes.container}>
