@@ -47,11 +47,12 @@
   position: absolute;
   height: inherit;
   padding: 10px;
-  height: 140px;
-  width: 300px;
+  height: 45px;
+  width: 30%;
   transform: scale(0);
   transition: 0.4s;
   opacity: 0;
+  border-radius: 5px;
 }
 ._container:hover {
   transform: scale(1);

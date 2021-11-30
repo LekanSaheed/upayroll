@@ -57,10 +57,33 @@ const Banner = () => {
     maximumFractionDigits: 2,
   });
   const details = [
-    { figure: "20", details: "New Employees", icon: <HiUserAdd /> },
-    { figure: digit, details: "Total Balance", icon: <HiCash /> },
-    { figure: "13", details: "Current Run" },
-    { figure: "3 of 9", details: "Profile Info", icon: <RiProfileLine /> },
+    {
+      figure: "20",
+      details: "New Employees",
+      icon: <HiUserAdd />,
+      link: "payroll/add-employee",
+      dropText: "Add employee",
+    },
+    {
+      figure: digit,
+      details: "Total Balance",
+      icon: <HiCash />,
+      link: "payroll/topup",
+      dropText: "Top up",
+    },
+    {
+      figure: "13",
+      details: "Current Run",
+      link: "payroll/pay-run/add-new",
+      dropText: "New payment run",
+    },
+    {
+      figure: "3 of 9",
+      details: "Profile Info",
+      icon: <RiProfileLine />,
+      link: "payroll/profile",
+      dropText: "Edit profile",
+    },
   ];
   return (
     <div className={classes.container}>
@@ -130,7 +153,7 @@ const Banner = () => {
                 <span className={classes.tridot} style={{ cursor: "pointer" }}>
                   <BsThreeDots />
                 </span>
-                <HoverDrop details={[{ link: "/fri", text: "Add New" }]} />
+                <HoverDrop details={[{ link: i.link, text: i.dropText }]} />
               </div>
               <div className={classes.grid_main}>
                 <div className={classes.grid_icon}>{i.icon}</div>
