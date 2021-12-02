@@ -34,10 +34,7 @@ const TranxHistory = () => {
   return (
     <div className={classes.tranxCont}>
       <Box sx={{ width: "100%" }}>
-        <Box
-          padding="10px 20px"
-          sx={{ borderBottom: 2, borderColor: "divider" }}
-        >
+        <Box padding="0" sx={{ borderBottom: 2, borderColor: "divider" }}>
           <h2>History</h2>
         </Box>
         <Box sx={{ borderBottom: 2, borderColor: "divider" }}>
