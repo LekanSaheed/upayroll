@@ -30,9 +30,15 @@ const DepositHistory = () => {
         console.log(err);
       });
   };
+  const columns = [
+    { field: "id", headerName: "S/N", width: 90 },
+    { field: "txRef", headerName: "Ref", width: 100 },
+    { field: "amount", headerName: "Amount", width: 90 },
+    { field: "status", headerName: "Status", width: 90 },
+  ];
   return (
-    <div>
-      <DataGrid />
+    <div style={{ height: 400, width: "100%" }}>
+      <DataGrid columns={columns} rows={[]} />
     </div>
   );
 };

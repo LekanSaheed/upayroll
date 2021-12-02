@@ -215,6 +215,7 @@ const Banner = () => {
         {details.map((i, id) => {
           return (
             <div
+              key={id}
               className={
                 i.details !== "Employee Roles"
                   ? classes.grid_item
