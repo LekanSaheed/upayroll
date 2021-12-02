@@ -2,10 +2,6 @@
   .dash_flex {
     display: flex;
     flex-basis: 100%;
-    gap: 13px;
-  }
-  .dash_group {
-    width: 60%;
-    flex: 1 1 60%;
+    gap: 20px;
   }
 }

@@ -21,9 +21,22 @@
 .link:hover {
   background-color: #4bc2bc28;
   transition: 0.3s ease-in-out;
+  border-radius: 10px;
 }
 
 @media (min-width: 767px) {
+  .link {
+    padding-left: 14px;
+    color: rgb(145, 145, 145);
+  }
+  .active {
+    background-color: #4bc2bc;
+    border-radius: 10px;
+    color: white;
+  }
+  .active .icon {
+    color: white;
+  }
   .lgNav {
     display: block;
     height: 100vh;
@@ -52,7 +65,10 @@
     transition: 0.3s;
     margin-left: 10px;
     text-transform: capitalize;
-    color: rgba(0, 0, 0, 0.5);
+    color: #4bc2bcce;
+    font-size: 13px;
+    font-weight: 700;
+    /* color: rgba(0, 0, 0, 0.5); */
   }
   .nav_container {
     overflow: hidden;

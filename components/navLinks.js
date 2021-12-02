@@ -19,12 +19,12 @@ export const navlinks = [
       {
         text: "Add Employee",
         icon: <HiOutlineUserAdd />,
-        link: "add-employee",
+        link: "/add-employee",
       },
       {
         text: "All Employee",
         icon: <HiOutlineUsers />,
-        link: "all-employee",
+        link: "/all-employee",
       },
       // {
       //   text: "Department",
@@ -37,12 +37,12 @@ export const navlinks = [
     text: "Payroll",
     drops: [
       // { text: "Pay Group", icon: <MdMoney />, link: "pay-group" },
-      { text: "Pay Run", icon: <HiOutlineCash />, link: "pay-run" },
+      { text: "Pay Run", icon: <HiOutlineCash />, link: "/pay-run" },
     ],
   },
   {
     text: "Company Details",
-    drops: [{ text: "Profile", icon: <RiProfileLine />, link: "profile" }],
+    drops: [{ text: "Profile", icon: <RiProfileLine />, link: "/profile" }],
   },
   {
     text: "Report",
@@ -50,7 +50,7 @@ export const navlinks = [
       {
         text: "Transaction History",
         icon: <RiHistoryLine />,
-        link: "transaction-history",
+        link: "/transaction-history",
       },
       // { text: "Staffs", icon: <HiOutlineUserGroup />, link: "staffs" },
     ],

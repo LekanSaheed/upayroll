@@ -22,11 +22,21 @@
     url("./font/CircularStd-Black.eot");
   font-weight: bolder;
 }
+@font-face {
+  font-family: poppins;
+  src: url("./poppins/Poppins-Medium.ttf") format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: poppinsBold;
+  src: url("./poppins/Poppins-Bold.ttf") format("truetype");
+  font-weight: 600;
+}
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: circularStd, sans-serif;
+  font-family: poppins, sans-serif;
 }
 .flex-row {
   display: flex;

@@ -152,13 +152,7 @@ const Details = () => {
           <label>Address</label>
           <input
             type="text"
-            value={
-              info.address
-                ? info.address
-                : company.address
-                ? company.address
-                : ""
-            }
+            value={info.address !== undefined ? info.address : company.address}
             onChange={(e) => handleInfoChange({ address: e.target.value })}
             placeholder="Address"
           />

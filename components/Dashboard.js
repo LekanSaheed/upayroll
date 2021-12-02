@@ -5,17 +5,14 @@ import Wallet from "./Wallet";
 import Cards from "./Cards";
 import { Slide } from "@mui/material";
 import Banner from "./Banner";
+import TranxHistory from "./TranxHistory";
 const Dashboard = () => {
   return (
     <div className={classes.container}>
       <div className={classes.dash_flex}>
-        <div className={classes.dash_group}>
-          <Banner />
-
-          {/* <Wallet /> */}
-        </div>
+        <Banner />
+        <TranxHistory />
       </div>
-      <Cards />
     </div>
   );
 };

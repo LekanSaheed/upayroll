@@ -4,8 +4,9 @@ import Link from "next/link";
 import { navlinks } from "./navLinks";
 import { Tooltip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-
+import { useRouter } from "next/router";
 const Nav = () => {
+  const router = useRouter();
   const useStyles = makeStyles({
     tooltip: {
       cursor: "pointer",
@@ -33,14 +34,20 @@ const Nav = () => {
               >
                 {nav.drops.map((aNav, id) => {
                   return (
-                    <Link key={id} href={"/payroll/" + aNav.link}>
+                    <Link key={id} href={"/payroll" + aNav.link}>
                       <Tooltip
                         arrow
                         placement="right"
                         title={isToggled ? aNav.text : ""}
                         className={myClass.tooltip}
                       >
-                        <a className={classes.link}>
+                        <a
+                          className={`${classes.link} ${
+                            router.pathname === "/payroll" + aNav.link
+                              ? classes.active
+                              : ""
+                          }`}
+                        >
                           <div className={classes.icon}>{aNav.icon}</div>
                           {!isToggled && aNav.text}
                         </a>

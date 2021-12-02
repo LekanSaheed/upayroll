@@ -264,6 +264,54 @@ const AddPayRun = () => {
             </Box>
           </Box>
         </Box>
+        <Grid container spacing={3} justifyContent="center" alignItems="center">
+          <Grid item> {customList(left, "Employee List")}</Grid>
+          <Grid item>
+            <Grid container direction="column" alignItems="center">
+              <Button
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleAllRight}
+                disabled={left.length === 0}
+                aria-label="move all right"
+              >
+                &gt;&gt;
+              </Button>
+              <Button
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleCheckedRight}
+                disabled={leftChecked.length === 0}
+                aria-label="move selected right"
+              >
+                &gt;
+              </Button>
+              <Button
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleCheckedLeft}
+                disabled={rightChecked.length === 0}
+                aria-label="move selected left"
+              >
+                &lt;
+              </Button>
+              <Button
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleAllLeft}
+                disabled={right.length === 0}
+                aria-label="move all left"
+              >
+                &lt;&lt;
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid item>{customList(right, "Selected Employees")}</Grid>
+        </Grid>
         <Button
           color="primary"
           variant="contained"
@@ -273,55 +321,6 @@ const AddPayRun = () => {
           Add PayRun
         </Button>
       </Box>
-
-      <Grid container spacing={3} justifyContent="center" alignItems="center">
-        <Grid item> {customList(left, "Employee List")}</Grid>
-        <Grid item>
-          <Grid container direction="column" alignItems="center">
-            <Button
-              sx={{ my: 0.5 }}
-              variant="outlined"
-              size="small"
-              onClick={handleAllRight}
-              disabled={left.length === 0}
-              aria-label="move all right"
-            >
-              &gt;&gt;
-            </Button>
-            <Button
-              sx={{ my: 0.5 }}
-              variant="outlined"
-              size="small"
-              onClick={handleCheckedRight}
-              disabled={leftChecked.length === 0}
-              aria-label="move selected right"
-            >
-              &gt;
-            </Button>
-            <Button
-              sx={{ my: 0.5 }}
-              variant="outlined"
-              size="small"
-              onClick={handleCheckedLeft}
-              disabled={rightChecked.length === 0}
-              aria-label="move selected left"
-            >
-              &lt;
-            </Button>
-            <Button
-              sx={{ my: 0.5 }}
-              variant="outlined"
-              size="small"
-              onClick={handleAllLeft}
-              disabled={right.length === 0}
-              aria-label="move all left"
-            >
-              &lt;&lt;
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid item>{customList(right, "Selected Employees")}</Grid>
-      </Grid>
     </Wrapper>
   );
 };

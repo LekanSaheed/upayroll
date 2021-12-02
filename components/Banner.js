@@ -8,6 +8,8 @@ import { HiCash, HiUserAdd } from "react-icons/hi";
 import { MdContactMail } from "react-icons/md";
 import { RiProfileLine } from "react-icons/ri";
 import moment from "moment";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
 
 const Banner = () => {
   const [funds, setFunds] = useState(0);
@@ -15,6 +17,7 @@ const Banner = () => {
   const [payrun, setPayrun] = useState([]);
   const [mStaff, setMStaff] = useState([]);
 
+  ChartJs.register(ArcElement, Tooltip, Legend);
   useEffect(() => {
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
@@ -123,13 +126,7 @@ const Banner = () => {
       link: "payroll/add-employee",
       dropText: "Add employee",
     },
-    {
-      figure: digit,
-      details: "Total Balance",
-      icon: <HiCash />,
-      link: "payroll/topup",
-      dropText: "Top up",
-    },
+
     {
       figure: payrun.length,
       details: "Active Run",
@@ -137,17 +134,45 @@ const Banner = () => {
       dropText: "New payment run",
     },
     {
-      figure: "3 of 9",
-      details: "Profile Info",
+      figure: "",
+      details: "Employee Roles",
       icon: <RiProfileLine />,
       link: "payroll/profile",
-      dropText: "Edit profile",
+    },
+    {
+      figure: "Go To Settings",
+      details: "Account Settings",
+      icon: <RiProfileLine />,
+      link: "payroll/profile",
     },
   ];
-
+  const data = {
+    labels: [
+      "Web",
+      "Mobile",
+      "CyberSec",
+      "Web",
+      "Mobile",
+      "CyberSec",
+      "Web",
+      "Mobile",
+      "CyberSec",
+    ].slice(0, 12),
+    datasets: [
+      {
+        label: "#",
+        data: [12, 24, 56].slice(0, 12),
+        backgroundColor: [
+          "rgb(12, 58, 196)",
+          "rgb(224, 0, 94)",
+          "rgb(3, 104, 20)",
+        ],
+      },
+    ],
+  };
   return (
     <div className={classes.container}>
-      <div className={classes.banner_container}>
+      {/* <div className={classes.banner_container}>
         <div className={classes.banner_title}>
           Total of Employees{" "}
           <span className={classes.tridot} style={{ cursor: "pointer" }}>
@@ -172,40 +197,62 @@ const Banner = () => {
             },
           ]}
         />
-      </div>
-      {/* <div className={classes.wallet_container}>
-        <div className={classes.wallet_main}>
-          <Link href="payroll/topup">
-            <button className="btn-theme">Top up</button>
-          </Link>
-          <div className={classes.list}>
-            <sub> Pay Period.</sub>
-            <span>
-              {" "}
-              <BsCheckCircleFill style={{ color: "#4bc2bc" }} /> Nov 30
-            </span>
-            <span>
-              {" "}
-              <BsCheckCircleFill style={{ color: "#4bc2bc" }} /> Dec 10
-            </span>
-            <span>
-              {" "}
-              <BsCheckCircleFill style={{ color: "#4bc2bc" }} /> Dec 13
-            </span>
-          </div>
-          <span className="btn">View All</span>
-        </div>
-        <div className={classes.circleContainer}>
-          N
-          {funds.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </div>
       </div> */}
+      <div className={classes.balance}>
+        <div className={classes.balance_main}>
+          <div className={classes.balance_title}>Wallet Balance</div>
+          <div className={classes.amount}>N{digit}</div>
+          <div>
+            <Link href="/payroll/topup">
+              <button className={classes.topUpbtn}>Fund Wallet</button>
+            </Link>
+          </div>
+        </div>
+        <div className={classes.balanceCircle2}></div>
+      </div>
 
       <div className={classes.grid}>
         {details.map((i, id) => {
+          return (
+            <div
+              className={
+                i.details !== "Employee Roles"
+                  ? classes.grid_item
+                  : classes.doughnut_item
+              }
+            >
+              <div className={classes.grid_detail}>{i.details}</div>
+              <div className={classes.grid_figure}> {i.figure}</div>
+              {i.details === "Employee Roles" && (
+                <div className={classes.doughnut_container}>
+                  <div className={classes.doughnut}>
+                    <Doughnut
+                      data={data}
+                      options={{
+                        font: {
+                          size: 3,
+                        },
+                        plugins: {
+                          legend: {
+                            position: "bottom",
+                            align: "left",
+                            labels: {
+                              boxWidth: 7,
+                              boxHeight: 7,
+                              borderRadius: 50,
+                            },
+                          },
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* {details.map((i, id) => {
           return (
             <div key={id} className={classes.grid_item}>
               <div className={classes.banner_title}>
@@ -224,7 +271,7 @@ const Banner = () => {
               </div>
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );
