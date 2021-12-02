@@ -14,7 +14,7 @@ const TabPanel = (props) => {
       aria-labelledBy={`Transaction-History-Tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
     </div>
   );
 };
@@ -34,7 +34,10 @@ const TranxHistory = () => {
   return (
     <div className={classes.tranxCont}>
       <Box sx={{ width: "100%" }}>
-        <Box padding="0" sx={{ borderBottom: 2, borderColor: "divider" }}>
+        <Box
+          padding="10px 20px"
+          sx={{ borderBottom: 2, borderColor: "divider" }}
+        >
           <h2>History</h2>
         </Box>
         <Box sx={{ borderBottom: 2, borderColor: "divider" }}>
