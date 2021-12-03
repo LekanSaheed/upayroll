@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import { toast } from "react-toastify";
 import { Button, Box, Card, Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
+import { AiOutlineMail, AiOutlinePhone, AiOutlinePlus } from "react-icons/ai";
 
 const Details = () => {
   const [company, setCompany] = useState({});
@@ -169,13 +170,89 @@ const Details = () => {
       <Box className={classes.profile}>
         <Box
           display="flex"
-          justifyContent="center"
-          padding="10px"
+          flexDirection="column"
+          justifyContent="start"
+          padding="30px 18px"
           height="70vh"
         >
           <Avatar sx={{ backgroundColor: "orange" }}>
             {company.name?.slice(0, 1).toUpperCase()}
           </Avatar>
+          <Box display="flex" flexDirection="column" paddingTop="7px">
+            <span className={classes.name}>
+              {company.name ? company.name : ""}
+            </span>
+            <span className={classes.userName}>
+              {company.username ? "@" + company.username : ""}
+            </span>
+          </Box>
+
+          <Box
+            backgroundColor="#f5f5f5"
+            borderRadius="14px"
+            padding="13px 11px"
+            display="flex"
+            flexDirection="column"
+            gridGap="10px"
+            gap="10px"
+            marginTop="15px"
+            className={classes.profileCard}
+          >
+            <Box
+              display="flex"
+              height="100px"
+              flexDirection="column"
+              borderRadius="30px"
+              aligItems="center"
+              gap="15px"
+              gridGap="15px"
+              fontSize="18px"
+              paddingTop="10px"
+            >
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <span>
+                  {company.balance
+                    ? "N" +
+                      company.balance.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    : 0}
+                </span>
+
+                <Button
+                  endIcon={<AiOutlinePlus />}
+                  color="primary"
+                  style={{
+                    background: "#4bc2bc",
+                    color: "white",
+                    borderRadius: "17px",
+                    textTransform: "capitalize",
+                  }}
+                  variant="contained"
+                  size="small"
+                >
+                  Top Up
+                </Button>
+              </Box>
+            </Box>
+            <span className={classes.flex}>
+              <div className={classes.icon}>
+                <AiOutlineMail />
+              </div>
+              {company.email ? company.email : ""}
+            </span>
+            <span className={classes.flex}>
+              <div className={classes.icon}>
+                <AiOutlinePhone />
+              </div>
+              {company.phone ? company.phone : ""}
+            </span>
+          </Box>
         </Box>
       </Box>
     </div>

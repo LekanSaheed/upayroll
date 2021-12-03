@@ -81,11 +81,17 @@ const DepositHistory = () => {
   return (
     <div className={classes.root} style={{ height: 400, width: "100%" }}>
       <DataGrid
-        columns={columns}
+        columns={columns.map((col) => ({
+          ...col,
+          filterable: false,
+        }))}
         rows={row.map((r, id) => {
           return { ...r, id: id + 1 };
         })}
         loading={loading}
+        disableColumnFilter
+        disableColumnSelector
+        disableColumnMenu
       />
     </div>
   );

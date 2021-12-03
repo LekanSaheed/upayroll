@@ -3,14 +3,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { BsCheckCircleFill, BsThreeDots } from "react-icons/bs";
-import HoverDrop from "./HoverDrop";
+
 import { HiCash, HiUserAdd } from "react-icons/hi";
 import { MdContactMail } from "react-icons/md";
-import { RiProfileLine } from "react-icons/ri";
+import { RiProfileLine, RiSettingsLine } from "react-icons/ri";
 import moment from "moment";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
-
+import { Box } from "@mui/material";
 const Banner = () => {
   const [funds, setFunds] = useState(0);
   const [stafflist, setStafflist] = useState([]);
@@ -129,35 +129,26 @@ const Banner = () => {
 
     {
       figure: payrun.length,
-      details: "Active Run",
+      details: "Active Runs",
       link: "payroll/pay-run/add-new",
       dropText: "New payment run",
+      icon: <BsCheckCircleFill />,
     },
     {
       figure: "",
       details: "Employee Roles",
-      icon: <RiProfileLine />,
+      icon: "",
       link: "payroll/profile",
     },
     {
-      figure: "Go To Settings",
+      figure: "",
       details: "Account Settings",
-      icon: <RiProfileLine />,
+      icon: <RiSettingsLine />,
       link: "payroll/profile",
     },
   ];
   const data = {
-    labels: [
-      "Web",
-      "Mobile",
-      "CyberSec",
-      "Web",
-      "Mobile",
-      "CyberSec",
-      "Web",
-      "Mobile",
-      "CyberSec",
-    ].slice(0, 12),
+    labels: ["Web", "Mobile", "CyberSec"].slice(0, 12),
     datasets: [
       {
         label: "#",
@@ -216,14 +207,20 @@ const Banner = () => {
           return (
             <div
               key={id}
-              className={
+              className={`${
                 i.details !== "Employee Roles"
                   ? classes.grid_item
                   : classes.doughnut_item
               }
+                   ${i.details === "Account Settings" ? classes.settings : ""}`}
             >
-              <div className={classes.grid_detail}>{i.details}</div>
-              <div className={classes.grid_figure}> {i.figure}</div>
+              {" "}
+              {i.details === "Account Settings" && <div>Go to</div>}
+              <span className={classes.icon}>{i.icon}</span>
+              <Box display="flex" flexDirection="column">
+                <div className={classes.grid_detail}>{i.details}</div>
+                <div className={classes.grid_figure}> {i.figure}</div>
+              </Box>
               {i.details === "Employee Roles" && (
                 <div className={classes.doughnut_container}>
                   <div className={classes.doughnut}>
@@ -234,10 +231,17 @@ const Banner = () => {
                           size: 3,
                         },
                         plugins: {
+                          labels: {
+                            render: "label",
+                            arc: true,
+                            position: "outside",
+                          },
                           legend: {
-                            position: "bottom",
                             align: "left",
                             labels: {
+                              render: "label",
+                              arc: true,
+                              position: "outside",
                               boxWidth: 7,
                               boxHeight: 7,
                               borderRadius: 50,

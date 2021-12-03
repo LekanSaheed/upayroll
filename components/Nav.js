@@ -5,7 +5,10 @@ import { navlinks } from "./navLinks";
 import { Tooltip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
+import { BiLogOut } from "react-icons/bi";
+import { useAuthDispatch } from "../payrollContext/AuthContext";
 const Nav = () => {
+  const dispatch = useAuthDispatch();
   const router = useRouter();
   const useStyles = makeStyles({
     tooltip: {
@@ -60,6 +63,18 @@ const Nav = () => {
           );
         })}
       </div>
+      <button className={classes.logout} onClick={() => dispatch("LOGOUT")}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <BiLogOut />
+        </div>{" "}
+        {!isToggled ? "Logout" : ""}
+      </button>
     </div>
   );
 };

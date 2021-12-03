@@ -93,14 +93,19 @@
 .grid_item {
   background-color: white;
   border-radius: 6px;
-  padding: 12px;
+  padding: 12px 15px;
+
   width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 17px;
 }
 .grid {
   gap: 8px;
+}
+.icon {
+  color: #4bc2bc;
+  font-size: 27px;
 }
 .grid_detail {
   color: #636363;
@@ -190,7 +195,7 @@
 }
 .grid_figure {
   font-size: 17px;
-  font-family: poppinsBold, "sans-serif";
+
   color: rgba(0, 0, 0, 0.918);
 }
 .bCircleCont {
@@ -210,6 +215,15 @@
 }
 .balanceCircle2 {
 }
+.settings {
+  padding: 10px;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  background-color: #efefef;
+  color: white !important;
+  cursor: pointer;
+}
+
 @media (min-width: 767px) {
   .doughnut {
     width: 70%;
@@ -232,13 +246,17 @@
     gap: 10px;
     grid-template-columns: repeat(2, 1fr);
   }
+
   .grid_figure {
-    font-weight: 600;
-    font-size: 28px;
+    font-weight: 400;
+    font-size: 36px;
+  }
+  .settings .grid_figure {
+    font-size: 23px;
   }
   .grid_item {
     min-height: 130px;
-    padding: 20px;
+    padding: 20px 24px;
   }
 
   .balanceCircle,
@@ -247,7 +265,9 @@
     width: 350px;
     border: solid 100px #ffffff28;
   }
-
+  .settings .icon {
+    font-size: 39px;
+  }
   @media (min-width: 1024px) {
     .grid_detail {
     }
@@ -261,6 +281,9 @@
     }
     .grid_item {
       border-radius: 14px;
+    }
+    .settings {
+      padding: 10px;
     }
   }
   /* .banner_title {
