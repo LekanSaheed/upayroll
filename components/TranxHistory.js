@@ -47,7 +47,13 @@ const TranxHistory = () => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <DepositHistory />
+          <DepositHistory
+          
+                disableColumnFilter
+                disableColumn
+          Selector
+            disableColumnMenu
+          />
         </TabPanel>
         <TabPanel value={value} index={1}></TabPanel>
       </Box>

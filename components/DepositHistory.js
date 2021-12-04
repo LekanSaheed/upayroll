@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { DataGrid } from "@mui/x-data-grid";
 import { makeStyles } from "@mui/styles";
-const DepositHistory = () => {
+
+const DepositHistory = (props) => {
   const [loading, setLoading] = useState(true);
   const [row, setRow] = useState([]);
   const token = typeof window !== "undefined" && localStorage.getItem("token");
@@ -60,7 +61,13 @@ const DepositHistory = () => {
       headerName: "Status",
       width: 90,
       headerClassName: "header",
-      cellClassName: "cell",
+      cellClassName: (params) => {
+        return params.value === "successful"
+          ? "cell success"
+          : params.value === "pending"
+          ? "cell pending"
+          : "cell failed";
+      },
     },
   ];
   const useStyles = makeStyles({
@@ -75,11 +82,24 @@ const DepositHistory = () => {
         fontFamily: "poppins",
         fontSize: "12px",
       },
+      "& .success": {
+        color: "green",
+        fontWeight: "600",
+        fontFamily: "poppinsBold",
+      },
+      "& .pending": {
+        color: "goldenrod",
+        fontFamily: "poppinsBold",
+      },
+      "& .failed": {
+        color: "red",
+        fontFamily: "poppinsBold",
+      },
     },
   });
   const classes = useStyles();
   return (
-    <div className={classes.root} style={{ height: 400, width: "100%" }}>
+    <div className={classes.root} style={{ height: "80vh", width: "100%" }}>
       <DataGrid
         columns={columns.map((col) => ({
           ...col,
@@ -89,9 +109,7 @@ const DepositHistory = () => {
           return { ...r, id: id + 1 };
         })}
         loading={loading}
-        disableColumnFilter
-        disableColumnSelector
-        disableColumnMenu
+        {...props}
       />
     </div>
   );

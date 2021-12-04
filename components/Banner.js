@@ -161,6 +161,7 @@ const Banner = () => {
       },
     ],
   };
+
   return (
     <div className={classes.container}>
       {/* <div className={classes.banner_container}>
