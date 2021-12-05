@@ -78,14 +78,6 @@ const AddPayRun = () => {
   const [right, setRight] = useState([]);
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
-  console.log(
-    right.map((emp) => {
-      return {
-        staff: emp._id,
-        amount: emp.salary,
-      };
-    })
-  );
 
   const addPayRun = async () => {
     const token =
