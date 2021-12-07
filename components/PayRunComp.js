@@ -18,6 +18,7 @@ import {
   AppBar,
   CircularProgress,
 } from "@mui/material";
+import Skel from "./Skel";
 import Loader from "./Loader";
 import { makeStyles } from "@mui/styles";
 import React, { useState, useEffect } from "react";
