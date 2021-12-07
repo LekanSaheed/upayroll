@@ -11,12 +11,13 @@ import moment from "moment";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
 import { Box } from "@mui/material";
+import Skel from "./Skel";
 const Banner = () => {
   const [funds, setFunds] = useState(0);
   const [stafflist, setStafflist] = useState([]);
   const [payrun, setPayrun] = useState([]);
   const [mStaff, setMStaff] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   ChartJs.register(ArcElement, Tooltip, Legend);
   useEffect(() => {
     const token =
@@ -31,11 +32,16 @@ const Banner = () => {
       .then((data) => {
         if (data.success) {
           setFunds(parseInt(data.data.balance));
+          setLoading(false);
         } else {
           toast.error(data.error);
+          setLoading(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
     fetchStaffs();
     fetchRun();
   }, []);
@@ -54,11 +60,16 @@ const Banner = () => {
         if (data.success) {
           setStafflist(data.data);
           addedEmployee(data.data);
+          setLoading(false);
         } else {
           toast.error(data.error);
+          setLoading(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   const fetchRun = async () => {
@@ -77,11 +88,16 @@ const Banner = () => {
             return aRun.status === "active";
           });
           setPayrun(checkActive);
+          setLoading(false);
         } else {
           toast.error(data.error);
+          setLoading(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   const digit = funds.toLocaleString(undefined, {
@@ -193,11 +209,17 @@ const Banner = () => {
       <div className={classes.balance}>
         <div className={classes.balance_main}>
           <div className={classes.balance_title}>Wallet Balance</div>
-          <div className={classes.amount}>N{digit}</div>
+          <div className={classes.amount}>
+            {loading ? <Skel height={60} width={167} /> : "N" + digit}
+          </div>
           <div>
-            <Link href="/payroll/topup">
-              <button className={classes.topUpbtn}>Fund Wallet</button>
-            </Link>
+            {loading ? (
+              <Skel height={70} width={130} />
+            ) : (
+              <Link href="/payroll/topup">
+                <button className={classes.topUpbtn}>Fund Wallet</button>
+              </Link>
+            )}
           </div>
         </div>
         <div className={classes.balanceCircle2}></div>
@@ -219,38 +241,64 @@ const Banner = () => {
               {i.details === "Account Settings" && <div>Go to</div>}
               <span className={classes.icon}>{i.icon}</span>
               <Box display="flex" flexDirection="column">
-                <div className={classes.grid_detail}>{i.details}</div>
-                <div className={classes.grid_figure}> {i.figure}</div>
+                <div className={classes.grid_detail}>
+                  {loading ? <Skel height={18} width={120} /> : i.details}
+                </div>
+                <div className={classes.grid_figure}>
+                  {i.details !== "Account Settings" &&
+                  i.details !== "Employee Roles" &&
+                  loading ? (
+                    <Skel height={30} width={70} />
+                  ) : (
+                    i.figure
+                  )}{" "}
+                </div>
               </Box>
               {i.details === "Employee Roles" && (
                 <div className={classes.doughnut_container}>
                   <div className={classes.doughnut}>
-                    <Doughnut
-                      data={data}
-                      options={{
-                        font: {
-                          size: 3,
-                        },
-                        plugins: {
-                          labels: {
-                            render: "label",
-                            arc: true,
-                            position: "outside",
+                    {loading ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        {" "}
+                        <Skel width={200} height={12} />
+                        <Skel variant="circular" width={150} height={150} />
+                      </div>
+                    ) : (
+                      <Doughnut
+                        data={data}
+                        options={{
+                          font: {
+                            size: 3,
                           },
-                          legend: {
-                            align: "left",
+                          plugins: {
                             labels: {
                               render: "label",
                               arc: true,
                               position: "outside",
-                              boxWidth: 7,
-                              boxHeight: 7,
-                              borderRadius: 50,
+                            },
+                            legend: {
+                              align: "left",
+                              labels: {
+                                render: "label",
+                                arc: true,
+                                position: "outside",
+                                boxWidth: 7,
+                                boxHeight: 7,
+                                borderRadius: 50,
+                              },
                             },
                           },
-                        },
-                      }}
-                    />
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               )}

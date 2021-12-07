@@ -9,7 +9,16 @@ import { AuthProvider } from "../payrollContext/AuthContext";
 import PrivateRoute from "../components/PrivateRoute";
 
 function MyApp({ Component, pageProps }) {
-  const protectedRoutes = ["/payroll", "/payroll/add-employee"];
+  const protectedRoutes = [
+    "/payroll",
+    "/payroll/add-employee",
+    "/payroll/all-employee",
+    "/payroll/profile",
+    "/payroll/transaction-history",
+    "/payroll/pay-run",
+    "/payroll/pay-run/add-new",
+    "/payroll/topup",
+  ];
   const [state, dispatch] = useReducer(reducer, defaultState);
   const toggleNav = () => {
     dispatch({ type: "TOGGLE_NAV" });

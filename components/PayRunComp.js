@@ -384,7 +384,9 @@ const PayGroupComp = () => {
       <List dense component="div" role="list">
         {items.map((value, idx) => {
           const id = `transfer-list-item-${value}-label`;
-          return (
+          return loading ? (
+            <Skel />
+          ) : (
             <ListItem
               key={idx}
               role="listitem"
