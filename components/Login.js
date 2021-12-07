@@ -112,7 +112,12 @@ const Login = () => {
                 />
               </div>
             </div>
-            <div className={classes.pass}>Reset Password</div>
+            <div
+              className={classes.pass}
+              onClick={() => router.push("/reset-password")}
+            >
+              Reset Password
+            </div>
             <button
               onClick={login}
               className={
