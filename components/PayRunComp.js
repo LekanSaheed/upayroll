@@ -385,7 +385,7 @@ const PayGroupComp = () => {
         {items.map((value, idx) => {
           const id = `transfer-list-item-${value}-label`;
           return loading ? (
-            <Skel />
+            <Skel key={idx} />
           ) : (
             <ListItem
               key={idx}
