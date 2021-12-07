@@ -26,7 +26,7 @@ import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
-
+import MySelect from "./MySelect";
 const PayGroupComp = () => {
   useEffect(() => {
     fetchRuns();
@@ -34,6 +34,12 @@ const PayGroupComp = () => {
   }, []);
   const token = typeof window !== "undefined" && localStorage.getItem("token");
 
+  const not = (a, b) => {
+    return a.filter((value) => b.indexOf(value) === -1);
+  };
+  const intersection = (a, b) => {
+    return a.filter((value) => b.indexOf(value) !== -1);
+  };
   const [runlist, setRunList] = useState([]);
   const [row, setRow] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,7 +49,80 @@ const PayGroupComp = () => {
   const [end_date, setEndDate] = useState([]);
   const [intervals, setIntervals] = useState(null);
   const [employees, setEmployees] = useState([]);
+  const [dataset, setDataset] = useState({});
+  const [checked, setChecked] = useState([]);
+  const [left, setLeft] = useState(employees);
+  const [right, setRight] = useState([]);
+  const leftChecked = intersection(checked, left);
+  const rightChecked = intersection(checked, right);
 
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+    setChecked(newChecked);
+  };
+  const handleAllRight = () => {
+    setRight(right.concat(left));
+    setLeft([]);
+  };
+  const handleCheckedRight = () => {
+    setRight(right.concat(leftChecked));
+    setLeft(not(left, leftChecked));
+    setChecked(not(checked, leftChecked));
+  };
+  const handleCheckedLeft = () => {
+    setLeft(left.concat(rightChecked));
+    setRight(not(right, rightChecked));
+    setChecked(not(checked, rightChecked));
+  };
+  const handleAllLeft = () => {
+    setLeft(left.concat(right));
+    setRight([]);
+  };
+
+  const handleDataChange = (data) => {
+    setDataset((state) => ({
+      ...state,
+      ...data,
+    }));
+  };
+  const editPayrun = async (id) => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    await fetch(`${baseUrl}/payrun/${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        start_date,
+        end_date,
+        interval: intervals.value && intervals.value,
+        payments: right.map((c) => {
+          return {
+            staff: c._id,
+            amount: c.salary,
+          };
+        }),
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          console.log(data.data);
+          toast.success("Success");
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   const setFrequency = (frequency) => {
     if (frequency === 1) {
       return "Daily";
@@ -61,6 +140,14 @@ const PayGroupComp = () => {
       return "Yearly";
     }
   };
+  console.log({
+    payments: right.map((c) => {
+      return {
+        staff: c._id,
+        amount: c.amount,
+      };
+    }),
+  });
   const fetchStaffs = async () => {
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
@@ -152,7 +239,7 @@ const PayGroupComp = () => {
     lCont: {
       fontSize: "11px !important",
       fontFamily: "poppins !important",
-      "& .-MuiTypography-root": {
+      "& .MuiTypography-root": {
         fontSize: "11px !important",
         fontFamily: "poppins !important",
       },
@@ -256,7 +343,7 @@ const PayGroupComp = () => {
   // };
 
   const pauseRun = async (run) => {
-    const url = `${baseUrl}/payrun/${run[0]}/pause`;
+    const url = `${baseUrl}/payrun/${run}/pause`;
     fetch(url, {
       method: "GET",
       headers: {
@@ -283,52 +370,10 @@ const PayGroupComp = () => {
     setFrequency(e);
   };
 
-  const not = (a, b) => {
-    return a.filter((value) => b.indexOf(value) === -1);
-  };
-  const intersection = (a, b) => {
-    return a.filter((value) => b.indexOf(value) !== -1);
-  };
-
-  const [checked, setChecked] = useState([]);
-  const [left, setLeft] = useState(employees);
-  const [right, setRight] = useState([]);
-  const leftChecked = intersection(checked, left);
-  const rightChecked = intersection(checked, right);
-
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
-  };
-  const handleAllRight = () => {
-    setRight(right.concat(left));
-    setLeft([]);
-  };
-  const handleCheckedRight = () => {
-    setRight(right.concat(leftChecked));
-    setLeft(not(left, leftChecked));
-    setChecked(not(checked, leftChecked));
-  };
-  const handleCheckedLeft = () => {
-    setLeft(left.concat(rightChecked));
-    setRight(not(right, rightChecked));
-    setChecked(not(checked, rightChecked));
-  };
-  const handleAllLeft = () => {
-    setLeft(left.concat(right));
-    setRight([]);
-  };
-
   // Custom List
 
   const customList = (items, label) => (
-    <Paper lg={200} sx={{ width: 150, height: 200, overflow: "auto" }}>
+    <Paper lg={200} sx={{ width: 180, height: 210, overflow: "auto" }}>
       <AppBar
         className={classes.appBar}
         style={{ padding: "7px", background: "#4bc2bc" }}
@@ -373,7 +418,6 @@ const PayGroupComp = () => {
                 <ListItemText
                   id={id}
                   className={classes.list}
-                  style={{ fontSize: "10px !important" }}
                   primary={`${`${value.firstname} ${value.lastname}`}`}
                 />
               )}
@@ -384,11 +428,47 @@ const PayGroupComp = () => {
       </List>
     </Paper>
   );
+
+  const intervalFunc = (int) => {
+    if (int === 1) {
+      return { label: "Daily", value: 1 };
+    }
+    if (int === 7) {
+      return { label: "Weekly", value: 7 };
+    }
+    if (int === 14) {
+      return { label: "Bi-Weekly", value: 14 };
+    }
+    if (int === 30) {
+      return { label: "Monthly", value: 30 };
+    }
+    if (int === 365) {
+      return { label: "Yearly", value: 365 };
+    }
+  };
+  console.log(selected);
   const handleUpdate = async (itm) => {
     setLoading(true);
     const id = row.filter((run) => run.id === itm[0]);
-    await setSelected(id[0]);
-
+    const init_date = runlist
+      .filter((run) => run._id === id[0]._id)
+      .map((run) => {
+        return {
+          start: moment(run.start_date).format("YYYY-MM-DD"),
+          end: moment(run.end_date).format("YYYY-MM-DD"),
+          interval: intervalFunc(run.interval),
+        };
+      });
+    console.log(init_date, "id");
+    await setSelected({
+      ...id[0],
+      start_date: init_date[0].start,
+      end_date: init_date[0].end,
+      interval: init_date[0].interval,
+    });
+    await setStartDate(init_date[0].start);
+    await setEndDate(init_date[0].end);
+    await setIntervals(init_date[0].interval);
     const currentRunStaffId = id[0].payments.map((stf) => {
       return stf.staff;
     });
@@ -408,7 +488,7 @@ const PayGroupComp = () => {
 
     // setSelected(option);
   };
-
+  console.log(dataset);
   return (
     <>
       {loading && <Loader />}
@@ -461,7 +541,7 @@ const PayGroupComp = () => {
                 padding: "0 ",
               },
             }}
-            TransitionComponent={Transition}
+            // TransitionComponent={Transition}
             open={modal}
             fullWidth={true}
           >
@@ -486,6 +566,29 @@ const PayGroupComp = () => {
                 gap="20px"
                 color="#fff !important"
               >
+                <Box display="flex" flexDirection="column">
+                  <label style={{ color: "black" }}>Start Date</label>
+                  <TextField
+                    type="date"
+                    fullWidth={true}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    value={start_date}
+                  />
+                </Box>
+                <Box display="flex" flexDirection="column">
+                  <label style={{ color: "black" }}>End Date</label>
+                  <TextField
+                    type="date"
+                    fullWidth={true}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    value={end_date}
+                  />
+                </Box>
+                <MySelect
+                  options={options}
+                  value={intervals}
+                  onChange={(e) => setIntervals(e)}
+                />
                 <Grid
                   container
                   spacing={3}
@@ -539,6 +642,15 @@ const PayGroupComp = () => {
                   </Grid>
                   <Grid item>{customList(right, "Selected Employees")}</Grid>
                 </Grid>
+                <Button onClick={() => editPayrun(selected._id)}>
+                  Edit Payrun
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => pauseRun(selected._id)}
+                >
+                  Pause Payrun
+                </Button>
               </Box>
             </DialogContent>
           </Dialog>
