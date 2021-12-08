@@ -7,7 +7,9 @@ import Link from "next/link";
 import { usePayContext } from "../payrollContext/context";
 import { Slide } from "@mui/material";
 import { useRouter } from "next/router";
+import { useAuthDispatch } from "../payrollContext/AuthContext";
 const Wrapper = ({ children }) => {
+  const _dispatch = useAuthDispatch();
   const router = useRouter();
   const { dispatch, isToggledMobile } = usePayContext();
   return (
@@ -31,7 +33,7 @@ const Wrapper = ({ children }) => {
                         <div
                           onClick={async () => {
                             await dispatch({ type: "CLOSE_MOBILE" });
-                            router.push("/payroll/" + aNav.link);
+                            router.push("/payroll" + aNav.link);
                           }}
                           key={id}
                         >
@@ -46,6 +48,15 @@ const Wrapper = ({ children }) => {
                 </div>
               );
             })}
+            <div
+              onClick={() => {
+                dispatch({ type: "CLOSE_MOBILE" });
+                _dispatch("LOGOUT");
+              }}
+              style={{ padding: "20px" }}
+            >
+              Logout
+            </div>
           </div>
         </Slide>
       </div>

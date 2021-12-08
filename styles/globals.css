@@ -36,7 +36,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: poppins, sans-serif;
+  font-family: poppins, sans-serif !important;
 }
 .flex-row {
   display: flex;
@@ -102,12 +102,22 @@ input:-webkit-autofill:active {
   font-size: 14px;
 }
 .input_container input {
-  border: none;
   width: 100%;
-  box-shadow: 0 0px 3px 0px rgba(0 0 0 /20%);
+  border: solid 1px #bbbbbb;
   padding: 15px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+input {
+  font-family: poppins, sans-serif !important;
+}
+body::placeholder {
+  font-family: poppins, sans-serif !important;
 }
 
+input::placeholder {
+  font-family: poppins, sans-serif !important;
+}
 a {
   color: inherit;
   text-decoration: none;

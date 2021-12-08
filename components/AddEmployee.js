@@ -1,12 +1,14 @@
 import { Box } from "@mui/system";
 import { useState } from "react";
-import { countries } from "./countries";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { Card, AppBar, Button } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 import { toast } from "react-toastify";
 import MySelect from "./MySelect";
 import { baseUrl } from "../payrollContext/baseUrl";
 import Loader from "./Loader";
+import { banks } from "./naijaBanks";
+
 const AddEmployee = () => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -22,17 +24,9 @@ const AddEmployee = () => {
   const [salary, setSalary] = useState(null);
   const [dob, setDob] = useState(null);
   const [post, setPost] = useState(null);
+  const [bank_code, setBankCode] = useState("");
+  const [account_number, setAccountNumber] = useState("");
 
-  const countryOptions = countries.map((i) => {
-    return {
-      value: i.name.toLowerCase(),
-      label: i.name.toUpperCase(),
-    };
-  });
-  const handleCountryChange = (e) => {
-    setCountry(e);
-    console.log(e);
-  };
   const useStyles = makeStyles((theme) => ({
     root: {},
     inputContainer: {
@@ -42,12 +36,17 @@ const AddEmployee = () => {
     },
   }));
   const classes = useStyles();
+
+  const bankOptions = banks.map((b) => {
+    return {
+      value: b.code,
+      label: b.name,
+    };
+  });
   const handleGender = (gender) => {
     setGender(gender);
   };
-  const handleDepartment = (dept) => {
-    setDepartment(dept);
-  };
+
   const genderOptions = [
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
@@ -73,19 +72,21 @@ const AddEmployee = () => {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        firstname: firstName,
-        middlename: middleName,
-        lastname: lastname,
+        firstname: firstName.trim(),
+        middlename: middleName.trim(),
+        lastname: lastname.trim(),
         gender: gender.value,
         dob: dob,
-        phone: phone,
-        email: email,
-        address_1: address_1,
-        address_2: address_2,
-        post: post,
+        phone: phone.trim(),
+        email: email.trim(),
+        address_1: address_1.trim(),
+        address_2: address_2.trim(),
+        post: post.trim(),
         start_date: start_date,
-        department: department,
-        salary: salary,
+        department: department.trim(),
+        salary: salary.trim(),
+        account_number: account_number.trim(),
+        bank_code: bank_code.value,
       }),
     };
     await fetch(url, requestOptions)
@@ -94,6 +95,21 @@ const AddEmployee = () => {
         if (res.success) {
           setLoading(false);
           toast.success("Employee Added Successfully");
+          setFirstName("");
+          setLastname("");
+          setMiddleName("");
+          setDob("");
+          setGender(null);
+          setBankCode("");
+          setAccountNumber("");
+          setPost("");
+          setDepartment("");
+          setSalary("");
+          setStart_date("");
+          setEmail("");
+          setPhone("");
+          setAddress_1("");
+          setAddress_2("");
         } else {
           toast.error(res.error);
           setLoading(false);
@@ -244,6 +260,45 @@ const AddEmployee = () => {
             position="static"
             style={{ background: "#4bc2bc", color: "#fff", padding: "15px" }}
           >
+            Bank Details.
+          </AppBar>
+          <Box padding="14px">
+            <Box
+              display="flex"
+              gap="13px"
+              className={classes.inputContainer}
+              justifyContent="space-between"
+            >
+              <div className="input_container">
+                <label>Account Number</label>
+                <input
+                  value={account_number}
+                  onChange={(e) => setAccountNumber(e.target.value)}
+                  type="text"
+                  placeholder="Account Number"
+                  required
+                />
+              </div>
+              <div className="input_container">
+                <label>Bank</label>
+                <MySelect
+                  options={bankOptions}
+                  value={bank_code}
+                  onChange={(e) => {
+                    setBankCode(e);
+                  }}
+                  placeholder="Select Bank"
+                />
+              </div>
+            </Box>
+          </Box>
+        </Card>
+
+        <Card style={{ marginTop: "25px" }}>
+          <AppBar
+            position="static"
+            style={{ background: "#4bc2bc", color: "#fff", padding: "15px" }}
+          >
             Employment Details.
           </AppBar>
           <Box padding="14px">
@@ -300,6 +355,7 @@ const AddEmployee = () => {
                 <label>Salary</label>
                 <input
                   type="number"
+                  placeholder="Salary"
                   min="0"
                   value={salary}
                   onChange={(e) => setSalary(e.target.value)}
@@ -309,6 +365,7 @@ const AddEmployee = () => {
           </Box>
         </Card>
         <Button
+          fullWidth={true}
           disabled={
             !firstName ||
             !lastname ||
@@ -321,15 +378,35 @@ const AddEmployee = () => {
             !address_1 ||
             !post ||
             !salary ||
-            !department
+            !department | bank_code ||
+            !account_number
           }
           onClick={() => {
             addEmployee();
           }}
           variant="contained"
           color="primary"
-          style={{ backgroundColor: "#4bc2bc" }}
+          style={{
+            backgroundColor:
+              !firstName ||
+              !lastname ||
+              !middleName ||
+              !phone ||
+              !email ||
+              !gender ||
+              !start_date ||
+              !dob ||
+              !address_1 ||
+              !post ||
+              !salary ||
+              !department | bank_code ||
+              !account_number
+                ? "#cccccc"
+                : "#4bc2bc",
+            marginTop: "20px",
+          }}
           size="large"
+          endIcon={<AiOutlineUserAdd />}
         >
           Add Employee
         </Button>

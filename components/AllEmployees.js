@@ -1,12 +1,13 @@
 import {
   Paper,
-  Slide,
+  Button,
   Modal,
   Box,
   Dialog,
   DialogContent,
   IconButton,
   TextField,
+  AppBar,
 } from "@mui/material";
 import MySelect from "./MySelect";
 import { makeStyles } from "@mui/styles";
@@ -16,37 +17,40 @@ import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
+import { BiUpload } from "react-icons/bi";
+
 const AllEmployees = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [selected, setSelected] = useState({});
+  const [dataset, setDataset] = useState({});
 
   useEffect(() => {
-    const fetchStaffs = async () => {
-      const token =
-        typeof window !== "undefined" && localStorage.getItem("token");
-      await fetch(`${baseUrl}/staff/list`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            setEmployees(data.data);
-            console.log(data.data);
-            setLoading(false);
-          } else {
-            toast.error(data.error);
-            setLoading(false);
-          }
-        })
-        .catch((err) => console.log(err));
-    };
     fetchStaffs();
   }, []);
+  const fetchStaffs = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    await fetch(`${baseUrl}/staff/list`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setEmployees(data.data);
+          console.log(data.data);
+          setLoading(false);
+        } else {
+          toast.error(data.error);
+          setLoading(false);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   const useStyles = makeStyles({
     root: {
       "& .header": {
@@ -58,6 +62,12 @@ const AllEmployees = () => {
     },
     diagCont: {
       padding: "0 !important",
+      "& .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input": {
+        fontSize: "11px",
+      },
+      "& .css-oln51b-control": {
+        fontSize: "11px",
+      },
     },
   });
   const classes = useStyles();
@@ -120,6 +130,13 @@ const AllEmployees = () => {
       headerClassName: "header",
     },
     {
+      field: "dob",
+      headerName: "DOB",
+      width: 130,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
       field: "email",
       headerName: "Email",
       width: 150,
@@ -159,6 +176,44 @@ const AllEmployees = () => {
     setModal(true);
   };
   console.log(selected);
+
+  const editStaff = async (id) => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("token");
+    fetch(`${baseUrl}/staff/${id}/edit`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataset),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          toast.success("Staff edited successfully");
+          setModal(false);
+          fetchStaffs();
+          setLoading(false);
+          setSelected({});
+          setDataset({});
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleDataChange = (data) => {
+    setDataset((state) => ({
+      ...state,
+      ...data,
+    }));
+  };
+  console.log(dataset);
   return (
     <>
       <Modal open={modal}>
@@ -181,39 +236,285 @@ const AllEmployees = () => {
               backgroundColor="#bb4079"
             >
               Edit Staff
-              <IconButton size="small" onClick={() => setModal(false)}>
+              <IconButton
+                size="small"
+                onClick={() => {
+                  setModal(false);
+                  setSelected({});
+                  setDataset({});
+                }}
+              >
                 <MdClose style={{ color: "#fff" }} />
               </IconButton>
             </Box>
-            <Box padding="10px">
-              <span>Personal Info</span>
+            <Box padding="15px">
+              <AppBar
+                position="static"
+                elevation={0}
+                style={{
+                  padding: "10px",
+                  background: "#efefef",
+                  color: "black",
+                  fontSize: "13px",
+                  marginBottom: "20px",
+                }}
+              >
+                Personal Info
+              </AppBar>
               <Box
                 display="flex"
                 flexDirection="column"
-                gap="10px"
-                gridGap="10px"
+                gap="20px"
+                gridGap="20px"
               >
-                <TextField label="First Name" size="small" fullWidth={true} />
-                <TextField label="Middle Name" size="small" fullWidth={true} />
-                <TextField label="Last Name" size="small" fullWidth={true} />
-                <MySelect />
-                <span>Date of Birth</span>
-                <TextField type="date" size="small" fullWidth={true} />
+                <TextField
+                  label="First Name"
+                  value={
+                    dataset.firstname !== undefined
+                      ? dataset.firstname
+                      : selected.firstname
+                  }
+                  onChange={(e) =>
+                    handleDataChange({ firstname: e.target.value })
+                  }
+                  size="small"
+                  fullWidth={true}
+                />
+                <TextField
+                  label="Middle Name"
+                  value={
+                    dataset.middlename !== undefined
+                      ? dataset.middlename
+                      : selected.middlename
+                  }
+                  onChange={(e) =>
+                    handleDataChange({ middlename: e.target.value })
+                  }
+                  size="small"
+                  fullWidth={true}
+                />
+                <TextField
+                  value={
+                    dataset.lastname !== undefined
+                      ? dataset.lastname
+                      : selected.lastname
+                  }
+                  onChange={(e) =>
+                    handleDataChange({ lastname: e.target.value })
+                  }
+                  label="Last Name"
+                  size="small"
+                  fullWidth={true}
+                />
+                <div>
+                  <span style={{ fontSize: "12px" }}>Gender</span>
+                  <MySelect
+                    options={[
+                      { value: "male", label: "MALE" },
+                      { value: "female", label: "FEMALE" },
+                    ]}
+                    value={{
+                      value:
+                        dataset.gender !== undefined
+                          ? dataset.gender
+                          : selected.gender
+                          ? selected.gender
+                          : "",
+                      label:
+                        dataset.gender !== undefined
+                          ? dataset.gender.toUpperCase()
+                          : selected.gender
+                          ? selected.gender.toUpperCase()
+                          : "",
+                    }}
+                    onChange={(e) => {
+                      console.log(e);
+                      handleDataChange({ gender: e.value });
+                    }}
+                  />
+                </div>
+                <div>
+                  {" "}
+                  <span style={{ fontSize: "12px" }}>Date of Birth</span>
+                  <TextField
+                    type="date"
+                    value={
+                      dataset.dob !== undefined
+                        ? moment(dataset.dob).format("YYYY-MM-DD")
+                        : moment(selected.dob).format("YYYY-MM-DD")
+                    }
+                    onChange={(e) => handleDataChange({ dob: e.target.value })}
+                    size="small"
+                    fullWidth={true}
+                  />
+                </div>
               </Box>
+              <br />
+              <AppBar
+                position="static"
+                elevation={0}
+                style={{
+                  padding: "10px",
+                  background: "#efefef",
+                  color: "black",
+                  fontSize: "13px",
+                  marginBottom: "20px",
+                }}
+              >
+                Contact Info
+              </AppBar>
               <Box
                 display="flex"
                 flexDirection="column"
-                gap="10px"
-                gridGap="10px"
+                gridGap="20px"
+                gap="20px"
               >
-                <span>Contact Info</span>
-                <Box>
-                  <TextField label="Email" size="small" fullWidth={true} />
-                  <TextField label="Phone" size="small" fullWidth={true} />
-                  <TextField label="Address 1" size="small" fullWidth={true} />
-                  <TextField label="Address 2" size="small" fullWidth={true} />
-                </Box>
+                <TextField
+                  label="Email"
+                  value={
+                    dataset.email !== undefined ? dataset.email : selected.email
+                  }
+                  onChange={(e) => handleDataChange({ email: e.target.value })}
+                  size="small"
+                  fullWidth={true}
+                />
+                <TextField
+                  value={
+                    dataset.phone !== undefined ? dataset.phone : selected.phone
+                  }
+                  onChange={(e) => handleDataChange({ phone: e.target.value })}
+                  label="Phone"
+                  size="small"
+                  fullWidth={true}
+                />
+                <TextField
+                  value={
+                    dataset.address_1 !== undefined
+                      ? dataset.address_1
+                      : selected.address_1
+                  }
+                  onChange={(e) =>
+                    handleDataChange({ address_1: e.target.value })
+                  }
+                  label="Address 1"
+                  size="small"
+                  fullWidth={true}
+                />
+                <TextField
+                  value={
+                    dataset.address_2 !== undefined
+                      ? dataset.address_2
+                      : selected.address_2
+                  }
+                  onChange={(e) =>
+                    handleDataChange({ address_2: e.target.value })
+                  }
+                  label="Address 2"
+                  size="small"
+                  fullWidth={true}
+                />
               </Box>
+
+              {/* <AppBar
+                position="static"
+                elevation={0}
+                style={{
+                  padding: "10px",
+                  background: "#efefef",
+                  color: "black",
+                  fontSize: "13px",
+                  marginBottom: "20px",
+                  marginTop: "30px",
+                }}
+              >
+                Bank Info
+              </AppBar>
+              <Box
+                display="flex"
+                flexDirection="column"
+                gridGap="20px"
+                gap="20px"
+              >
+                <TextField
+                  value={
+                    dataset.account_number !== undefined
+                      ? dataset.account_number
+                      : selected.account_number
+                  }
+                  onChange={(e) => handleDataChange({ account_number: e.target.value })}
+                  label="Account Number"
+                  size="small"
+                  fullWidth={true}
+                />
+              </Box> */}
+              <AppBar
+                position="static"
+                elevation={0}
+                style={{
+                  padding: "10px",
+                  background: "#efefef",
+                  color: "black",
+                  fontSize: "13px",
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                }}
+              >
+                Employment Details
+              </AppBar>
+              <Box
+                display="flex"
+                flexDirection="column"
+                gridGap="20px"
+                gap="20px"
+              >
+                <TextField
+                  value={
+                    dataset.salary !== undefined
+                      ? dataset.salary
+                      : selected.salary
+                  }
+                  onChange={(e) => handleDataChange({ salary: e.target.value })}
+                  label="Salary"
+                  size="small"
+                  fullWidth={true}
+                />
+                <TextField
+                  value={
+                    dataset.post !== undefined ? dataset.post : selected.post
+                  }
+                  onChange={(e) => handleDataChange({ post: e.target.value })}
+                  label="Role"
+                  size="small"
+                  fullWidth={true}
+                />
+                <TextField
+                  value={
+                    dataset.department !== undefined
+                      ? dataset.department
+                      : selected.department
+                  }
+                  onChange={(e) =>
+                    handleDataChange({ department: e.target.value })
+                  }
+                  label="Department"
+                  size="small"
+                  fullWidth={true}
+                />
+              </Box>
+              <Button
+                style={{
+                  background:
+                    Object.entries(dataset).length < 1 ? "#cccccc" : "#4bc2bc",
+                  marginTop: "20px",
+                }}
+                variant="contained"
+                fullWidth={true}
+                endIcon={<BiUpload />}
+                disabled={Object.entries(dataset).length < 1}
+                onClick={() => editStaff(selected._id)}
+              >
+                Edit
+              </Button>
             </Box>
           </DialogContent>
         </Dialog>
