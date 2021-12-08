@@ -124,14 +124,6 @@ const TopUp = () => {
         >
           Top Up
         </button>
-        <Link
-          href={{
-            pathname: `${router.pathname}/success`,
-            query: { id: 23455 },
-          }}
-        >
-          Test Slug
-        </Link>
       </div>
     </div>
   );
