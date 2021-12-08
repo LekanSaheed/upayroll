@@ -1,25 +1,26 @@
 import {
-  Card,
-  TableContainer,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableHead,
-  Table,
-  TablePagination,
-  AppBar,
-  Box,
   Paper,
   Slide,
+  Modal,
+  Box,
+  Dialog,
+  DialogContent,
+  IconButton,
+  TextField,
 } from "@mui/material";
-import StyledHead from "./StyledHead";
+
 import { makeStyles } from "@mui/styles";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { toast } from "react-toastify";
-
+import { DataGrid } from "@mui/x-data-grid";
+import moment from "moment";
+import { MdClose } from "react-icons/md";
 const AllEmployees = () => {
   const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState(false);
+  const [selected, setSelected] = useState({});
 
   useEffect(() => {
     const fetchStaffs = async () => {
@@ -36,8 +37,10 @@ const AllEmployees = () => {
           if (data.success) {
             setEmployees(data.data);
             console.log(data.data);
+            setLoading(false);
           } else {
             toast.error(data.error);
+            setLoading(false);
           }
         })
         .catch((err) => console.log(err));
@@ -46,29 +49,167 @@ const AllEmployees = () => {
   }, []);
   const useStyles = makeStyles({
     root: {
-      "&:nth-of-type(even)": {
-        backgroundColor: "white",
+      "& .header": {
+        fontFamily: "poppins",
       },
-      "&:nth-of-type(odd)": {
-        backgroundColor: "#fafafa",
+      "& .cell": {
+        fontFamily: "circularStd",
       },
+    },
+    diagCont: {
+      padding: "0 !important",
     },
   });
   const classes = useStyles();
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
+  const columns = [
+    {
+      field: "sn",
+      headerName: "S/N",
+      width: 90,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 180,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+
+    {
+      field: "gender",
+      headerName: "Gender",
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "post",
+      headerName: "Post",
+      width: 150,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "salary",
+      headerName: "Salary",
+      cellClassName: "cell",
+      headerClassName: "header",
+      width: 150,
+    },
+    {
+      field: "start_date",
+      headerName: "Start Date",
+      width: 180,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "department",
+      headerName: "Department",
+      width: 180,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "phone",
+      headerName: "Phone",
+      width: 130,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 150,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "address_1",
+      headerName: "Address 1",
+      width: 180,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "address_2",
+      headerName: "Address 2",
+      width: 180,
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "created_At",
+      headerName: "Date Created",
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+    {
+      field: "id",
+      headerName: "#Hash",
+      cellClassName: "cell",
+      headerClassName: "header",
+    },
+  ];
+  const handleSelection = (id) => {
+    const findSelected = employees.find((e) => e._id === id[0]);
+    setSelected(findSelected);
+    setModal(true);
   };
-  const handleRowsPerPageChange = (e) => {
-    setRowsPerPage(+e.target.value);
-    setPage(0);
-  };
+  console.log(selected);
   return (
-    <Slide direction="right" in={true} mountOnEnter unmountOnExit>
-      <Paper sx={{ width: 950, overflow: "hidden" }}>
-        <TableContainer hover sx={{ width: "auto", height: "auto" }}>
+    <>
+      <Modal open={modal}>
+        <Dialog
+          open={modal}
+          fullWidth={true}
+          PaperProps={{
+            style: {
+              verticalAlign: "bottom",
+              padding: "0 ",
+            },
+          }}
+        >
+          <DialogContent className={classes.diagCont}>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              padding="20px"
+              color="#fff"
+              backgroundColor="#bb4079"
+            >
+              Edit Staff
+              <IconButton size="small" onClick={() => setModal(false)}>
+                <MdClose style={{ color: "#fff" }} />
+              </IconButton>
+            </Box>
+            <Box padding="10px">
+              <TextField label="First Name" />
+            </Box>
+          </DialogContent>
+        </Dialog>
+      </Modal>
+      <Paper style={{ height: "80vh", width: "100%" }}>
+        <DataGrid
+          onSelectionModelChange={handleSelection}
+          className={classes.root}
+          columns={columns}
+          rows={employees.map((e, id) => {
+            return {
+              ...e,
+              sn: id + 1,
+              id: e._id,
+              name: e.firstname + " " + e.lastname,
+              salary: "₦" + e.salary.toLocaleString(),
+              start_date: moment(e.start_date).format("ddd, MMM DD YYYY"),
+              created_At: moment(e.created_At).format("ddd, MMM DD YYYY"),
+            };
+          })}
+          loading={loading}
+        />
+        {/* <TableContainer hover sx={{ width: "auto", height: "auto" }}>
           <Table>
             <StyledHead>
               <TableRow
@@ -136,9 +277,9 @@ const AllEmployees = () => {
           onRowsPerPageChange={handleRowsPerPageChange}
           rowsPerPage={rowsPerPage}
           onPageChange={handlePageChange}
-        />
+        /> */}
       </Paper>
-    </Slide>
+    </>
   );
 };
 
