@@ -8,7 +8,7 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-
+import MySelect from "./MySelect";
 import { makeStyles } from "@mui/styles";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../payrollContext/baseUrl";
@@ -186,7 +186,34 @@ const AllEmployees = () => {
               </IconButton>
             </Box>
             <Box padding="10px">
-              <TextField label="First Name" />
+              <span>Personal Info</span>
+              <Box
+                display="flex"
+                flexDirection="column"
+                gap="10px"
+                gridGap="10px"
+              >
+                <TextField label="First Name" size="small" fullWidth={true} />
+                <TextField label="Middle Name" size="small" fullWidth={true} />
+                <TextField label="Last Name" size="small" fullWidth={true} />
+                <MySelect />
+                <span>Date of Birth</span>
+                <TextField type="date" size="small" fullWidth={true} />
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                gap="10px"
+                gridGap="10px"
+              >
+                <span>Contact Info</span>
+                <Box>
+                  <TextField label="Email" size="small" fullWidth={true} />
+                  <TextField label="Phone" size="small" fullWidth={true} />
+                  <TextField label="Address 1" size="small" fullWidth={true} />
+                  <TextField label="Address 2" size="small" fullWidth={true} />
+                </Box>
+              </Box>
             </Box>
           </DialogContent>
         </Dialog>
