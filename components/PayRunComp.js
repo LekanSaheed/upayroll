@@ -17,8 +17,11 @@ import {
   Checkbox,
   AppBar,
   CircularProgress,
+  Tab,
+  Tabs,
 } from "@mui/material";
 import Skel from "./Skel";
+import PropTypes from "prop-types";
 import Loader from "./Loader";
 import { makeStyles } from "@mui/styles";
 import React, { useState, useEffect } from "react";
@@ -28,6 +31,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
 import MySelect from "./MySelect";
+
 const PayGroupComp = () => {
   useEffect(() => {
     fetchRuns();
@@ -86,23 +90,45 @@ const PayGroupComp = () => {
     setRight([]);
   };
 
-  const handleDataChange = (data) => {
-    setDataset((state) => ({
-      ...state,
-      ...data,
-    }));
+  const TabPanel = (props) => {
+    const { value, children, index, ...other } = props;
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={index}
+        aria-labelledby={`Payrun-Tab-${index}`}
+        {...other}
+      >
+        {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
+      </div>
+    );
   };
+
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+  const [value, setValue] = useState(0);
+
+  const handleChange = (e, newVal) => {
+    setValue(newVal);
+  };
+
   const editPayrun = async (id) => {
+    toast.loading("Editing...");
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
     await fetch(`${baseUrl}/payrun/${id}`, {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        start_date,
-        end_date,
+        start_date: start_date,
+        end_date: end_date,
         interval: intervals.value && intervals.value,
         payments: right.map((c) => {
           return {
@@ -114,11 +140,13 @@ const PayGroupComp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
-          console.log(data.data);
-          toast.success("Success");
+          toast.dismiss();
+          toast.success("Payrun Edited Successfully");
+          setModal(false);
+          fetchRuns();
         } else {
+          toast.dismiss();
           toast.error(data.error);
         }
       })
@@ -181,7 +209,6 @@ const PayGroupComp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
           setRunList(data.data);
           const myRow = data.data.map((row, id) => {
@@ -200,7 +227,7 @@ const PayGroupComp = () => {
             };
           });
           setLoading(false);
-          console.log(myRow);
+
           setRow(myRow);
         } else {
           toast.error(data.error);
@@ -221,6 +248,15 @@ const PayGroupComp = () => {
       },
       "& .cell": {
         fontFamily: "circularStd",
+      },
+      "& .suspended": {
+        color: "red",
+      },
+      "& .active": {
+        color: "green",
+      },
+      "& .paused": {
+        color: "goldenrod",
       },
     },
     backdrop: {
@@ -246,6 +282,12 @@ const PayGroupComp = () => {
       },
       "& .MuiListItemIcon-root": {
         minWidth: "0",
+      },
+    },
+    btn: {
+      background: "#4bc2bc !important",
+      "&:hover": {
+        background: "#4bc2bc24 !important",
       },
     },
   });
@@ -290,7 +332,13 @@ const PayGroupComp = () => {
       width: 150,
       editable: true,
       headerClassName: "upHeader",
-      cellClassName: "cell",
+      cellClassName: (params) => {
+        return params.value === "paused"
+          ? "cell paused"
+          : params.value === "active"
+          ? "cell active"
+          : "cell suspended";
+      },
     },
     {
       field: "employee_num",
@@ -321,29 +369,8 @@ const PayGroupComp = () => {
     );
   });
 
-  // const fetchRun = async (run) => {
-  //   const url = `${baseUrl}/payrun/${run[0]._id}`;
-  //   fetch(url, {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         setSelected(data.data);
-  //         console.log(data.data);
-  //       } else {
-  //         toast.error(data.error);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const pauseRun = async (run) => {
+    setLoading(true);
     const url = `${baseUrl}/payrun/${run}/pause`;
     fetch(url, {
       method: "GET",
@@ -353,13 +380,47 @@ const PayGroupComp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.success) {
+          setLoading(false);
+          toast.success("Payrun paused");
+          fetchRuns();
+          setModal(false);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+        }
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
-
+  const suspendRun = async (run) => {
+    setLoading(true);
+    const url = `${baseUrl}/payrun/${run}/suspend`;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setLoading(false);
+          toast.success("Payrun suspended");
+          fetchRuns();
+          setModal(false);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
   const options = [
     { label: "Daily", value: 1 },
     { label: "Weekly", value: 7 },
@@ -367,9 +428,6 @@ const PayGroupComp = () => {
     { label: "Monthly", value: 30 },
     { label: "Yearly", value: 365 },
   ];
-  const handleFrequency = (e, newVal) => {
-    setFrequency(e);
-  };
 
   // Custom List
 
@@ -449,8 +507,9 @@ const PayGroupComp = () => {
       return { label: "Yearly", value: 365 };
     }
   };
-  console.log(selected);
+
   const handleUpdate = async (itm) => {
+    setModal(true);
     setLoading(true);
     const id = row.filter((run) => run.id === itm[0]);
     const init_date = runlist
@@ -462,16 +521,16 @@ const PayGroupComp = () => {
           interval: intervalFunc(run.interval),
         };
       });
-    console.log(init_date, "id");
+
     await setSelected({
       ...id[0],
       start_date: init_date[0].start,
       end_date: init_date[0].end,
       interval: init_date[0].interval,
     });
-    await setStartDate(init_date[0].start);
-    await setEndDate(init_date[0].end);
-    await setIntervals(init_date[0].interval);
+    setStartDate(init_date[0].start);
+    setEndDate(init_date[0].end);
+    setIntervals(init_date[0].interval);
     const currentRunStaffId = id[0].payments.map((stf) => {
       return stf.staff;
     });
@@ -479,19 +538,18 @@ const PayGroupComp = () => {
     const filtered = employees.filter((emp) => {
       return !currentRunStaffId.includes(emp._id);
     });
-    console.log(filtered, "fil");
+
     const currentStaff = employees.filter((emp) => {
       return currentRunStaffId.includes(emp._id);
     });
     await setLeft(filtered);
 
     setRight(currentStaff);
-    setModal(true);
+
     setLoading(false);
 
     // setSelected(option);
   };
-  console.log(dataset);
   return (
     <>
       {loading && <Loader />}
@@ -530,6 +588,7 @@ const PayGroupComp = () => {
             headerHeight={70}
             loading={loading}
             onSelectionModelChange={handleUpdate}
+            onRowClick={() => setLoading(true)}
           />
         </div>
         <Modal
@@ -557,104 +616,252 @@ const PayGroupComp = () => {
                 padding="18px"
               >
                 Payrun details{" "}
-                <IconButton onClick={() => setModal(false)} size="small">
+                <IconButton
+                  onClick={() => {
+                    setModal(false);
+                    setValue(0);
+                  }}
+                  size="small"
+                >
                   <MdClose style={{ color: "#fff" }} />
                 </IconButton>
               </Box>
+              {selected.status !== "suspended" ? (
+                <>
+                  <Box sx={{ borderBottom: 2, borderColor: "divider" }}>
+                    <Tabs value={value} onChange={handleChange}>
+                      <Tab label="Edit" id={0} />
+                      <Tab
+                        label={
+                          selected.status === "paused" ? "Resume" : "Pause"
+                        }
+                        id={1}
+                      />
 
-              <Box
-                display="flex"
-                flexDirection="column"
-                padding="20px"
-                gap="20px"
-                color="#fff !important"
-              >
-                <Box display="flex" flexDirection="column">
-                  <label style={{ color: "black" }}>Start Date</label>
-                  <TextField
-                    type="date"
-                    fullWidth={true}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    value={start_date}
-                  />
-                </Box>
-                <Box display="flex" flexDirection="column">
-                  <label style={{ color: "black" }}>End Date</label>
-                  <TextField
-                    type="date"
-                    fullWidth={true}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    value={end_date}
-                  />
-                </Box>
-                <MySelect
-                  options={options}
-                  value={intervals}
-                  onChange={(e) => setIntervals(e)}
-                />
-                <Grid
-                  container
-                  spacing={3}
+                      <Tab label="Suspend" id={2} />
+                    </Tabs>
+                  </Box>
+                  <TabPanel value={value} index={0}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      padding="20px"
+                      gap="20px"
+                      color="#fff !important"
+                    >
+                      <Box display="flex" flexDirection="column">
+                        <label style={{ color: "black" }}>Start Date</label>
+                        <TextField
+                          disabled={true}
+                          size="small"
+                          type="date"
+                          fullWidth={true}
+                          onChange={(e) => setStartDate(e.target.value)}
+                          value={start_date}
+                        />
+                      </Box>
+                      <Box display="flex" flexDirection="column">
+                        <label style={{ color: "black" }}>End Date</label>
+                        <TextField
+                          size="small"
+                          type="date"
+                          fullWidth={true}
+                          onChange={(e) => setEndDate(e.target.value)}
+                          value={end_date}
+                        />
+                      </Box>
+                      <MySelect
+                        options={options}
+                        value={intervals}
+                        onChange={(e) => setIntervals(e)}
+                      />
+                      <Grid
+                        container
+                        spacing={3}
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <Grid item> {customList(left, "Employee List")}</Grid>
+                        <Grid item>
+                          <Grid
+                            container
+                            direction="column"
+                            alignItems="center"
+                          >
+                            <Button
+                              sx={{ my: 0.5 }}
+                              variant="outlined"
+                              size="small"
+                              onClick={handleAllRight}
+                              disabled={left.length === 0}
+                              aria-label="move all right"
+                            >
+                              &gt;&gt;
+                            </Button>
+                            <Button
+                              sx={{ my: 0.5 }}
+                              variant="outlined"
+                              size="small"
+                              onClick={handleCheckedRight}
+                              disabled={leftChecked.length === 0}
+                              aria-label="move selected right"
+                            >
+                              &gt;
+                            </Button>
+                            <Button
+                              sx={{ my: 0.5 }}
+                              variant="outlined"
+                              size="small"
+                              onClick={handleCheckedLeft}
+                              disabled={rightChecked.length === 0}
+                              aria-label="move selected left"
+                            >
+                              &lt;
+                            </Button>
+                            <Button
+                              sx={{ my: 0.5 }}
+                              variant="outlined"
+                              size="small"
+                              onClick={handleAllLeft}
+                              disabled={right.length === 0}
+                              aria-label="move all left"
+                            >
+                              &lt;&lt;
+                            </Button>
+                          </Grid>
+                        </Grid>
+                        <Grid item>
+                          {customList(right, "Selected Employees")}
+                        </Grid>
+                      </Grid>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        style={{ background: "#4bc2bc" }}
+                        onClick={() => editPayrun(selected._id)}
+                      >
+                        Edit Payrun
+                      </Button>
+                    </Box>
+                  </TabPanel>
+                  <TabPanel value={value} index={1}>
+                    <Box padding="20px">
+                      <div
+                        style={{
+                          fontSize: "23px",
+                          textAlign: "center",
+                          color: "black",
+                          margin: "20px",
+                        }}
+                      >
+                        Do you want to{" "}
+                        {selected.status === "paused" ? "resume" : "pause"} this
+                        payrun?
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          color: "#bababa",
+                          textAlign: "center",
+                        }}
+                      >
+                        {selected.status === "paused"
+                          ? ""
+                          : "You can pause now and resume later."}
+                      </div>
+                    </Box>{" "}
+                    <Box
+                      backgroundColor="#4bc2bc"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Button
+                        variant="contained"
+                        style={{ padding: "20px", background: "#4bc2bc" }}
+                        onClick={() => {
+                          setModal(false);
+                          setValue(0);
+                        }}
+                        className={classes.btn}
+                      >
+                        No
+                      </Button>
+                      <Button
+                        className={classes.btn}
+                        variant="contained"
+                        onClick={() => pauseRun(selected._id)}
+                        style={{ padding: "20px", background: "#4bc2bc" }}
+                      >
+                        Yes
+                      </Button>
+                    </Box>
+                  </TabPanel>
+                  {selected.status !== "suspended" && (
+                    <TabPanel value={value} index={2}>
+                      <Box padding="20px">
+                        <div
+                          style={{
+                            fontSize: "23px",
+                            textAlign: "center",
+                            color: "black",
+                            margin: "20px",
+                          }}
+                        >
+                          Do you want to Suspend this payrun?
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#bababa",
+                            textAlign: "center",
+                          }}
+                        >
+                          You cannot resume a payrun after suspending.
+                        </div>
+                      </Box>{" "}
+                      <Box
+                        backgroundColor="#4bc2bc"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <Button
+                          variant="contained"
+                          style={{ padding: "20px", background: "#4bc2bc" }}
+                          onClick={() => {
+                            setModal(false);
+                            setValue(0);
+                          }}
+                          className={classes.btn}
+                        >
+                          No
+                        </Button>
+                        <Button
+                          className={classes.btn}
+                          variant="contained"
+                          onClick={() => suspendRun(selected._id)}
+                          style={{ padding: "20px", background: "#4bc2bc" }}
+                        >
+                          Yes
+                        </Button>
+                      </Box>
+                    </TabPanel>
+                  )}
+                </>
+              ) : (
+                <Box
+                  color="#000"
+                  padding="20px"
+                  display="flex"
                   justifyContent="center"
                   alignItems="center"
+                  fontSize="23px"
                 >
-                  <Grid item> {customList(left, "Employee List")}</Grid>
-                  <Grid item>
-                    <Grid container direction="column" alignItems="center">
-                      <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleAllRight}
-                        disabled={left.length === 0}
-                        aria-label="move all right"
-                      >
-                        &gt;&gt;
-                      </Button>
-                      <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleCheckedRight}
-                        disabled={leftChecked.length === 0}
-                        aria-label="move selected right"
-                      >
-                        &gt;
-                      </Button>
-                      <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleCheckedLeft}
-                        disabled={rightChecked.length === 0}
-                        aria-label="move selected left"
-                      >
-                        &lt;
-                      </Button>
-                      <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleAllLeft}
-                        disabled={right.length === 0}
-                        aria-label="move all left"
-                      >
-                        &lt;&lt;
-                      </Button>
-                    </Grid>
-                  </Grid>
-                  <Grid item>{customList(right, "Selected Employees")}</Grid>
-                </Grid>
-                <Button onClick={() => editPayrun(selected._id)}>
-                  Edit Payrun
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => pauseRun(selected._id)}
-                >
-                  Pause Payrun
-                </Button>
-              </Box>
+                  {selected.status === "suspended" && "Payrun Suspended"}
+                </Box>
+              )}
             </DialogContent>
           </Dialog>
         </Modal>

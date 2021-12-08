@@ -11,7 +11,7 @@ const TabPanel = (props) => {
       role="tabpanel"
       hidden={value !== index}
       id={index}
-      aria-labelledBy={`Transaction-History-Tab-${index}`}
+      aria-labelledby={`Transaction-History-Tab-${index}`}
       {...other}
     >
       {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
@@ -48,10 +48,9 @@ const TranxHistory = () => {
         </Box>
         <TabPanel value={value} index={0}>
           <DepositHistory
-          
-                disableColumnFilter
-                disableColumn
-          Selector
+            disableColumnFilter
+            disableColumn
+            Selector
             disableColumnMenu
           />
         </TabPanel>
