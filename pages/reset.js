@@ -22,6 +22,7 @@ const ResetPassword = () => {
       .then((data) => {
         console.log(data);
         if (data.success) {
+          setEmail("");
           toast.info(data.message);
         } else {
           toast.error(data.error);
