@@ -17,7 +17,7 @@ const TopUpSuccess = ({ id }) => {
   React.useEffect(() => {
     const params = JSON.parse(router.query.response);
     const url = `${baseUrl}/transactions/success?id=${
-      params.id ? params.id : 2345778
+      params.id ? params.id : 404
     }`;
     const fetchResponse = async () => {
       const token =
@@ -38,7 +38,7 @@ const TopUpSuccess = ({ id }) => {
             setError("");
           } else {
             setSuccess(false);
-            toast.error("");
+            toast.error(res.error);
             setError(res.error);
           }
         });
