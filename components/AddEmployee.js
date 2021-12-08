@@ -28,7 +28,12 @@ const AddEmployee = () => {
   const [account_number, setAccountNumber] = useState("");
 
   const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: {
+      "& .css-oln51b-control": {
+        fontSize: "13px",
+        padding: "7px !important",
+      },
+    },
     inputContainer: {
       [theme.breakpoints.down(766)]: {
         flexDirection: "column",
@@ -94,6 +99,7 @@ const AddEmployee = () => {
       .then((res) => {
         if (res.success) {
           setLoading(false);
+          console.log(res);
           toast.success("Employee Added Successfully");
           setFirstName("");
           setLastname("");
@@ -124,7 +130,7 @@ const AddEmployee = () => {
     <div>
       Add New Employee
       {loading && <Loader />}
-      <form>
+      <form className={classes.root}>
         <Card>
           <AppBar
             position="static"
@@ -142,7 +148,7 @@ const AddEmployee = () => {
               <div className="input_container">
                 <label>First Name</label>
                 <input
-                  placeholder="First Name"
+                  placeholder="e.g (Lekan)"
                   required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
@@ -154,7 +160,7 @@ const AddEmployee = () => {
                 <input
                   type="text"
                   required
-                  placeholder="Middle Name"
+                  placeholder=" (e.g: Ola)"
                   value={middleName}
                   onChange={(e) => setMiddleName(e.target.value)}
                 />
@@ -164,7 +170,7 @@ const AddEmployee = () => {
             <div className="input_container">
               <label>Last Name</label>
               <input
-                placeholder="Last Name"
+                placeholder="e.g (Saheed)"
                 required
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
@@ -211,14 +217,14 @@ const AddEmployee = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  placeholder="Email"
+                  placeholder="e.g (example@gmail.com)"
                   required
                 />
               </div>
               <div className="input_container">
                 <label>Phone</label>
                 <input
-                  placeholder="Phone"
+                  placeholder="e.g (09012345678)"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   type="number"
@@ -238,7 +244,7 @@ const AddEmployee = () => {
                   type="text"
                   value={address_1}
                   onChange={(e) => setAddress_1(e.target.value)}
-                  placeholder="Address Line 1"
+                  placeholder="e.g (15b, example street, anytown, anystate)"
                   required
                 />
               </div>
@@ -272,10 +278,11 @@ const AddEmployee = () => {
               <div className="input_container">
                 <label>Account Number</label>
                 <input
+                  maxLength="10"
                   value={account_number}
                   onChange={(e) => setAccountNumber(e.target.value)}
                   type="text"
-                  placeholder="Account Number"
+                  placeholder="e.g (0250946298)"
                   required
                 />
               </div>
@@ -314,7 +321,7 @@ const AddEmployee = () => {
                   value={post}
                   onChange={(e) => setPost(e.target.value)}
                   type="text"
-                  placeholder="Job Position"
+                  placeholder="(e.g: Revenue Manager)"
                   required
                 />
               </div>
@@ -337,17 +344,12 @@ const AddEmployee = () => {
             >
               <div className="input_container">
                 <label>Department</label>
-                {/* <MySelect
-                  placeholder="Select Department"
-                  value={department}
-                  onChange={handleDepartment}
-                  options={departmentOptions}
-                /> */}
+
                 <input
                   value={department}
                   onChange={(e) => setDepartment(e.target.value)}
                   type="text"
-                  placeholder="Department"
+                  placeholder="e.g (Revenue Management)"
                   required
                 />
               </div>
@@ -355,7 +357,7 @@ const AddEmployee = () => {
                 <label>Salary</label>
                 <input
                   type="number"
-                  placeholder="Salary"
+                  placeholder="e.g (20000)"
                   min="0"
                   value={salary}
                   onChange={(e) => setSalary(e.target.value)}
@@ -378,7 +380,8 @@ const AddEmployee = () => {
             !address_1 ||
             !post ||
             !salary ||
-            !department | bank_code ||
+            !department ||
+            !bank_code ||
             !account_number
           }
           onClick={() => {

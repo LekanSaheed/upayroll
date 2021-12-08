@@ -19,7 +19,8 @@ const MySelect = (props) => {
         ...theme,
         colors: {
           ...theme.colors,
-          primary25: "#4bc2bc",
+          primary25: "#4bc2bc25",
+          primary: "#4bc2bc",
         },
       })}
       {...props}

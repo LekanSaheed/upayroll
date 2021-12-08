@@ -114,9 +114,12 @@ input {
 body::placeholder {
   font-family: poppins, sans-serif !important;
 }
-
+.input_container input:focus {
+  outline: solid 1px #4bc2bc;
+}
 input::placeholder {
   font-family: poppins, sans-serif !important;
+  color: #cccccc;
 }
 a {
   color: inherit;
