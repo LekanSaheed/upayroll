@@ -29,13 +29,16 @@ const ResetPassword = () => {
         }
       })
       .catch((err) => {
-        console.log(error);
+        console.log(err);
       });
   };
   console.log(email);
   return (
     <div className={classes.container}>
-      <Image src="/favicon.ico" height={70} width={70} />
+      <div>
+        {" "}
+        <Image src="/favicon.ico" height={50} width={50} />
+      </div>
       <form className={classes.reset_form}>
         <div className={classes.header}>Reset Your Password.</div>
         <div className={classes.instructions}>

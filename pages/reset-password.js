@@ -4,14 +4,16 @@ import { baseUrl } from "../payrollContext/baseUrl";
 import { useRouter } from "next/router";
 import classes from "./new-pass.module.css";
 import Image from "next/image";
-import { Link } from "@material-ui/core";
+import { LinearProgress, Link } from "@material-ui/core";
 const NewPassword = () => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const token = router.query.token ? router.query.token : "404";
 
   const newPass = async (e) => {
+    setLoading(true);
     e.preventDefault();
     await fetch(`${baseUrl}/company/reset/password`, {
       method: "POST",
@@ -25,18 +27,20 @@ const NewPassword = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
+          setLoading(false);
           toast.success("Password Reset was Successful");
           localStorage.setItem("token", data.token);
           setTimeout(() => {
-            window.reload;
+            router.push("/login");
           }, 2000);
         } else {
+          setLoading(false);
           toast.error(data.error);
         }
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -45,8 +49,8 @@ const NewPassword = () => {
     <div className={classes.container}>
       <form className={classes.form}>
         <div>
-          {" "}
-          <Image src="/WORDMARK.png" height={30} width={124} />
+          {loading && <LinearProgress />}{" "}
+          <Image src="/WORDMARK.png" height={30} width={130} />
         </div>
         <label>New Password</label>
         <input
@@ -65,12 +69,18 @@ const NewPassword = () => {
         />
         <button
           className={
-            !password || !confirmPassword || confirmPassword !== password
+            !password ||
+            !confirmPassword ||
+            confirmPassword !== password ||
+            loading
               ? classes.disablebtn
               : ""
           }
           disabled={
-            !password || !confirmPassword || confirmPassword !== password
+            !password ||
+            !confirmPassword ||
+            confirmPassword !== password ||
+            loading
           }
           onClick={newPass}
         >
