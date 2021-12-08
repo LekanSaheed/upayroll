@@ -7,9 +7,7 @@ const NewPassword = () => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const router = useRouter();
-  const token = router.query.token
-    ? JSON.parse(router.query.token)
-    : "no-token-found";
+  const token = router.query.token ? router.query.token : "404";
 
   const newPass = async (e) => {
     e.preventDefault();
