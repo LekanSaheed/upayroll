@@ -16,7 +16,7 @@ const ResetPassword = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: email }),
+      body: JSON.stringify({ email: email.toLowerCase().trim() }),
     })
       .then((res) => res.json())
       .then((data) => {

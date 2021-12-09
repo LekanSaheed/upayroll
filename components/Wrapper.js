@@ -8,10 +8,12 @@ import { usePayContext } from "../payrollContext/context";
 import { Slide } from "@mui/material";
 import { useRouter } from "next/router";
 import { useAuthDispatch } from "../payrollContext/AuthContext";
+
 const Wrapper = ({ children }) => {
   const _dispatch = useAuthDispatch();
   const router = useRouter();
   const { dispatch, isToggledMobile } = usePayContext();
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
