@@ -3,7 +3,6 @@ import Details from "../../../components/Details";
 const Profile = () => {
   return (
     <Wrapper>
-      Profile Page
       <Details />
     </Wrapper>
   );

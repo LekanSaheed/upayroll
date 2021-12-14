@@ -18,12 +18,12 @@ const AddEmployee = () => {
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [department, setDepartment] = useState("");
-  const [start_date, setStart_date] = useState(null);
+  const [start_date, setStart_date] = useState("");
   const [address_1, setAddress_1] = useState("");
   const [address_2, setAddress_2] = useState("");
-  const [salary, setSalary] = useState(null);
-  const [dob, setDob] = useState(null);
-  const [post, setPost] = useState(null);
+  const [salary, setSalary] = useState("");
+  const [dob, setDob] = useState("");
+  const [post, setPost] = useState("");
   const [bank_code, setBankCode] = useState("");
   const [account_number, setAccountNumber] = useState("");
 
@@ -90,8 +90,10 @@ const AddEmployee = () => {
         start_date: start_date,
         department: department.trim(),
         salary: salary.trim(),
-        account_number: account_number.trim(),
-        bank_code: bank_code.value,
+        bank: {
+          account_number: account_number.trim(),
+          bank_code: bank_code.value,
+        },
       }),
     };
     await fetch(url, requestOptions)

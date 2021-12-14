@@ -395,6 +395,34 @@ const PayGroupComp = () => {
         console.log(err);
       });
   };
+
+  const resumeRun = async (run) => {
+    setLoading(true);
+    const url = `${baseUrl}/payrun/${run}/resume`;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setLoading(false);
+          toast.success("Payrun resumed");
+          fetchRuns();
+          setModal(false);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+
   const suspendRun = async (run) => {
     setLoading(true);
     const url = `${baseUrl}/payrun/${run}/suspend`;
@@ -788,14 +816,25 @@ const PayGroupComp = () => {
                       >
                         No
                       </Button>
-                      <Button
-                        className={classes.btn}
-                        variant="contained"
-                        onClick={() => pauseRun(selected._id)}
-                        style={{ padding: "20px", background: "#4bc2bc" }}
-                      >
-                        Yes
-                      </Button>
+                      {selected.status === "paused" ? (
+                        <Button
+                          className={classes.btn}
+                          variant="contained"
+                          onClick={() => resumeRun(selected._id)}
+                          style={{ padding: "20px", background: "#4bc2bc" }}
+                        >
+                          Yes
+                        </Button>
+                      ) : (
+                        <Button
+                          className={classes.btn}
+                          variant="contained"
+                          onClick={() => pauseRun(selected._id)}
+                          style={{ padding: "20px", background: "#4bc2bc" }}
+                        >
+                          Yes
+                        </Button>
+                      )}
                     </Box>
                   </TabPanel>
                   {selected.status !== "suspended" && (

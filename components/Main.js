@@ -12,7 +12,7 @@ const Main = ({ children }) => {
     <motion.main
       variants={variants}
       intial="hidden"
-      animate="enter"
+      animate="visible  "
       exit="exit"
       transition={{ type: "linear" }}
       className={`${isToggled ? classes.expandMain : classes.shrinkMain} ${

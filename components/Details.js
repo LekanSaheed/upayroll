@@ -6,12 +6,12 @@ import { toast } from "react-toastify";
 import { Button, Box, Card, Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import { AiOutlineMail, AiOutlinePhone, AiOutlinePlus } from "react-icons/ai";
-
+import { useRouter } from "next/router";
 const Details = () => {
   const [company, setCompany] = useState({});
   const [loading, setLoading] = useState(true);
   const [info, setInfo] = useState({});
-
+  const router = useRouter();
   const token = typeof window !== "undefined" && localStorage.getItem("token");
 
   const fetchCompany = async () => {
@@ -58,6 +58,8 @@ const Details = () => {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(info),
     })
@@ -123,7 +125,7 @@ const Details = () => {
           <input
             type="text"
             value={info.reg_no !== undefined ? info.reg_no : company.reg_no}
-            onChange={(e) => handleInfoChange({ address: e.target.value })}
+            onChange={(e) => handleInfoChange({ reg_no: e.target.value })}
             placeholder="Address"
           />
         </div>
@@ -225,6 +227,7 @@ const Details = () => {
                 </span>
 
                 <Button
+                  onClick={() => router.push("/payroll/topup")}
                   endIcon={<AiOutlinePlus />}
                   color="primary"
                   style={{

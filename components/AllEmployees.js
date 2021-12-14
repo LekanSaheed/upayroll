@@ -18,6 +18,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
 import { BiUpload } from "react-icons/bi";
+import { banks } from "./naijaBanks";
 
 const AllEmployees = () => {
   const [employees, setEmployees] = useState([]);
@@ -26,6 +27,12 @@ const AllEmployees = () => {
   const [selected, setSelected] = useState({});
   const [dataset, setDataset] = useState({});
 
+  const bankOptions = banks.map((b) => {
+    return {
+      label: b.name,
+      value: b.code,
+    };
+  });
   useEffect(() => {
     fetchStaffs();
   }, []);
@@ -212,6 +219,17 @@ const AllEmployees = () => {
       ...state,
       ...data,
     }));
+  };
+  const getBankName = (code) => {
+    const bankName = bankOptions
+      .filter((b) => {
+        return b.value === code;
+      })
+      .map((b) => {
+        return b.label;
+      });
+    console.log(bankName);
+    return bankName[0];
   };
   console.log(dataset);
   return (
@@ -415,7 +433,7 @@ const AllEmployees = () => {
                 />
               </Box>
 
-              {/* <AppBar
+              <AppBar
                 position="static"
                 elevation={0}
                 style={{
@@ -436,17 +454,64 @@ const AllEmployees = () => {
                 gap="20px"
               >
                 <TextField
+                  type="number"
+                  minLength="10"
+                  min="0"
                   value={
-                    dataset.account_number !== undefined
-                      ? dataset.account_number
-                      : selected.account_number
+                    dataset.bank &&
+                    dataset.bank.hasOwnProperty("account_number")
+                      ? dataset.bank.account_number
+                      : selected.bank
+                      ? selected.bank.account_number
+                      : ""
                   }
-                  onChange={(e) => handleDataChange({ account_number: e.target.value })}
+                  onChange={(e) => {
+                    // e.target.value !== ""
+                    handleDataChange({
+                      bank: {
+                        ...selected.bank,
+                        ...dataset.bank,
+                        account_number: e.target.value,
+                      },
+                    });
+                    // : handleDataChange({
+                    //     bank: {
+                    //       ...dataset.bank,
+                    //       bank_code: selected.bank.bank_code
+                    //         ? selected.bank.bank_code
+                    //         : "",
+                    //     },
+                    //   });
+                  }}
                   label="Account Number"
                   size="small"
                   fullWidth={true}
                 />
-              </Box> */}
+                <MySelect
+                  options={bankOptions}
+                  value={{
+                    value:
+                      dataset.bank && dataset.bank.hasOwnProperty("bank_code")
+                        ? dataset.bank.bank_code
+                        : selected.bank
+                        ? selected.bank.bank_code
+                        : null,
+                    label: getBankName(
+                      dataset.bank !== undefined
+                        ? dataset.bank.bank_code
+                        : selected.bank !== undefined
+                        ? selected.bank.bank_code
+                        : null
+                    ),
+                  }}
+                  onChange={(e) => {
+                    handleDataChange({
+                      bank: { ...dataset.bank, bank_code: e.value },
+                    });
+                  }}
+                  placeholder="Select a Bank"
+                />
+              </Box>
               <AppBar
                 position="static"
                 elevation={0}
