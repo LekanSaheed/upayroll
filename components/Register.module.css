@@ -1,0 +1,134 @@
+.container {
+  position: fixed;
+  top: 0;
+  padding-top: 10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1500' height='800' preserveAspectRatio='none' viewBox='0 0 1500 800'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1044%26quot%3b)' fill='none'%3e%3crect width='1500' height='800' x='0' y='0' fill='rgba(75%2c 194%2c 188%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c418.357C77.736%2c412.373%2c140.282%2c361.583%2c210.187%2c327.057C290.174%2c287.551%2c400.27%2c280.813%2c440.104%2c200.989C479.841%2c121.358%2c425.09%2c28.181%2c402.255%2c-57.835C382.012%2c-134.089%2c366.732%2c-213.388%2c314.421%2c-272.447C262.405%2c-331.173%2c188.147%2c-362.315%2c112.903%2c-384.512C37.583%2c-406.731%2c-41.968%2c-421.666%2c-117.402%2c-399.836C-192.982%2c-377.964%2c-247.506%2c-318.115%2c-304.387%2c-263.753C-366.974%2c-203.937%2c-448.725%2c-151.851%2c-465.701%2c-66.958C-482.843%2c18.762%2c-434.902%2c102.755%2c-393.022%2c179.487C-353.467%2c251.958%2c-302.619%2c318.219%2c-232.065%2c361.1C-162.572%2c403.337%2c-81.082%2c424.599%2c0%2c418.357' fill='%232c837e'%3e%3c/path%3e%3cpath d='M1500 1410.738C1610.913 1392.863 1682.69 1291.907 1779.516 1234.935 1881.597 1174.871 2021.025 1166.9470000000001 2084.3940000000002 1066.884 2149.129 964.664 2127.636 831.998 2110.547 712.217 2093.443 592.33 2071.083 465.08 1986.211 378.696 1903.011 294.013 1771.035 296.839 1660.328 253.97299999999996 1536.907 206.18399999999997 1424.438 72.947 1298.056 112.24300000000005 1171.2939999999999 151.65700000000004 1138.673 316.476 1078.595 434.851 1031.55 527.546 1009.316 624.756 986.476 726.1659999999999 961.533 836.912 908.2 947.0070000000001 938.613 1056.377 970.85 1172.307 1054.143 1271.208 1155.896 1335.437 1257.238 1399.4070000000002 1381.684 1429.806 1500 1410.738' fill='%2391dad6'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1044'%3e%3crect width='1500' height='800' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+}
+.form {
+  width: 350px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.label {
+  font-size: 12px;
+  display: block;
+  color: #00000097;
+  font-weight: 700;
+}
+
+.form button {
+  padding: 13px;
+  border-radius: 8px;
+  border: solid 1px teal;
+  background-image: linear-gradient(#4bc2bc, rgb(0, 163, 163));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.disabled {
+  transition: all 0.2s;
+  border: solid 1px #efefef !important;
+  color: grey !important;
+  background-image: linear-gradient(#efefef, #efefef) !important;
+}
+
+.input_container input {
+  width: 100%;
+  outline: none;
+  padding: 10px;
+  border: none;
+  /* outline: solid 1px #bababa; */
+  border-bottom: solid 1px #e2e2e2;
+  /* border-radius: 8px; */
+  /* transition: all 0.2s; */
+  color: teal;
+}
+.details {
+  display: none;
+}
+.input_container input::placeholder {
+  font-size: 10px !important;
+}
+@media (max-width: 600px) {
+  .input_container input:focus {
+    font-size: 16px;
+  }
+}
+@media (min-width: 767px) {
+  .form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 100%;
+    /* align-content: center; */
+    justify-content: center;
+    align-items: center;
+
+    gap: 0;
+    grid-column-gap: 12px;
+  }
+  .input_container input {
+    padding: 8px;
+    /* border-radius: 5px; */
+    border-color: whitesmoke !important;
+  }
+}
+@media (min-width: 1024px) {
+  .form button {
+    padding: 10px;
+  }
+  .form {
+    padding: 10px 0;
+  }
+  .input_container input:focus {
+    border-bottom: solid 2px teal !important;
+    /* transition: all 0.2s; */
+  }
+  .flex1 {
+    width: 60%;
+    padding: 90px 10px;
+  }
+  .details {
+    width: 40%;
+    height: 100%;
+    background-image: linear-gradient(whitesmoke, #fff, #fff);
+    color: white;
+    padding: 40px;
+    border-top-right-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .details img {
+    width: 100%;
+  }
+  .flex {
+    display: flex;
+    box-shadow: 0 0 60px rgba(0 0 0 /30%);
+    padding: 0px 0 0 40px;
+    background-color: #fff;
+    border-radius: 20px !important;
+    width: 80%;
+    height: 80vh;
+
+    flex-direction: row-reverse;
+  }
+}

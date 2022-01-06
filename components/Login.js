@@ -126,6 +126,16 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <div style={{ padding: "10px 0", fontSize: "14px" }}>
+          Not registered yet?{" "}
+          <span
+            style={{ color: "teal", cursor: "pointer" }}
+            onClick={() => router.push("/signup")}
+          >
+            {" "}
+            Register
+          </span>
+        </div>
       </div>
     </div>
   );
