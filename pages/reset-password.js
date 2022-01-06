@@ -4,11 +4,12 @@ import { baseUrl } from "../payrollContext/baseUrl";
 import { useRouter } from "next/router";
 import classes from "./new-pass.module.css";
 import Image from "next/image";
-import { LinearProgress, Link } from "@material-ui/core";
+import { LinearProgress, Link, Checkbox } from "@material-ui/core";
 const NewPassword = () => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [showPass, setShowpass] = React.useState(false);
   const router = useRouter();
   const token = router.query.token ? router.query.token : "404";
 
@@ -54,6 +55,7 @@ const NewPassword = () => {
         </div>
         <label>New Password</label>
         <input
+          type={showPass ? "text" : "password"}
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
@@ -62,11 +64,15 @@ const NewPassword = () => {
 
         <label>Confirm Password</label>
         <input
+          type={showPass ? "text" : "password"}
           value={confirmPassword}
           onChange={(e) => {
             setConfirmPassword(e.target.value);
           }}
         />
+        <div style={{ fontSize: "13px" }}>
+          <Checkbox onClick={() => setShowpass(!showPass)} /> Show Password
+        </div>
         <button
           className={
             !password ||

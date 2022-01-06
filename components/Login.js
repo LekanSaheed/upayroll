@@ -8,6 +8,8 @@ import Loader from "./Loader";
 import { RiUser2Line } from "react-icons/ri";
 import Image from "next/image";
 import { AiOutlineLock, AiOutlineUser } from "react-icons/ai";
+import { Checkbox } from "@material-ui/core";
+
 const Login = () => {
   const router = useRouter();
   useEffect(() => {
@@ -18,6 +20,7 @@ const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   const dispatch = useAuthDispatch();
   const { user, authenticated } = useAuthState();
 
@@ -105,12 +108,15 @@ const Login = () => {
                   <AiOutlineLock />
                 </div>
                 <input
-                  type="password"
+                  type={showPass ? "text" : "password"}
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+            </div>
+            <div style={{ fontSize: "13px" }}>
+              <Checkbox onClick={() => setShowPass(!showPass)} /> Show Password
             </div>
             <div className={classes.pass}>
               <span onClick={() => router.push("/reset")}>Reset Password</span>

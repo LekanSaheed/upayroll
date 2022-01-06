@@ -52,6 +52,7 @@ const PayGroupComp = () => {
   const [selected, setSelected] = useState({});
   const [start_date, setStartDate] = useState([]);
   const [end_date, setEndDate] = useState([]);
+  const [title, setTitle] = useState("");
   const [intervals, setIntervals] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [dataset, setDataset] = useState({});
@@ -127,6 +128,7 @@ const PayGroupComp = () => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
+        title: title,
         start_date: start_date,
         end_date: end_date,
         interval: intervals.value && intervals.value,
@@ -210,22 +212,37 @@ const PayGroupComp = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          setRunList(data.data);
-          const myRow = data.data.map((row, id) => {
-            return {
-              ...row,
-              id: id + 1,
-
-              start_date: moment(row.start_date).format("ddd, DD MMM yyyy"),
-              end_date: moment(row.end_date).format("ddd, DD MMM yyyy"),
-              interval: setFrequency(row.interval),
-              status: row.status,
-              employee_num: row.payments.length,
-              created_At: moment(row.created_At).format(
-                "ddd, DD MMM yyyy hh:mm a"
-              ),
-            };
-          });
+          console.log(data.data, "FEtched");
+          setRunList(
+            data.data.sort((a, b) => {
+              return (
+                new Date(b.created_At).getTime() -
+                new Date(a.created_At).getTime()
+              );
+            })
+          );
+          const myRow = data.data
+            .sort((a, b) => {
+              return (
+                new Date(b.created_At).getTime() -
+                new Date(a.created_At).getTime()
+              );
+            })
+            .map((row, id) => {
+              return {
+                ...row,
+                id: id + 1,
+                title: row.title ? row.title : "",
+                start_date: moment(row.start_date).format("ddd, DD MMM yyyy"),
+                end_date: moment(row.end_date).format("ddd, DD MMM yyyy"),
+                interval: setFrequency(row.interval),
+                status: row.status,
+                employee_num: row.payments.length,
+                created_At: moment(row.created_At).format(
+                  "ddd, DD MMM yyyy hh:mm a"
+                ),
+              };
+            });
           setLoading(false);
 
           setRow(myRow);
@@ -298,6 +315,14 @@ const PayGroupComp = () => {
       field: "id",
       headerName: "ID",
       width: 90,
+      editable: true,
+      headerClassName: "upHeader",
+      cellClassName: "cell",
+    },
+    {
+      field: "title",
+      headerName: "Title",
+      width: 150,
       editable: true,
       headerClassName: "upHeader",
       cellClassName: "cell",
@@ -544,6 +569,7 @@ const PayGroupComp = () => {
       .filter((run) => run._id === id[0]._id)
       .map((run) => {
         return {
+          title: run.title,
           start: moment(run.start_date).format("YYYY-MM-DD"),
           end: moment(run.end_date).format("YYYY-MM-DD"),
           interval: intervalFunc(run.interval),
@@ -552,10 +578,12 @@ const PayGroupComp = () => {
 
     await setSelected({
       ...id[0],
+      title: init_date[0].title,
       start_date: init_date[0].start,
       end_date: init_date[0].end,
       interval: init_date[0].interval,
     });
+    setTitle(init_date[0].title);
     setStartDate(init_date[0].start);
     setEndDate(init_date[0].end);
     setIntervals(init_date[0].interval);
@@ -602,6 +630,7 @@ const PayGroupComp = () => {
               return {
                 ...row,
                 id: id + 1,
+                title: row.title ? row.title : "",
                 start_date: moment(row.start_date).format("ddd, DD MMM yyyy"),
                 end_date: moment(row.end_date).format("ddd, DD MMM yyyy"),
                 interval: setFrequency(row.interval),
@@ -677,6 +706,16 @@ const PayGroupComp = () => {
                       gap="20px"
                       color="#fff !important"
                     >
+                      <Box display="flex" flexDirection="column">
+                        <label style={{ color: "black" }}>Title</label>
+                        <TextField
+                          size="small"
+                          type="text"
+                          fullWidth={true}
+                          onChange={(e) => setTitle(e.target.value)}
+                          value={title}
+                        />
+                      </Box>
                       <Box display="flex" flexDirection="column">
                         <label style={{ color: "black" }}>Start Date</label>
                         <TextField

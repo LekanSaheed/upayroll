@@ -18,13 +18,14 @@ import MySelect from "../../../components/MySelect";
 import { makeStyles, CircularProgress } from "@material-ui/core";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../../payrollContext/baseUrl";
-
+import Loader from "../../../components/Loader";
 const AddPayRun = () => {
   const [employees, setEmployees] = useState([]);
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [frequency, setFrequency] = useState("");
   const [loading, setLoading] = useState(true);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     const fetchStaffs = async () => {
@@ -40,6 +41,7 @@ const AddPayRun = () => {
         .then((data) => {
           if (data.success) {
             setLeft(data.data);
+            setEmployees(data.data);
             console.log(data.data, "employee");
             setLoading(false);
           } else {
@@ -80,6 +82,7 @@ const AddPayRun = () => {
   const rightChecked = intersection(checked, right);
 
   const addPayRun = async () => {
+    setLoading(true);
     const token =
       typeof window !== "undefined" && localStorage.getItem("token");
     const url = `${baseUrl}/payrun/add`;
@@ -91,6 +94,7 @@ const AddPayRun = () => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
+        title: title,
         start_date: start_date,
         end_date: end_date,
         interval: frequency.value,
@@ -110,6 +114,7 @@ const AddPayRun = () => {
         } else {
           toast.error(data.error);
         }
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -147,10 +152,47 @@ const AddPayRun = () => {
     <Paper lg={300} sx={{ width: 250, height: 300, overflow: "auto" }}>
       <AppBar
         style={{ padding: "10px", background: "#4bc2bc" }}
-        position="static"
+        position="sticky"
       >
         {label}
       </AppBar>
+      {label === "Employee List" && (
+        <AppBar position="sticky">
+          {" "}
+          <input
+            type="search"
+            onChange={(e) => {
+              if (e.target.value === "") {
+                const newEmp = employees.filter((i) => {
+                  const ids = right.map((r) => r._id);
+                  return !ids.includes(i._id);
+                  console.log(ids);
+                });
+                console.log(newEmp);
+                setLeft(newEmp);
+              } else {
+                console.log(employees);
+
+                setLeft(
+                  employees
+                    .filter((i) => {
+                      const ids = right.map((r) => r._id);
+                      return !ids.includes(i._id);
+                      console.log(ids);
+                    })
+                    .filter((i) => {
+                      return `${i.firstname} ${i.lastname}`
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase());
+                    })
+                );
+              }
+            }}
+            placeholder="search"
+            style={{ border: "solid 1px #efefef", padding: "10px" }}
+          />
+        </AppBar>
+      )}
       <List dense component="div" role="list">
         {items.map((value, idx) => {
           const id = `transfer-list-item-${value}-label`;
@@ -207,6 +249,7 @@ const AddPayRun = () => {
   const classes = useStyles();
   return (
     <Wrapper>
+      {loading && <Loader />}
       <Box
         gap="20px"
         backgroundColor="#fff"
@@ -223,6 +266,18 @@ const AddPayRun = () => {
             display="flex"
             flexDirection="column"
           >
+            <Box display="flex" flexDirection="column">
+              <label>Title</label>
+              <TextField
+                size="small"
+                fullWidth={true}
+                variant="outlined"
+                type="text"
+                placeholder="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Box>
             <Box display="flex" flexDirection="column">
               <label>Start Date</label>
               <TextField

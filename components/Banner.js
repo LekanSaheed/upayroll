@@ -12,6 +12,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
 import { Box } from "@mui/material";
 import Skel from "./Skel";
+import { useRouter } from "next/router";
 const Banner = () => {
   const [funds, setFunds] = useState(0);
   const [stafflist, setStafflist] = useState([]);
@@ -99,7 +100,7 @@ const Banner = () => {
         setLoading(false);
       });
   };
-
+  const router = useRouter();
   const digit = funds.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -234,8 +235,13 @@ const Banner = () => {
                 i.details !== "Employee Roles"
                   ? classes.grid_item
                   : classes.doughnut_item
-              }
+              } 
                    ${i.details === "Account Settings" ? classes.settings : ""}`}
+              onClick={() =>
+                i.details === "Account Settings"
+                  ? router.push(i.link)
+                  : console.log("Console Version ")
+              }
             >
               {" "}
               {i.details === "Account Settings" && <div>Go to</div>}
