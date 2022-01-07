@@ -9,7 +9,7 @@ import { RiUser2Line } from "react-icons/ri";
 import Image from "next/image";
 import { AiOutlineLock, AiOutlineUser } from "react-icons/ai";
 import { Checkbox } from "@material-ui/core";
-
+import Head from 'next/head'
 const Login = () => {
   const router = useRouter();
   useEffect(() => {
@@ -83,6 +83,11 @@ const Login = () => {
   };
   return (
     <div className={classes.container}>
+    <Head>
+    <meta name='robots' content='all'/>
+    <title>Uhuru Pay payroll login | Uhuru pay</title>
+    <meta name='description' content='Login to access your account' key='desc'/>
+    </Head>
       {loading && <Loader />}
       <div className={classes.flex_row}>
         <form className={classes.login_form}>
