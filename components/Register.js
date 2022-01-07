@@ -65,7 +65,15 @@ const Register = () => {
       {loading && <Loader />}
       <div className={classes.flex}>
         <div className={classes.details}>
-          <img src="/lighthouse.svg" />
+          <div>
+            <b>Payroll system</b>
+            <br />
+          </div>
+          <img src="/wallet.svg" />
+          <span>
+            Powered by
+            <a style={{ fontWeight: "bold", color: "teal" }}> Uhuru Pay.</a>
+          </span>
         </div>
         <div className={classes.flex1}>
           <div style={{ fontWeight: "700", fontSize: "22px" }}>Register</div>

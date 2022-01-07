@@ -107,7 +107,7 @@
     width: 40%;
     height: 100%;
     background-image: linear-gradient(whitesmoke, #fff, #fff);
-    color: white;
+    /* color: white; */
     padding: 40px;
     border-top-right-radius: 20px !important;
     border-bottom-right-radius: 20px !important;
@@ -116,6 +116,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-weight: bolder;
+    /* font-size: 24px; */
+    text-align: center;
+    gap: 16px;
+  }
+  .details b {
+    font-size: 24px;
+  }
+  .details span {
+    font-size: 13px;
+    text-transform: uppercase;
   }
   .details img {
     width: 100%;

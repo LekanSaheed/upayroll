@@ -99,7 +99,8 @@ const TopUp = () => {
           <label>Pin</label>
           <div className={classes.input_group}>
             <input
-              type="number"
+              type="password"
+              maxLength="4"
               min="0"
               placeholder="Pin"
               value={pin}
