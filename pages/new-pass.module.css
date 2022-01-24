@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23fcfcfc' points='800 100 0 200 0 800 1600 800 1600 200'/%3E%3Cpolygon fill='%23f9f9f9' points='800 200 0 400 0 800 1600 800 1600 400'/%3E%3Cpolygon fill='%23f6f6f6' points='800 300 0 600 0 800 1600 800 1600 600'/%3E%3Cpolygon fill='%23f2f2f2' points='1600 800 800 400 0 800'/%3E%3Cpolygon fill='%23efefef' points='1280 800 800 500 320 800'/%3E%3Cpolygon fill='%23ececec' points='533.3 800 1066.7 800 800 600'/%3E%3Cpolygon fill='%23E9E9E9' points='684.1 800 914.3 800 800 700'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: center;
+  background-size: cover;
+}
+.form {
+  width: 320px;
+  margin-top: -100px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
+.form input {
+  width: 100%;
+  padding: 13px;
+  display: block;
+  border-radius: 4px;
+  border: solid 1px #a7a7a7;
+}
+.form input:focus {
+  outline-color: #166b67;
+}
+.form label {
+  display: block;
+  margin-top: 20px;
+  font-size: 13px;
+}
+.form button {
+  padding: 14px;
+  color: white;
+  background-color: #166b67;
+  border-radius: 4px;
+  margin-top: 20px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.form button:hover {
+  background-color: #166b6725;
+  transition: 0.3s ease-in-out;
+}
+.disablebtn {
+  background-color: #dddddd !important;
+  transition: 0.3s ease-in-out;
+}
+.disablebtn:hover {
+  background: #dddddd !important;
+  transition: 0.3s ease-in-out;
+}
+@media (min-width: 1024px) {
+  .form {
+    width: 400px;
+    padding: 12px;
+  }
+}
+@media (max-width: 320px) {
+  .form {
+    width: 90%;
+    padding: 8px;
+  }
+}

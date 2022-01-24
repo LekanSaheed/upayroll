@@ -1,0 +1,11 @@
+.tranxCont {
+  background-color: #fff;
+  border-radius: 7px;
+}
+@media (min-width: 1024px) {
+  .tranxCont {
+    width: 30%;
+    flex: 1 1 30%;
+    border-radius: 14px;
+  }
+}
