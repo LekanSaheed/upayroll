@@ -4,9 +4,6 @@ import classes from "./Checkout.module.css";
 import { useAuthState } from "../payrollContext/AuthContext";
 
 const Checkout = ({ pub_key }) => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [amount, setAmount] = useState("");
   const { user } = useAuthState();
   console.log(user);
@@ -25,8 +22,8 @@ const Checkout = ({ pub_key }) => {
     customizations: {
       title: "Fund Payroll",
       description: "Payment to fund payroll wallet",
-      logo: "../public/favicon.ico",
-      //   logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+      // logo:
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
     },
   };
 
@@ -36,33 +33,47 @@ const Checkout = ({ pub_key }) => {
   const handleFlutterPayment = useFlutterwave(config);
 
   return (
-    <form className={classes.form}>
-      <div className={classes.input_container}>
-        <label>Amount</label>
-        <input
-          value={amount}
-          placeholder="Amount"
-          type="number"
-          min="0"
-          onChange={(e) => setAmount(e.target.value)}
-        />
+    <>
+      <div className={classes.header}>FUND MY WALLET</div>
+      <div className={classes.lg_flex}>
+        <form className={classes.form}>
+          <div className={classes.input_container}>
+            <label>Amount</label>
+            <input
+              value={amount}
+              placeholder="Amount"
+              type="number"
+              min="0"
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+          <button
+            className={`${classes.pay_btn} ${
+              !amount ? classes.disabled : undefined
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFlutterPayment({
+                callback: (response) => {
+                  console.log(response);
+                  closePaymentModal(); // this will close the modal programmatically
+                },
+                onClose: () => {
+                  alert("Closed");
+                },
+              });
+            }}
+            disabled={!amount}
+          >
+            Continue
+          </button>
+        </form>
+        <div className={`${classes.img_container} `}>
+          {" "}
+          <img src="/pay.svg" />
+        </div>
       </div>
-      <button
-        className={classes.pay_btn}
-        onClick={(e) => {
-          e.preventDefault();
-          handleFlutterPayment({
-            callback: (response) => {
-              console.log(response);
-              closePaymentModal(); // this will close the modal programmatically
-            },
-            onClose: () => {},
-          });
-        }}
-      >
-        Continue
-      </button>
-    </form>
+    </>
   );
 };
 export default Checkout;

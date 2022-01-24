@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.lg_flex {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
 .input_container {
   width: 100%;
   margin-bottom: 10px;
@@ -24,8 +29,63 @@
   border-radius: 5px;
   font-size: 15px;
   font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
 }
-
+.disabled {
+  background: #bababa;
+  color: grey;
+  border: none;
+}
+.disabled:hover {
+  background-color: #bababa !important;
+}
+.input_container input:focus {
+  outline: solid 1px teal;
+  border: solid 1px teal;
+}
+.pay_btn:hover {
+  background-color: rgba(0, 128, 128, 0.637);
+  border-color: #4bc2bc;
+  transition: 0.3s;
+}
+.img_container {
+  width: 100%;
+}
+.img_container img {
+  width: 90%;
+}
+.header {
+  padding: 13px;
+  text-align: center;
+}
+@media (min-width: 901px) {
+  .header {
+    text-align: left;
+  }
+  .img_container {
+    display: block;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img_container img {
+    width: 90%;
+  }
+  .lg_flex {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+    padding-left: 20px;
+  }
+}
+@media (min-width: 1024px) {
+  .lg_flex {
+    flex-direction: row;
+    gap: 10px;
+  }
+}
 @media (min-width: 1124px) {
   .form {
     width: 70%;
