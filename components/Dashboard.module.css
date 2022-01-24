@@ -1,0 +1,7 @@
+@media (min-width: 1024px) {
+  .dash_flex {
+    display: flex;
+    flex-basis: 100%;
+    gap: 20px;
+  }
+}

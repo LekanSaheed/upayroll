@@ -1,0 +1,142 @@
+.wallet_container {
+  min-height: 200px;
+  padding: 15px;
+  border-radius: 15px;
+  background-color: #4bc2bc;
+  color: white;
+  border: 1px solid #ededed;
+  box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
+  display: flex;
+  flex-direction: column;
+  font-weight: lighter;
+  overflow-x: scroll;
+}
+.account_container {
+  display: flex;
+  justify-content: space-evenly;
+}
+.figure {
+  font-size: 16px;
+}
+.title {
+  color: rgba(15, 14, 14, 0.418);
+  font-size: 10px;
+}
+.details {
+  font-size: 8px;
+}
+.wallet_group {
+  gap: 10px;
+  width: 33.3%;
+}
+.wallet_header {
+  border-bottom: solid 1px #ededed;
+  padding-bottom: 10px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 11px rgba(0 0 0 /14%));
+}
+.card_container {
+  padding: 10px 24px;
+  background-color: #fff;
+  border-radius: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  align-self: stretch;
+}
+.card_header {
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.shadow {
+  padding: 10px 20px;
+  display: grid;
+  transition: 0.9s;
+}
+.backdrop {
+  background-color: rgba(255, 99, 71, 0.432);
+  padding: 80px 20px;
+  transform: rotateZ(-6deg);
+  grid-column: 1;
+  grid-row: 1;
+  border-radius: 29px;
+  box-shadow: 0px 0px 3px 3px rgba(255, 99, 71, 0.432);
+}
+.card {
+  background-color: #257539;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  line-height: 20px;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 29px;
+  grid-column: 1;
+  z-index: 1;
+  grid-row: 1;
+  box-shadow: 0px 0px 3px 3px #75254a4d;
+}
+.card_figure {
+  font-size: 29px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.shadow:hover {
+  transform: rotateY(-15deg) rotateZ(-6deg) rotateX(-26deg);
+  transition: 0.9s;
+  cursor: pointer;
+}
+@media (min-width: 767px) {
+  .wallet_container {
+    overflow: hidden;
+    flex: 1 1 40%;
+    width: 40%;
+    height: 95%;
+    border-radius: 30px;
+  }
+  .card_container {
+    width: 60%;
+    flex: 1 1 60%;
+    border-radius: 30px;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px;
+  }
+  .card_header {
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .container {
+    flex-direction: row;
+    margin-top: 20px;
+    gap: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .figure {
+    font-size: 20px;
+  }
+  .title {
+    color: rgba(0, 0, 0, 0.418);
+    font-size: 14px;
+  }
+  .details {
+    font-size: 11px;
+  }
+}
