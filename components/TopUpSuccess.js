@@ -15,7 +15,8 @@ const TopUpSuccess = ({ id }) => {
   const router = useRouter();
 
   React.useEffect(() => {
-    const params = JSON.parse(router.query.response);
+    // const params = JSON.parse(router.query.response);
+    const params = {};
     console.log(router.query);
     const url = `${baseUrl}/transactions/success?id=${
       params.id ? params.id : 404
