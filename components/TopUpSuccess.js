@@ -15,11 +15,11 @@ const TopUpSuccess = ({ id }) => {
   const router = useRouter();
 
   React.useEffect(() => {
-    // const params = JSON.parse(router.query.response);
-    const params = {};
+    const params = JSON.parse(router.query);
+    // const params = {};
     console.log(router.query);
     const url = `${baseUrl}/transactions/success?id=${
-      params.id ? params.id : 404
+      params.transaction_id ? params.transaction_id : 404
     }`;
     const fetchResponse = async () => {
       const token =
@@ -47,7 +47,7 @@ const TopUpSuccess = ({ id }) => {
     };
 
     fetchResponse();
-    console.log(params.id, "router");
+    console.log(params.transaction_id, "router");
   }, []);
   return (
     <div className={classes.container}>
