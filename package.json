@@ -16,7 +16,10 @@
     "@mui/x-data-grid": "^5.0.1",
     "chart.js": "^3.6.1",
     "chartjs": "^0.3.24",
+<<<<<<< HEAD
     "flutterwave-react-v3": "^1.2.0",
+=======
+>>>>>>> 185890771bf4c630ff2b19a0d1527180e9b2837e
     "framer-motion": "^5.4.4",
     "moment": "^2.29.1",
     "momentjs": "^2.0.0",
