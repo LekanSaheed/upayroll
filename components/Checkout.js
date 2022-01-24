@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+import classes from "./Checkout.module.css";
+import { useAuthState } from "../payrollContext/AuthContext";
+
 const Checkout = ({ pub_key }) => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [amount, setAmount] = useState("");
+  const { user } = useAuthState();
+  console.log(user);
   const config = {
     public_key: pub_key,
     tx_ref: Date.now(),
-    amount: 100,
+    amount: amount,
     currency: "NGN",
     payment_options: "card,mobilemoney,ussd",
     redirect_url: "https://upayroll.vercel.app/payroll/topup/successful",
     customer: {
-      email: "user@gmail.com",
-      phonenumber: "07064586146",
-      name: "joel ugwumadu",
+      email: user.email,
+      phonenumber: user.phone,
+      name: user.name,
     },
     customizations: {
       title: "Fund Payroll",
       description: "Payment to fund payroll wallet",
-      logo: "/WORDMARK.png",
+      logo: "../public/favicon.ico",
       //   logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
     },
   };
@@ -25,11 +34,23 @@ const Checkout = ({ pub_key }) => {
     console.log(pub_key);
   }, []);
   const handleFlutterPayment = useFlutterwave(config);
+
   return (
-    <div>
-      Checkoutt
+    <form className={classes.form}>
+      <div className={classes.input_container}>
+        <label>Amount</label>
+        <input
+          value={amount}
+          placeholder="Amount"
+          type="number"
+          min="0"
+          onChange={(e) => setAmount(e.target.value)}
+        />
+      </div>
       <button
-        onClick={() => {
+        className={classes.pay_btn}
+        onClick={(e) => {
+          e.preventDefault();
           handleFlutterPayment({
             callback: (response) => {
               console.log(response);
@@ -39,9 +60,9 @@ const Checkout = ({ pub_key }) => {
           });
         }}
       >
-        Payment with React hooks
+        Continue
       </button>
-    </div>
+    </form>
   );
 };
 export default Checkout;
