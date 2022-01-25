@@ -172,11 +172,11 @@
   justify-content: center;
 }
 .topUpbtn {
-  padding: 14px 25px;
+  padding: 12px 23px;
   color: #4bc2bc;
   background-color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 14px;
   align-self: flex-end;
   justify-self: flex-end;
   font-family: poppins;

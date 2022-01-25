@@ -211,7 +211,14 @@ const Banner = () => {
         <div className={classes.balance_main}>
           <div className={classes.balance_title}>Wallet Balance</div>
           <div className={classes.amount}>
-            {loading ? <Skel height={60} width={167} /> : "N" + digit}
+            {loading ? (
+              <Skel height={60} width={167} />
+            ) : (
+              <span>
+                <span style={{ fontSize: "15px", fontWeight: "bold" }}>₦</span>{" "}
+                {digit}
+              </span>
+            )}
           </div>
           <div>
             {loading ? (

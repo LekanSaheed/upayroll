@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { baseUrl } from "../payrollContext/baseUrl";
 import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
-import { makeStyles } from "@mui/styles";
+
+import moment from "moment";
+import {makeStyles} from '@material-ui/core'
+
 const PayoutHistory = () => {
   const token = typeof window !== "undefined" && localStorage.getItem("token");
   const [payout, setPayout] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  
   React.useEffect(() => {
     const fetchPayoutHistory = async () => {
       const url = `${baseUrl}/transactions/history/payout`;
@@ -21,7 +25,14 @@ const PayoutHistory = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            setPayout(data.data);
+            setPayout(
+              data.data.sort((a, b) => {
+                return (
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+                );
+              })
+            );
             setLoading(false);
           } else {
             toast.error("Error Fetching payput history");
@@ -37,7 +48,7 @@ const PayoutHistory = () => {
   const columns = [
     {
       field: "id",
-      headerName: "S/N",
+      headerName: "#",
       width: 90,
       headerClassName: "header",
       cellClassName: "cell",
@@ -57,13 +68,6 @@ const PayoutHistory = () => {
       cellClassName: "cell",
     },
     {
-      field: "narration",
-      headerName: "Narration",
-      width: 180,
-      headerClassName: "header",
-      cellClassName: "cell",
-    },
-    {
       field: "status",
       headerName: "Status",
       width: 90,
@@ -75,6 +79,21 @@ const PayoutHistory = () => {
           ? "cell pending"
           : "cell failed";
       },
+    },
+
+    {
+      field: "narration",
+      headerName: "Narration",
+      width: 180,
+      headerClassName: "header",
+      cellClassName: "cell",
+    },
+    {
+      field: "date",
+      headerName: "Date Created",
+      width: 230,
+      headerClassName: "header",
+      cellClassName: "cell",
     },
   ];
   const useStyles = makeStyles({
@@ -107,15 +126,16 @@ const PayoutHistory = () => {
   const classes = useStyles();
   return (
     <div>
-      Payout history here
-      <div className={classes.root} style={{ height: "80vh", width: "100%" }}>
+      <div className={classes.root} style={{ height: "65vh", width: "100%" }}>
         <DataGrid
           columns={columns}
+          pageSize={10}
           loading={loading}
           rows={payout.map((pay, id) => {
             return {
               ...pay,
               id: id + 1,
+              date: moment(pay.createdAt).format("ddd, MMM DD YYYY hh:mm:a"),
             };
           })}
         />
